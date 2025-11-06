@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #fafafa;
+}
+
+header {
+    background-color: #ff2b85;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#search {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+}
+
+#house-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.house-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.house-card:hover {
+    transform: scale(1.02);
+}
+
+.house-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.house-info {
+    padding: 10px;
+}
+
+.house-info h3 {
+    margin: 0;
+    color: #333;
+}
+
+.price {
+    color: #ff2b85;
+    font-weight: bold;
+}

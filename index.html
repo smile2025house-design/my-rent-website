@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>好想租屋</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>好想租屋</h1>
+        <input type="text" id="search" placeholder="搜尋地區或房型...">
+    </header>
+
+  <section id="add-house">
+    <h2>新增房源</h2>
+    <form id="house-form">
+        <input type="text" id="title" placeholder="房源標題" required>
+        <input type="number" id="price" placeholder="租金（元）" required>
+        <input type="text" id="img" placeholder="圖片網址 (可用 https://picsum.photos/400/300)" required>
+        <button type="submit">新增</button>
+    </form>
+</section><main id="house-list">
+        <!-- 房源卡片會由 JavaScript 產生 -->
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
