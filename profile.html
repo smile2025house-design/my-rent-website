@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>填寫基本資料｜好想租屋</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 30px auto; }
+    .card { padding: 20px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; }
+    input, button { padding: 8px; margin-top: 10px; width: 100%; }
+    button { cursor: pointer; }
+  </style>
+</head>
+
+<body>
+
+  <h1>填寫基本資料</h1>
+
+  <section class="card">
+    <label>姓名（必填）</label>
+    <input id="displayName" type="text" placeholder="例：王小明" required />
+
+    <label>聯絡電話</label>
+    <input id="phone" type="text" placeholder="例：0912345678" />
+
+    <label>城市</label>
+    <input id="city" type="text" placeholder="例：台北市" />
+
+    <button id="save-profile">儲存並回首頁</button>
+  </section>
+
+  <p id="msg" style="color: gray;"></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc, setDoc, getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
+      authDomain: "smilehouse-a68bc.firebaseapp.com",
+      projectId: "smilehouse-a68bc",
+      storageBucket: "smilehouse-a68bc.appspot.com",
+      messagingSenderId: "542151591313",
+      appId: "1:542151591313:web:e10b10e0b5a083fe75c630",
+      measurementId: "G-0Q5LFE84ER"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const $ = (id) => document.getElementById(id);
+    const msg = $("msg");
+
+    // ✅ 監聽登入狀態
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        msg.textContent = "尚未登入，正在返回首頁…";
+        setTimeout(() => (window.location.href = "index.html"), 1000);
+        return;
+      }
+
+      msg.textContent = `已登入：${user.email}`;
+
+      // ✅ 若之前填過資料 → 自動帶入
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const data = snap.data();
+        $("displayName").value = data.displayName || "";
+        $("phone").value = data.phone || "";
+        $("city").value = data.city || "";
+      }
+    });
+
+    // ✅ 儲存基本資料
+    $("save-profile").addEventListener("click", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const name = $("displayName").value.trim();
+      if (!name) {
+        msg.textContent = "請填寫姓名（必填）";
+        return;
+      }
+
+      const phone = $("phone").value.trim();
+      const city  = $("city").value.trim();
+
+      const ref = doc(db, "users", user.uid);
+
+      await setDoc(ref, {
+        displayName: name,
+        phone: phone,
+        city: city,
+        updatedAt: new Date()
+      });
+
+      msg.textContent = "已儲存！正在返回首頁…";
+      setTimeout(() => (window.location.href = "index.html"), 800);
+    });
+  </script>
+</body>
+</html>

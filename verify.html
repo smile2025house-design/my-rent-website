@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>驗證中⋯｜好想租屋</title>
+  <style>
+    body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,'Noto Sans TC'}
+    .box{max-width:420px;padding:20px;border-radius:12px;border:1px solid #e5e7eb}
+    .hint{color:#6b7280}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>正在驗證登入連結…</h2>
+    <p class="hint">若頁面沒有自動跳轉，請關閉視窗再重按信中的「登入連結」。</p>
+    <div id="err" style="display:none;color:#b91c1c;margin-top:10px"></div>
+  </div>
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
