@@ -12,12 +12,13 @@ import {
 
 // ★★★ 請用你自己的 Firebase Config ★★★
 const firebaseConfig = {
-  apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
+  apiKey: "AIzaSyDap-cGTy0IKomhhbVQKB3Y-JLZk1pK42w",
   authDomain: "smilehouse-a68bc.firebaseapp.com",
   projectId: "smilehouse-a68bc",
-  storageBucket: "smilehouse-a68bc.appspot.com",
+  storageBucket: "smilehouse-a68bc.firebasestorage.app",
   messagingSenderId: "542151591313",
-  appId: "1:542151591313:web:e10b10e0b5a083fe75c630"
+  appId: "1:542151591313:web:e10b1e0eb5a083fe75c630",
+  measurementId: "G-08SLFEB4EER"
 };
 
 export const app = initializeApp(firebaseConfig);
