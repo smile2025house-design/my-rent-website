@@ -4,524 +4,256 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>好想租屋｜首頁</title>
+
   <style>
-    * { box-sizing:border-box; margin:0; padding:0; }
+    *{box-sizing:border-box;margin:0;padding:0;}
     body{
       font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;
       background:#f5f5f5;
-      color:#111827;
+      color:#111;
     }
 
-    a{ color:inherit; text-decoration:none; }
-
-    /* ＝＝＝＝＝ 頂部 Hero 區 ＝＝＝＝＝ */
+    /* 🔹 Header 區：Logo + 標語 */
     header{
-      background:linear-gradient(135deg,#0b7890,#12988c);
+      background:#0b7890;
+      padding:18px 16px 20px;
       color:#fff;
-      padding:16px 0 20px;
-      box-shadow:0 8px 24px rgba(15,23,42,.28);
-      margin-bottom:12px;
     }
-    .hero{
+    .header-wrap{
       max-width:960px;
       margin:0 auto;
-      padding:0 16px;
       display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-    .brand-row{
-      display:flex;
-      align-items:center;
+      align-items:flex-start;
       gap:14px;
     }
-    .brand-logo{
-      width:64px;
-      height:64px;
-      border-radius:22px;
-      background:#0b5670;
-      box-shadow:0 0 0 4px rgba(255,255,255,.22);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-    .brand-logo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+    header img.logo{
+      width:60px;
+      height:auto;
+      border-radius:8px;
     }
     .brand-text h1{
       font-size:22px;
-      letter-spacing:3px;
-      margin-bottom:2px;
+      letter-spacing:1.5px;
+      margin-bottom:4px;
     }
     .brand-text p{
       font-size:13px;
-      opacity:.85;
+      opacity:0.9;
+      line-height:1.4;
     }
 
-    /* 三個服務 Tab（好想租屋 / 置產 / 維護） */
-    .mode-tabs{
-      display:flex;
-      gap:10px;
-      margin-top:4px;
-      flex-wrap:wrap;
-    }
-    .mode-tab{
-      flex:1 1 0;
-      min-width:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:rgba(15,23,42,.15);
-      font-size:14px;
-      cursor:pointer;
-      border:1px solid transparent;
-      transition:.18s all ease-out;
-      white-space:nowrap;
-    }
-    .mode-tab span.icon{ font-size:18px; }
-    .mode-tab.active{
-      background:#fff;
-      color:#065f46;
-      border-color:rgba(15,23,42,.16);
-      box-shadow:0 6px 18px rgba(15,23,42,.25);
+    /* 🔹 主容器 */
+    main{
+      max-width:960px;
+      margin:0 auto;
+      padding:16px;
+      padding-bottom:90px; /* 預留 footer */
     }
 
-    /* 搜尋列 + 位置選擇 */
-    .search-panel{
-      background:#e5f3f4;
-      border-radius:999px;
-      padding:10px 12px;
-      margin-top:6px;
-    }
-    .search-row{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .search-row select,
-    .search-row input{
-      border:none;
-      outline:none;
-      font-size:14px;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#fff;
-    }
-    .search-row select{
-      flex:0 0 auto;
-      min-width:110px;
-    }
-    .search-row input{
-      flex:1 1 auto;
-      min-width:120px;
-    }
-    .search-actions{
-      display:flex;
-      gap:8px;
-      flex:0 0 auto;
-    }
-    .btn-ghost,
-    .btn-primary{
-      border-radius:999px;
-      font-size:13px;
-      padding:7px 12px;
-      border:none;
-      cursor:pointer;
-      white-space:nowrap;
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-    }
-    .btn-ghost{
-      background:#fff;
-      color:#047857;
-      border:1px solid #bae6fd;
-    }
-    .btn-primary{
-      background:#047857;
-      color:#fff;
-      box-shadow:0 4px 12px rgba(5,46,22,.45);
-    }
-    .search-note{
-      margin-top:4px;
-      font-size:12px;
-      color:#0f172a;
-      opacity:.85;
+    /* 🔹 區塊標題 */
+    h2.sec-title{
+      font-size:18px;
+      font-weight:700;
+      margin-bottom:10px;
       padding-left:4px;
     }
 
-    /* ＝＝＝＝＝ 內容區塊（4 個 section）＝＝＝＝＝ */
-    main{
-      max-width:960px;
-      margin:10px auto 72px;
-      padding:0 16px 16px;
-    }
-
-    .section{
-      margin-bottom:32px;
-    }
-    .section-header{
+    /* 🔹 橫向滑動容器 */
+    .scroll-row{
       display:flex;
-      align-items:baseline;
-      justify-content:space-between;
-      gap:8px;
-      margin-bottom:8px;
-    }
-    .section-header h2{
-      font-size:20px;
-    }
-    .section-header .sub{
-      font-size:13px;
-      color:#6b7280;
-      flex:1 1 auto;
-    }
-    .section-header .more{
-      font-size:13px;
-      color:#0f766e;
-      flex:0 0 auto;
-    }
-
-    /* ＝＝＝＝＝ 房源列表：橫向滑動 ＝＝＝＝＝ */
-    .listing-list{
-      display:flex;
-      gap:12px;
+      gap:14px;
       overflow-x:auto;
-      padding:8px 4px 20px;
-      -webkit-overflow-scrolling:touch;
-      scroll-snap-type:x mandatory;
+      padding-bottom:10px;
+      scrollbar-width:none;
     }
-    .listing-list::-webkit-scrollbar{
-      height:4px;
-    }
-    .listing-list::-webkit-scrollbar-thumb{
-      background:#d1d5db;
-      border-radius:999px;
+    .scroll-row::-webkit-scrollbar{
+      display:none;
     }
 
-    .listing-card{
+    /* 🔹 卡片（房源 / 建案 / 精選） */
+    .card{
+      min-width:240px;
       background:#fff;
-      border-radius:20px;
-      box-shadow:0 6px 18px rgba(15,23,42,.12);
+      border-radius:14px;
+      box-shadow:0 2px 6px rgba(15,23,42,.08);
       overflow:hidden;
-      flex:0 0 78vw;
-      max-width:360px;
-      scroll-snap-align:start;
     }
-
-    .listing-img{
+    .card img{
       width:100%;
-      height:210px;
-      overflow:hidden;
-      position:relative;
-    }
-    .listing-img img{
-      width:100%;
-      height:100%;
+      height:160px;
       object-fit:cover;
       display:block;
     }
-    .badge{
-      position:absolute;
-      left:10px;
-      top:10px;
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      background:rgba(15,23,42,.85);
-      color:#fff;
+    .card-body{
+      padding:10px 12px 14px;
     }
-
-    .listing-info{
-      padding:10px 14px 14px;
+    .card-body strong{
+      display:block;
+      font-size:15px;
+      margin-bottom:6px;
     }
-    .listing-info h3{
-      font-size:16px;
-      margin-bottom:4px;
-    }
-    .listing-info p{
+    .card-body .desc{
       font-size:13px;
       color:#6b7280;
-      margin-bottom:2px;
+      margin-bottom:6px;
     }
-    .listing-info .price{
-      margin-top:4px;
-      font-size:15px;
-      color:#b91c1c;
+    .card-body .price{
+      font-size:14px;
       font-weight:600;
+      color:#b91c1c;
     }
 
-    @media (min-width:768px){
-      .listing-card{ flex:0 0 320px; }
-    }
-
-    /* ＝＝＝＝＝ 底部導覽列 ＝＝＝＝＝ */
+    /* 🔹 底部導航 */
     footer{
       position:fixed;
       left:0;
       bottom:0;
       width:100%;
-      border-top:1px solid #e5e7eb;
       background:#fff;
-      z-index:40;
-    }
-    .bottom-nav{
-      max-width:960px;
-      margin:0 auto;
-      height:60px;
+      border-top:1px solid #ddd;
+      height:62px;
       display:flex;
-      align-items:center;
       justify-content:space-around;
-      padding:0 8px;
-    }
-    .bottom-nav a{
-      flex:1;
-      text-align:center;
-      font-size:12px;
-      color:#9ca3af;
-      display:flex;
-      flex-direction:column;
       align-items:center;
-      gap:2px;
+      font-size:12px;
     }
-    .bottom-nav a .icon{
-      font-size:18px;
+    footer a{
+      text-decoration:none;
+      color:#666;
+      text-align:center;
     }
-    .bottom-nav a.active{
+    footer a.active{
       color:#0f766e;
       font-weight:600;
     }
   </style>
 </head>
+
 <body>
-  <!-- ＝＝＝＝＝ 頂部 hero ＝＝＝＝＝ -->
+
+  <!-- 🔹 Header：Logo + 標語 -->
   <header>
-    <div class="hero">
-      <div class="brand-row">
-        <div class="brand-logo">
-          <img src="logo.jpg" alt="好想租屋 logo" onerror="this.style.display='none'">
-        </div>
-        <div class="brand-text">
-          <h1>好想租屋</h1>
-          <p>找到一個家，不只是找到一個地址。</p>
-        </div>
-      </div>
-
-      <!-- 三個主服務 tab -->
-      <div class="mode-tabs">
-        <button class="mode-tab active" id="mode-rent">
-          <span class="icon">🏠</span><span>好想租屋</span>
-        </button>
-        <button class="mode-tab" id="mode-buy">
-          <span class="icon">🏢</span><span>好想置產</span>
-        </button>
-        <button class="mode-tab" id="mode-service">
-          <span class="icon">🛠️</span><span>居家維護</span>
-        </button>
-      </div>
-
-      <!-- 搜尋列 -->
-      <div class="search-panel">
-        <div class="search-row">
-          <select id="citySelect">
-            <option value="全台灣">全台灣</option>
-            <option value="台北市">台北市</option>
-            <option value="新北市">新北市</option>
-            <option value="桃園市">桃園市</option>
-            <option value="台中市">台中市</option>
-            <option value="台南市">台南市</option>
-            <option value="高雄市">高雄市</option>
-            <option value="其他縣市">其他縣市</option>
-          </select>
-
-          <input id="keywordInput" type="text"
-                 placeholder="搜尋關鍵字 / 地點 / 預算…" />
-
-          <div class="search-actions">
-            <button class="btn-ghost" id="btn-locate">
-              📍 使用我的位置
-            </button>
-            <button class="btn-primary" id="btn-search">
-              搜尋
-            </button>
-          </div>
-        </div>
-        <p class="search-note" id="searchNote">
-          已為你顯示全台灣房源，你也可以同時配合城市與關鍵字做進階搜尋。
-        </p>
+    <div class="header-wrap">
+      <img src="logo.jpg" class="logo" alt="好想租屋 Logo">
+      <div class="brand-text">
+        <h1>好想租屋</h1>
+        <p>找到一個家，不只是找到一個地址，而是找到一份真正的歸屬感。</p>
       </div>
     </div>
   </header>
 
-  <!-- ＝＝＝＝＝ 內容區 ＝＝＝＝＝ -->
+  <!-- 🔹 Main -->
   <main>
 
-    <!-- 區塊 1：本月 New 上架（Firestore 動態資料） -->
-    <section class="section">
-      <div class="section-header">
-        <h2>本月 New 上架</h2>
-        <div class="sub">最新委託的出租房源，剛上架的第一手資訊。</div>
-        <a href="#" class="more">查看更多房源 ›</a>
+    <!-- 🔸 本月 NEW 上架 -->
+    <h2 class="sec-title">本月 NEW 上架</h2>
+    <div class="scroll-row">
+      <!-- 測試房源 -->
+      <div class="card">
+        <img src="https://picsum.photos/id/1016/500/300">
+        <div class="card-body">
+          <strong>中山區電梯房</strong>
+          <div class="desc">台北市・近捷運</div>
+          <div class="price">$12,000 / 月</div>
+        </div>
       </div>
 
-      <div id="listing-list" class="listing-list">
-        <!-- home.js 會把 Firestore 的房源卡片插進來 -->
-      </div>
-    </section>
-
-    <!-- 區塊 2：熱門精選房源（目前先放示意卡片） -->
-    <section class="section">
-      <div class="section-header">
-        <h2>熱門精選房源</h2>
-        <div class="sub">目前最受歡迎、詢問度最高的房間。</div>
-        <a href="#" class="more">查看更多房源 ›</a>
+      <div class="card">
+        <img src="https://picsum.photos/id/1027/500/300">
+        <div class="card-body">
+          <strong>板橋景觀房</strong>
+          <div class="desc">新北市・高樓層</div>
+          <div class="price">$15,800 / 月</div>
+        </div>
       </div>
 
-      <div class="listing-list">
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">旅客精選</span>
-            <img src="https://picsum.photos/seed/hot1/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>信義區景觀兩房</h3>
-            <p>台北市・高樓層・近捷運</p>
-            <span class="price">$25,800 / 月</span>
-          </div>
-        </article>
-
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">高詢問度</span>
-            <img src="https://picsum.photos/seed/hot2/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>板橋河景三房</h3>
-            <p>新北市・全新裝潢・採光佳</p>
-            <span class="price">$32,000 / 月</span>
-          </div>
-        </article>
-
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">限量釋出</span>
-            <img src="https://picsum.photos/seed/hot3/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>高雄捷運宅</h3>
-            <p>高雄市・雙捷運・生活機能佳</p>
-            <span class="price">$18,800 / 月</span>
-          </div>
-        </article>
+      <div class="card">
+        <img src="https://picsum.photos/id/1005/500/300">
+        <div class="card-body">
+          <strong>安平電梯套房</strong>
+          <div class="desc">台南市・附傢俱</div>
+          <div class="price">$18,000 / 月</div>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- 區塊 3：HOT 地產買賣 -->
-    <section class="section">
-      <div class="section-header">
-        <h2>HOT 地產買賣</h2>
-        <div class="sub">精選買賣物件，適合自住與投資。</div>
-        <a href="#" class="more">看更多買賣物件 ›</a>
+    <!-- 🔸 熱門精選房源 -->
+    <h2 class="sec-title">熱門精選房源</h2>
+    <div class="scroll-row">
+      <div class="card">
+        <img src="https://picsum.photos/seed/11/500/300">
+        <div class="card-body">
+          <strong>信義黃金地段</strong>
+          <div class="desc">捷運步行 3 分鐘</div>
+          <div class="price">$28,000 / 月</div>
+        </div>
       </div>
 
-      <div class="listing-list">
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">預約熱絡</span>
-            <img src="https://picsum.photos/seed/buy1/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>內湖電梯三房</h3>
-            <p>台北市・湖景宅・車位一席</p>
-            <span class="price">$2,380 萬</span>
-          </div>
-        </article>
-
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">投資首選</span>
-            <img src="https://picsum.photos/seed/buy2/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>新莊小坪數收租套房</h3>
-            <p>新北市・近捷運・出租率高</p>
-            <span class="price">$768 萬</span>
-          </div>
-        </article>
+      <div class="card">
+        <img src="https://picsum.photos/seed/12/500/300">
+        <div class="card-body">
+          <strong>桃園高鐵套房</strong>
+          <div class="desc">超新裝潢</div>
+          <div class="price">$13,500 / 月</div>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- 區塊 4：新建案推廣 -->
-    <section class="section">
-      <div class="section-header">
-        <h2>新建案推廣</h2>
-        <div class="sub">合作建設公司新成屋與預售案，提供預約賞屋。</div>
-        <a href="#" class="more">看更多建案 ›</a>
+    <!-- 🔸 HOT 地產買賣 -->
+    <h2 class="sec-title">HOT 地產買賣</h2>
+    <div class="scroll-row">
+      <div class="card">
+        <img src="https://picsum.photos/seed/21/500/300">
+        <div class="card-body">
+          <strong>汐止電梯華廈</strong>
+          <div class="desc">近交流道</div>
+          <div class="price">$8,600,000</div>
+        </div>
       </div>
 
-      <div class="listing-list">
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">預售案</span>
-            <img src="https://picsum.photos/seed/new1/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>北車雙捷境</h3>
-            <p>台北市・雙捷運・飯店式管理</p>
-            <span class="price">總價 $1,980 萬 起</span>
-          </div>
-        </article>
-
-        <article class="listing-card">
-          <div class="listing-img">
-            <span class="badge">成屋</span>
-            <img src="https://picsum.photos/seed/new2/800/450" alt="">
-          </div>
-          <div class="listing-info">
-            <h3>台中綠景森活</h3>
-            <p>台中市・公園第一排・三面採光</p>
-            <span class="price">總價 $1,350 萬 起</span>
-          </div>
-        </article>
+      <div class="card">
+        <img src="https://picsum.photos/seed/22/500/300">
+        <div class="card-body">
+          <strong>嘉義透天厝</strong>
+          <div class="desc">地坪大、可停雙車</div>
+          <div class="price">$12,800,000</div>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <!-- 🔸 新建案推廣 -->
+    <h2 class="sec-title">新建案推廣</h2>
+    <div class="scroll-row">
+      <div class="card">
+        <img src="https://picsum.photos/seed/31/500/300">
+        <div class="card-body">
+          <strong>新北｜極光之城</strong>
+          <div class="desc">預售・三房</div>
+          <div class="price">總價 $1,280 萬起</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://picsum.photos/seed/32/500/300">
+        <div class="card-body">
+          <strong>台中｜森態苑</strong>
+          <div class="desc">預售・二房</div>
+          <div class="price">總價 $980 萬起</div>
+        </div>
+      </div>
+    </div>
 
   </main>
 
-  <!-- ＝＝＝＝＝ 底部導覽 ＝＝＝＝＝ -->
+  <!-- 🔹 Footer 導覽 -->
   <footer>
-    <nav class="bottom-nav">
-      <a href="home.html" class="active">
-        <span class="icon">🔍</span>
-        <span class="label">首頁</span>
-      </a>
-      <a href="browse.html">
-        <span class="icon">🤍</span>
-        <span class="label">心願單</span>
-      </a>
-      <a href="orders.html">
-        <span class="icon">📅</span>
-        <span class="label">預約帶看</span>
-      </a>
-      <a href="post.html">
-        <span class="icon">🛠️</span>
-        <span class="label">委託代管</span>
-      </a>
-      <a href="profile.html">
-        <span class="icon">👤</span>
-        <span class="label">個人簡介</span>
-      </a>
-    </nav>
+    <a href="home.html" class="active">首頁</a>
+    <a href="post.html">好想出租</a>
+    <a href="browse.html">好想租屋</a>
+    <a href="orders.html">預約帶看</a>
+    <a href="profile.html">個人簡介</a>
   </footer>
 
-  <!-- Firebase + 共用登入邏輯 + 本頁 JS -->
-  <script type="module" src="./firebase.js"></script>
   <script type="module" src="./script.js"></script>
-  <script type="module" src="./home.js"></script>
+</body>
+</html>
