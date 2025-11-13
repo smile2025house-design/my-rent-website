@@ -3,105 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>好想租屋｜登入</title>
+  <title>開始使用｜好想租屋</title>
+
   <style>
-    :root { --line:#06C755; --muted:#f3f4f6; --gray:#6b7280; }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,"Noto Sans TC","Segoe UI",Roboto,Arial;
-      background:#ffffff;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
+      background: #f5f5f5;
     }
-    .wrap{max-width:420px;margin:32px auto;padding:0 16px}
-    .logo{display:block;margin:24px auto 8px auto;width:120px;height:auto}
-    h1{text-align:center;font-size:22px;margin:8px 0 20px 0}
-    .card{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      padding:16px;
+
+    .page {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 30px 20px;
     }
-    label{display:block;font-size:14px;color:#374151;margin:6px 0}
-    input,select,button{width:100%;padding:12px;border-radius:10px;font-size:16px}
-    input,select{border:1px solid #d1d5db;background:#fff}
-    button{border:0;cursor:pointer;font-weight:600}
-    .btn-black{background:#111827;color:#fff;margin-top:8px}
-    .btn-gray{background:#f4f4f5;color:#111827;margin-top:8px}
-    .btn-line{background:#06C755;color:#fff;margin-top:8px}
-    .divider{
-      display:flex;
-      align-items:center;
-      color:#9ca3af;
-      font-size:14px;
-      margin:16px 0;
+
+    .logo-box {
+      text-align: center;
+      margin-bottom: 24px;
     }
-    .divider:before,.divider:after{
-      content:"";
-      flex:1;
-      border-bottom:1px solid #e5e7eb;
+
+    .logo-box img {
+      width: 110px;
+      height: auto;
+      border-radius: 20px;
     }
-    .divider:before{margin-right:.5em}
-    .divider:after{margin-left:.5em}
-    .note{
-      font-size:12px;
-      color:#6b7280;
-      text-align:center;
-      margin:18px 0;
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 30px;
+      font-weight: 700;
     }
-    .err{
-      margin-top:10px;
-      color:#b91c1c;
-      background:#fee2e2;
-      border:1px solid #fecaca;
-      padding:10px;
-      border-radius:10px;
-      display:none;
+
+    .input-group {
+      margin-bottom: 20px;
     }
-    .row{display:flex;gap:8px}
+
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #0891b2;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background: #0e7490;
+    }
+
+    .or {
+      text-align: center;
+      margin: 18px 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 11px;
+      color: #9ca3af;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <!-- logo 檔放專案根目錄，檔名 logo.jpg -->
-    <img src="logo.jpg" alt="好想租屋 logo" class="logo" onerror="this.style.display='none'">
+  <div class="page">
+    <!-- Logo -->
+    <div class="logo-box">
+      <img src="logo.jpg" alt="好想租屋 logo"
+           onerror="this.style.display='none'">
+    </div>
 
     <h1>開始使用 好想租屋</h1>
 
-    <div class="card">
-      <label for="phone">手機號碼</label>
-      <div class="row">
+    <!-- 手機登入 -->
+    <div class="input-group">
+      <label>手機號碼</label>
+
+      <div class="input-row">
         <select id="country">
-          <option value="+886">🇹🇼 +886</option>
-          <option value="+81">🇯🇵 +81</option>
-          <option value="+1">🇺🇸 +1</option>
+          <option value="+886">+886</option>
         </select>
-        <input id="phone" type="text" placeholder="手機號碼" />
+
+        <input id="phone" type="tel" placeholder="手機號碼" />
       </div>
 
-      <button id="btn-continue" class="btn-black">繼續</button>
-
-      <div class="divider">或</div>
-
-      <button id="btn-apple"  class="btn-gray">使用 Apple 繼續</button>
-      <button id="btn-google" class="btn-gray">使用 Google 繼續</button>
-      <button id="btn-line"   class="btn-line">使用 LINE 繼續</button>
-      <button id="btn-email"  class="btn-gray">使用電子郵件繼續</button>
-      <button id="btn-guest"  class="btn-gray">以訪客身分繼續</button>
-
-      <div class="divider">或</div>
-
-      <button id="btn-find" class="btn-gray">找回我的帳戶</button>
-
-      <div id="err" class="err"></div>
+      <button id="btn-phone">繼續</button>
     </div>
 
-    <p class="note">
-      Logo 檔名 <code>logo.jpg</code>（與 <code>index.html</code> 同層）。
-      繼續操作即表示您同意《好想租屋使用條款與隱私政策》。
-    </p>
+    <div class="or">或</div>
+
+    <!-- Google -->
+    <button id="btn-google" class="btn-secondary">使用 Google 繼續</button>
+
+    <!-- LINE -->
+    <button id="btn-line" class="btn-secondary">使用 LINE 繼續</button>
+
+    <!-- Email -->
+    <button id="btn-email" class="btn-secondary">使用電子郵件繼續</button>
+
+    <!-- 訪客 -->
+    <button id="btn-guest" class="btn-secondary">以訪客身份繼續</button>
+
+    <div class="or">或</div>
+
+    <button id="btn-forget" class="btn-secondary">找回我的帳戶</button>
+
+    <div class="footer-note">
+      Logo 檔名為 logo.jpg（與 index.html 同層）<br />
+      請確認檔案放置正確。
+    </div>
   </div>
 
-  <!-- 這一行非常重要：載入 script.js -->
   <script type="module" src="./script.js"></script>
 </body>
 </html>
