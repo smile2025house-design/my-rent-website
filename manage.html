@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>好想租屋｜專業代管服務</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;
+      background:#f3f4f6;
+      color:#111;
+    }
+
+    /* 頂部：Logo + 標語 */
+    header{
+      background:linear-gradient(135deg,#0b7890,#0b7890,#1298b0);
+      color:#fff;
+      box-shadow:0 2px 10px rgba(15,23,42,.25);
+    }
+    .hero{
+      max-width:960px;
+      margin:0 auto;
+      padding:20px 16px 18px;
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+    .hero-logo{
+      width:92px;
+      height:62px;
+      border-radius:18px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      flex-shrink:0;
+    }
+    .hero-logo img{
+      max-width:78px;
+      max-height:46px;
+      object-fit:contain;
+      display:block;
+    }
+    .hero-text h1{
+      font-size:22px;
+      letter-spacing:3px;
+      margin-bottom:6px;
+    }
+    .hero-text p{
+      font-size:13px;
+      opacity:.92;
+      line-height:1.5;
+    }
+
+    /* 主內容：左說明＋右表單 */
+    main{
+      max-width:960px;
+      margin:18px auto 88px auto;
+      padding:0 16px 24px;
+      display:grid;
+      grid-template-columns:minmax(0,5fr) minmax(0,6fr);
+      gap:18px;
+    }
+    @media (max-width:768px){
+      main{grid-template-columns:1fr;}
+    }
+
+    .panel{
+      background:#fff;
+      border-radius:18px;
+      padding:20px 18px 18px;
+      box-shadow:0 2px 8px rgba(15,23,42,.06);
+    }
+    .panel h2{
+      font-size:18px;
+      margin-bottom:10px;
+    }
+    .panel p{
+      font-size:13px;
+      color:#4b5563;
+      line-height:1.7;
+      margin-bottom:10px;
+    }
+    .panel ul{
+      margin:6px 0 10px 1.2em;
+      font-size:13px;
+      color:#4b5563;
+    }
+    .panel ul li{margin-bottom:4px;}
+
+    .tag-line{
+      display:inline-block;
+      margin-top:4px;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:11px;
+      background:#e0f2fe;
+      color:#0369a1;
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      margin:10px 0 4px;
+      color:#374151;
+    }
+    input,textarea,select{
+      width:100%;
+      padding:10px 11px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      font-size:14px;
+      font-family:inherit;
+    }
+    textarea{min-height:80px;resize:vertical;}
+    .row{display:flex;gap:8px;}
+
+    button.primary{
+      margin-top:16px;
+      width:100%;
+      padding:12px;
+      border:0;
+      border-radius:999px;
+      background:#047857;
+      color:#fff;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .note{
+      font-size:12px;
+      color:#6b7280;
+      margin-top:10px;
+      line-height:1.6;
+    }
+
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:10px;
+      display:none;
+    }
+    .msg.ok{
+      background:#dcfce7;
+      color:#166534;
+      border:1px solid #bbf7d0;
+    }
+    .msg.err{
+      background:#fee2e2;
+      color:#b91c1c;
+      border:1px solid #fecaca;
+    }
+
+    /* 底部導覽列與其他頁一致 */
+    footer{
+      position:fixed;
+      left:0;bottom:0;width:100%;height:56px;
+      border-top:1px solid #e5e7eb;
+      background:#fff;
+    }
+    footer .tabs{
+      max-width:960px;
+      margin:0 auto;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-around;
+      font-size:13px;
+    }
+    footer .tabs a{
+      text-decoration:none;
+      color:#9ca3af;
+    }
+    footer .tabs a.active{
+      color:#0f766e;
+      font-weight:600;
+    }
+  </style>
+</head>
+<body>
+  <!-- 頂部：專業代管 Hero -->
+  <header>
+    <div class="hero">
+      <div class="hero-logo">
+        <img src="logo.jpg" alt="好想租屋" onerror="this.style.display='none'">
+      </div>
+      <div class="hero-text">
+        <h1>專業代管服務</h1>
+        <p>
+          為你打理招租、帶看、簽約溝通與租客關係，你只需要每月收租。<br>
+          由攝影團隊拍出最美的房屋照片，讓好房被好房客看見。
+        </p>
+        <span class="tag-line">目前提供：北北桃台南高 主要區域，其他地區可先填單洽詢</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 左：服務說明 -->
+    <section class="panel">
+      <h2>我們可以幫你做什麼？</h2>
+      <p>針對忙碌的屋主，我們提供一條龍的租屋代管服務：</p>
+      <ul>
+        <li>專業攝影團隊到府拍攝房屋空間</li>
+        <li>優化文案與標題，上架到「好想租屋」平台</li>
+        <li>過濾房客條件，安排看屋時間</li>
+        <li>協助溝通租約重點，降低雙方誤會</li>
+        <li>後續簡單維護、續約提醒與租金追蹤</li>
+      </ul>
+      <p>
+        我們採用<span style="font-weight:600;">「代管費用 30%」</span>的透明收費模式，
+        實際費用會依物件條件與服務內容略有調整，填寫下方表單後，我們會主動與你聯繫說明。
+      </p>
+
+      <p class="note">
+        ※ 本頁只是「委託意願填寫」，送出後不會立刻產生任何費用或合約。<br>
+        ※ 目前先由平台團隊人工聯繫，你也可以之後再決定是否簽訂正式代管合約。
+      </p>
+    </section>
+
+    <!-- 右：房東填寫表單 -->
+    <section class="panel">
+      <h2>填寫代管需求</h2>
+
+      <label for="ownerName">您的姓名</label>
+      <input id="ownerName" type="text" placeholder="例：王先生 / 陳小姐" />
+
+      <label for="contactPhone">聯絡電話</label>
+      <input id="contactPhone" type="tel" placeholder="例：09xx-xxx-xxx" />
+
+      <label for="contactEmail">Email（選填，但建議填寫）</label>
+      <input id="contactEmail" type="email" placeholder="例：you@example.com" />
+
+      <label>房屋所在地區</label>
+      <div class="row">
+        <input id="areaCity" type="text" placeholder="縣市，如：台北市" />
+        <input id="areaDistrict" type="text" placeholder="區域，如：中山區" />
+      </div>
+
+      <label for="fullAddress">詳細地址（可先填大概路段）</label>
+      <input id="fullAddress" type="text" placeholder="例：中山北路二段 XX 巷附近" />
+
+      <label for="houseType">物件類型</label>
+      <select id="houseType">
+        <option value="">請選擇</option>
+        <option>電梯大樓</option>
+        <option>公寓</option>
+        <option>套房</option>
+        <option>雅房</option>
+        <option>透天 / 別墅</option>
+        <option>店面</option>
+        <option>辦公室</option>
+        <option>其他</option>
+      </select>
+
+      <label for="expectRent">預期租金區間</label>
+      <input id="expectRent" type="text" placeholder="例：月租 18,000–22,000 元" />
+
+      <label for="needPhoto">是否需要專業攝影團隊到現場？</label>
+      <select id="needPhoto">
+        <option value="未選擇">請選擇</option>
+        <option value="需要">需要</option>
+        <option value="視情況而定">視情況而定</option>
+        <option value="暫時不需要">暫時不需要</option>
+      </select>
+
+      <label for="needFullManage">想要的服務範圍</label>
+      <select id="needFullManage">
+        <option value="未選擇">請選擇</option>
+        <option value="只需要幫忙招租">只需要幫忙招租</option>
+        <option value="招租 + 收租 + 基本代管">招租 + 收租 + 基本代管</option>
+        <option value="長期全代管（全部交給你們處理）">長期全代管（全部交給你們處理）</option>
+      </select>
+
+      <label for="extraNote">其他補充說明（選填）</label>
+      <textarea id="extraNote" placeholder="例：希望租客族群、可入住時間、有無車位、可否養寵物…"></textarea>
+
+      <button id="submitManage" type="button" class="primary">
+        送出代管需求
+      </button>
+
+      <div id="msgBox" class="msg"></div>
+
+      <p class="note">
+        送出後，資料會先存入「好想租屋」內部系統，僅供平台團隊或合作代管夥伴聯繫使用，不會公開顯示在網站上。
+      </p>
+    </section>
+  </main>
+
+  <!-- 底部導覽，回到主架構 -->
+  <footer>
+    <div class="tabs">
+      <a href="home.html">首頁</a>
+      <a href="post.html">我要出租</a>
+      <a href="browse.html">瀏覽</a>
+      <a href="orders.html">訂單</a>
+      <a href="profile.html">帳戶</a>
+    </div>
+  </footer>
+
+  <!-- 共用 Firebase 設定 -->
+  <script type="module" src="./firebase.js"></script>
+  <!-- 代管頁面的邏輯 -->
+  <script type="module" src="./manage.js"></script>
+</body>
+</html>

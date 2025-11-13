@@ -158,6 +158,37 @@
       font-weight:600;
     }
 
+    /* ＝＝＝＝＝ 專業代管 Banner ＝＝＝＝＝ */
+    .manage-banner{
+      background:#111827;
+      border-radius:18px;
+      padding:16px 18px;
+      margin:6px 0 22px;
+      color:#f9fafb;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .manage-banner h3{
+      font-size:15px;
+    }
+    .manage-banner p{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+    .manage-banner a{
+      align-self:flex-start;
+      margin-top:6px;
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#22c55e;
+      color:#052e16;
+      font-size:13px;
+      font-weight:600;
+      text-decoration:none;
+    }
+
     /* ＝＝＝＝＝ App 下載橫幅 ＝＝＝＝＝ */
     .banner{
       background:#20b2aa;
@@ -245,7 +276,6 @@
 
     <div class="search-bar">
       <div class="search-inner">
-        <!-- 目前先用簡短縣市，下階段再換成全台縣市下拉 -->
         <select id="search-city" class="search-city">
           <option value="">全台灣</option>
           <option value="台北市">台北市</option>
@@ -296,6 +326,16 @@
         <div class="price">$18,000 / 月</div>
       </div>
     </article>
+
+    <!-- ＝＝＝＝＝ 專業代管服務 Banner ＝＝＝＝＝ -->
+    <section class="manage-banner">
+      <h3>想省下找房客的時間嗎？</h3>
+      <p>
+        提供專業攝影＋文案＋上架＋代管，一條龍幫你打理出租流程，
+        你只需要每月收租。填寫需求，我們會主動與你聯繫。
+      </p>
+      <a href="manage.html">了解代管服務</a>
+    </section>
 
     <!-- App 下載區 -->
     <section class="banner">
