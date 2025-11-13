@@ -3,154 +3,284 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>好想租屋｜我要出租</title>
+  <title>好想租屋｜委託代管</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{
       font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;
-      background:#f3f4f6;
+      background:#f5f5f5;
       color:#111;
     }
 
-    /* ====== 頂部：Logo + 標語 ====== */
+    /* 頂部 Logo + 標題條 */
     header{
-      background:linear-gradient(120deg,#0b7890,#0b7890,#1298b0);
+      background:#0b7890;
       color:#fff;
+      padding:12px 0;
       box-shadow:0 2px 10px rgba(15,23,42,.25);
     }
-    .hero{
+    header .logo-bar{
       max-width:960px;
       margin:0 auto;
-      padding:20px 16px 18px;
+      padding:4px 16px;
       display:flex;
-      gap:16px;
       align-items:center;
+      gap:16px;
     }
-    .hero-logo{
-      width:92px;
-      height:62px;
+    header .logo-frame{
+      width:64px;
+      height:64px;
       border-radius:18px;
-      background:#fff;
+      background:#075f71;
       display:flex;
       align-items:center;
       justify-content:center;
-      box-shadow:0 10px 25px rgba(0,0,0,.25);
+      box-shadow:0 6px 18px rgba(15,23,42,.35);
+      flex-shrink:0;
     }
-    .hero-logo img{
-      max-width:78px;
-      max-height:46px;
+    header .logo-frame img{
+      max-width:80%;
+      max-height:80%;
       object-fit:contain;
       display:block;
     }
-    .hero-text h1{
-      font-size:22px;
-      letter-spacing:3px;
-      margin-bottom:4px;
+    header .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
     }
-    .hero-text p{
-      font-size:13px;
-      opacity:.9;
+    header .brand-text h1{
+      font-size:22px;
+      letter-spacing:2px;
+    }
+    header .brand-text .sub{
+      font-size:12px;
+      opacity:.85;
     }
 
-    /* ====== 主要內容：左邊表單 + 右邊預覽 ====== */
+    /* 主要版面：左說明 + 右表單 / 預覽 */
     main{
-      max-width:960px;
-      margin:16px auto 90px auto;
+      max-width:1100px;
+      margin:20px auto 88px auto;
       padding:0 16px 24px;
       display:grid;
-      grid-template-columns:minmax(0,3fr) minmax(0,2fr);
-      gap:16px;
+      grid-template-columns:minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap:20px;
     }
-    @media (max-width:768px){
-      main{
-        grid-template-columns:1fr;
-      }
+    @media (max-width:900px){
+      main{ grid-template-columns:1fr; }
     }
 
+    /* 左邊：服務模式說明 */
     .panel{
       background:#fff;
       border-radius:18px;
-      padding:20px 18px 18px;
-      box-shadow:0 2px 8px rgba(15,23,42,.06);
+      padding:20px 20px 18px;
+      box-shadow:0 8px 24px rgba(15,23,42,.08);
     }
     .panel h2{
       font-size:18px;
-      margin-bottom:14px;
+      margin-bottom:6px;
     }
-    label{
+    .panel .hint{
+      font-size:13px;
+      color:#6b7280;
+      margin-bottom:12px;
+    }
+
+    .mode-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .mode-card{
+      border-radius:16px;
+      padding:14px 14px 12px;
+      border:1px solid #e5e7eb;
+      background:#f9fafb;
+    }
+    .mode-card.pro{
+      background:linear-gradient(135deg,#020617,#0b1120);
+      color:#f9fafb;
+      border-color:#0f172a;
+      position:relative;
+      overflow:hidden;
+    }
+    .mode-card.pro::after{
+      content:"30% 代管服務";
+      position:absolute;
+      right:-32px;
+      top:10px;
+      background:#22c55e;
+      color:#022c22;
+      font-size:11px;
+      padding:4px 40px;
+      transform:rotate(12deg);
+      font-weight:600;
+      box-shadow:0 8px 20px rgba(22,163,74,.65);
+    }
+    .mode-title{
+      font-size:15px;
+      font-weight:600;
+      margin-bottom:4px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .mode-tag{
+      font-size:11px;
+      padding:2px 8px;
+      border-radius:999px;
+      background:rgba(15,118,110,.12);
+      color:#0f766e;
+    }
+    .mode-card.pro .mode-tag{
+      background:rgba(45,212,191,.14);
+      color:#a5f3fc;
+    }
+    .mode-desc{
+      font-size:13px;
+      line-height:1.5;
+      opacity:.9;
+    }
+    .mode-list ul{
+      margin-top:6px;
+      padding-left:18px;
+      font-size:13px;
+      line-height:1.5;
+    }
+    .mode-list li{
+      margin-bottom:2px;
+    }
+    .mode-note{
+      font-size:12px;
+      color:#9ca3af;
+      margin-top:6px;
+    }
+
+    /* 右側：表單 + 預覽區 */
+    .form-panel{
+      background:#fff;
+      border-radius:18px;
+      padding:20px 20px 18px;
+      box-shadow:0 8px 24px rgba(15,23,42,.08);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .form-panel h2{
+      font-size:18px;
+      margin-bottom:4px;
+    }
+    .form-panel .hint{
+      font-size:13px;
+      color:#6b7280;
+      margin-bottom:4px;
+    }
+
+    form .field{
+      margin-bottom:10px;
+    }
+    form label{
       display:block;
       font-size:13px;
-      margin:10px 0 4px;
+      margin-bottom:4px;
       color:#374151;
     }
-    input,select,textarea{
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea{
       width:100%;
-      padding:10px 11px;
+      padding:9px 10px;
       border-radius:10px;
       border:1px solid #d1d5db;
       font-size:14px;
       font-family:inherit;
+      outline:none;
+      background:#f9fafb;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus{
+      border-color:#0f766e;
+      box-shadow:0 0 0 1px rgba(15,118,110,.35);
+      background:#fff;
     }
     textarea{min-height:76px;resize:vertical;}
 
-    .row{
-      display:flex;
-      gap:8px;
+    .inline-hint{
+      font-size:11px;
+      color:#9ca3af;
+      margin-top:2px;
     }
 
-    button.primary{
-      margin-top:16px;
+    .btn-submit{
       width:100%;
-      padding:12px;
-      border:0;
+      border:none;
       border-radius:999px;
-      background:#047857;
-      color:#fff;
+      padding:11px 16px;
       font-size:15px;
       font-weight:600;
+      background:#047857;
+      color:#ecfdf5;
       cursor:pointer;
+      margin-top:2px;
+      box-shadow:0 10px 20px rgba(4,120,87,.35);
+    }
+    .btn-submit:hover{ background:#065f46; }
+
+    .form-note{
+      font-size:11px;
+      color:#9ca3af;
+      text-align:right;
     }
 
-    /* ====== 右側：卡片預覽 ====== */
+    /* 預覽卡片 */
     .preview-title{
-      font-size:14px;
-      margin-bottom:10px;
-      color:#6b7280;
-    }
-    .card{
-      background:#fff;
-      border-radius:16px;
-      overflow:hidden;
-      box-shadow:0 2px 8px rgba(15,23,42,.08);
-    }
-    .card img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-    .card-body{
-      padding:12px 14px 14px;
-    }
-    .card-body strong{
-      display:block;
-      font-size:15px;
-      margin-bottom:4px;
-    }
-    .card-body .desc{
       font-size:13px;
       color:#6b7280;
-      margin-bottom:4px;
+      margin-top:2px;
+      margin-bottom:6px;
     }
-    .card-body .price{
+    .preview-card{
+      background:#f9fafb;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid #e5e7eb;
+    }
+    .preview-card img{
+      width:100%;
+      display:block;
+      height:180px;
+      object-fit:cover;
+    }
+    .preview-body{
+      padding:10px 12px 12px;
+    }
+    .preview-body strong{
+      display:block;
+      margin-bottom:2px;
       font-size:14px;
+    }
+    .preview-body .region{
+      font-size:12px;
+      color:#6b7280;
+      margin-bottom:2px;
+    }
+    .preview-body .price{
+      font-size:13px;
       color:#b91c1c;
       font-weight:600;
     }
 
-    /* ====== 底部導覽列 ====== */
+    /* 底部導航 tabs（跟其他頁一致） */
     footer{
       position:fixed;
-      left:0;bottom:0;width:100%;height:56px;
+      left:0;
+      bottom:0;
+      width:100%;
+      height:56px;
       border-top:1px solid #e5e7eb;
       background:#fff;
     }
@@ -174,101 +304,122 @@
   </style>
 </head>
 <body>
-  <!-- 頂部：Logo 橫幅 -->
+
+  <!-- 頂部 Logo 條 -->
   <header>
-    <div class="hero">
-      <div class="hero-logo">
-        <img src="logo.jpg" alt="好想租屋" onerror="this.style.display='none'">
+    <div class="logo-bar">
+      <div class="logo-frame">
+        <img src="logo.jpg" alt="好想租屋 logo" onerror="this.style.display='none'">
       </div>
-      <div class="hero-text">
-        <h1>好想租屋</h1>
-        <p>發布一個喜歡的房客，等一個剛好的房客。</p>
+      <div class="brand-text">
+        <h1>委託代管</h1>
+        <div class="sub">給房東的一站式服務：拍攝、上架、看屋、收租，全部交給我們。</div>
       </div>
     </div>
   </header>
 
-  <!-- 主要內容 -->
   <main>
-    <!-- 左：發佈表單 -->
+    <!-- 左：服務模式說明 -->
     <section class="panel">
-      <h2>發布出租物件</h2>
+      <h2>選擇你想要的服務方式</h2>
+      <p class="hint">好想租屋支援「專業代管」與「自助刊登」兩種模式，你可以依照時間與預算自由選擇。</p>
 
-      <label for="title">物件標題</label>
-      <input id="title" type="text" placeholder="例：中山區電梯套房" />
+      <div class="mode-list">
+        <div class="mode-card pro">
+          <div class="mode-title">
+            專業代管方案
+            <span class="mode-tag">省時省力・適合忙碌房東</span>
+          </div>
+          <p class="mode-desc">
+            專業攝影＋美編文案＋上架代管，一條龍處理租賃流程。<br/>
+            你只要等候看屋通知與收租，我們會主動幫你把關租客品質。
+          </p>
+          <ul>
+            <li>到府勘查、空間整理建議</li>
+            <li>專業攝影與圖片修飾</li>
+            <li>代為刊登多平台、帶看安排</li>
+            <li>協助簽約與後續收租提醒</li>
+          </ul>
+          <p class="mode-note">
+            目前服務區域以雙北為主，其餘縣市可先填表，我們會主動與你聯繫。
+          </p>
+        </div>
 
-      <label>區域（縣市 / 區）</label>
-      <div class="row">
-        <select id="city">
-          <option value="">請選擇縣市</option>
-        </select>
-        <select id="district">
-          <option value="">請先選縣市</option>
-        </select>
-      </div>
-
-      <label for="type">物件類型</label>
-      <select id="type">
-        <option value="">請選擇類型</option>
-        <option>公寓</option>
-        <option>大樓</option>
-        <option>電梯大樓</option>
-        <option>透天 / 別墅</option>
-        <option>套房</option>
-        <option>雅房</option>
-        <option>店面</option>
-        <option>辦公室</option>
-        <option>廠房</option>
-        <option>車位</option>
-        <option>土地</option>
-        <option>其他</option>
-      </select>
-
-      <label for="rent">租金</label>
-      <input id="rent" type="number" min="0" placeholder="例：18000" />
-
-      <label for="desc">物件描述</label>
-      <textarea id="desc" placeholder="例：鄰近捷運 / 採光好 / 可養寵物…"></textarea>
-
-      <label for="image">代表圖片網址（暫時用貼網址）</label>
-      <input id="image" type="url"
-             placeholder="例：https://picsum.photos/seed/house/800/450" />
-
-      <button id="submit" type="button" class="primary">
-        送出刊登（目前僅示範，不會真的上架）
-      </button>
-    </section>
-
-    <!-- 右：預覽卡片 -->
-    <section class="panel">
-      <div class="preview-title">預覽：房客在首頁看到的卡片</div>
-      <div class="card">
-        <img id="preview-img"
-             src="https://picsum.photos/id/1016/800/450"
-             alt="預覽圖片">
-        <div class="card-body">
-          <strong id="preview-title">還沒有標題，請先輸入物件名稱</strong>
-          <div class="desc" id="preview-region">區域會顯示在這裡</div>
-          <div class="desc" id="preview-type">物件類型 / 特色</div>
-          <div class="price" id="preview-rent">請輸入租金</div>
+        <div class="mode-card">
+          <div class="mode-title">
+            自助刊登房源
+            <span class="mode-tag">彈性自由・適合喜歡自己掌握</span>
+          </div>
+          <p class="mode-desc">
+            想自己處理看屋與租約？你可以直接使用右側的「發佈出租物件」表單，免費建立一張精美的房源卡片。
+          </p>
+          <ul>
+            <li>自行輸入標題、照片、租金與說明</li>
+            <li>隨時可修改與重新整理內容</li>
+            <li>未來可升級為專業代管服務</li>
+          </ul>
         </div>
       </div>
     </section>
-  </main>
 
-  <!-- 底部導覽 -->
-  <footer>
-    <div class="tabs">
-      <a href="home.html">首頁</a>
-      <a href="post.html" class="active">我要出租</a>
-      <a href="browse.html">瀏覽</a>
-      <a href="orders.html">訂單</a>
-      <a href="profile.html">帳戶</a>
-    </div>
-  </footer>
+    <!-- 右：表單 + 預覽 -->
+    <section class="form-panel">
+      <div>
+        <h2>發佈出租物件</h2>
+        <p class="hint">先建立一張漂亮的房源卡片，未來可串接後端真正上架。</p>
+      </div>
 
-  <!-- 只負責初始化 Firebase（之後要真的存資料才會用到） -->
-  <script type="module" src="./firebase.js"></script>
-  <!-- 我要出租頁面的互動邏輯 -->
-  <script type="module" src="./post.js"></script>
-</body>
-</html>
+      <form id="post-form" autocomplete="off">
+        <div class="field">
+          <label for="title">物件標題</label>
+          <input id="title" type="text" placeholder="例：中山區電梯套房" />
+        </div>
+
+        <div class="field">
+          <label for="region">區域</label>
+          <select id="region">
+            <option value="">請選擇縣市 / 行政區</option>
+            <option value="台北市 中山區">台北市 中山區</option>
+            <option value="台北市 大安區">台北市 大安區</option>
+            <option value="新北市 板橋區">新北市 板橋區</option>
+            <option value="新北市 新店區">新北市 新店區</option>
+            <option value="台中市 西屯區">台中市 西屯區</option>
+            <option value="高雄市 左營區">高雄市 左營區</option>
+            <option value="其他地區">其他地區（之後補全台灣 …）</option>
+          </select>
+          <div class="inline-hint">之後我們可以把這裡改成全台縣市＋行政區完整列表。</div>
+        </div>
+
+        <div class="field">
+          <label for="type">房屋類型</label>
+          <select id="type">
+            <option value="">請選擇類型</option>
+            <option value="電梯大樓">電梯大樓</option>
+            <option value="公寓">公寓</option>
+            <option value="透天 / 別墅">透天 / 別墅</option>
+            <option value="套房">套房</option>
+            <option value="店面 / 商用">店面 / 商用</option>
+            <option value="辦公室">辦公室</option>
+            <option value="車位">車位</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="rent">租金</label>
+          <input id="rent" type="number" placeholder="例：18000" />
+          <div class="inline-hint">單位：新台幣 / 月</div>
+        </div>
+
+        <div class="field">
+          <label for="desc">物件描述</label>
+          <textarea id="desc" placeholder="例：鄰近捷運 / 採光好 / 可養寵物…"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="imageUrl">代表圖片網址（選填）</label>
+          <input id="imageUrl" type="text"
+                 placeholder="例：https://picsum.photos/seed/house/800/450" />
+          <div class="inline-hint">
+            目前先使用圖片網址，之後可以改成真正的圖片上傳（串接 Firebase Storage）。
+    
