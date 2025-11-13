@@ -4,78 +4,79 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>好想租屋｜首頁</title>
+
   <style>
-    :root { --teal:#76c8c3; --muted:#f3f4f6; --line:#06C755; }
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,'Noto Sans TC',Segoe UI,Roboto,Arial}
-    header{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #eee;background:#fff}
-    header img{width:110px;margin:0 auto}
-    header .right{margin-left:auto}
-    .wrap{max-width:1100px;margin:0 auto;padding:16px}
-    input{width:100%;padding:12px;border-radius:10px;border:1px solid #ddd}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:14px}
-    .card{background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden}
-    .card img{width:100%;height:170px;object-fit:cover}
-    .card .info{padding:12px}
-    .banner{margin:18px 0;background:var(--teal);color:#fff;border-radius:999px;padding:10px;font-weight:600;text-align:center}
-    .banner .btns{margin-top:10px;display:flex;gap:10px;justify-content:center}
-    .banner a{background:#fff;color:#111;text-decoration:none;padding:10px 16px;border-radius:999px;font-weight:600}
-    footer{display:grid;grid-template-columns:repeat(5,1fr);text-align:center;color:#93c3af;padding:14px 0;border-top:1px solid #eee}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,'Noto Sans TC',sans-serif}
+    body{background:#f7f7f7}
+    header{text-align:center;padding:20px}
+    header img{width:120px;margin-bottom:10px}
+    h1{font-size:22px}
+
+    .wrap{padding:16px;max-width:760px;margin:auto}
+    .card{background:#fff;padding:10px;border-radius:12px;border:1px solid #ddd;margin-bottom:14px}
+    .card img{width:100%;border-radius:12px}
+    .card strong{font-size:18px;display:block;margin-top:8px}
+    .card .price{color:#c00;font-weight:600;margin-top:4px}
+
+    .banner{text-align:center;margin:30px 0}
+    .banner .btns a{
+      display:inline-block;padding:10px 16px;background:#0abab5;color:white;
+      border-radius:20px;margin:5px;text-decoration:none;
+    }
+
+    footer{
+      position:fixed;bottom:0;left:0;width:100%;height:60px;background:white;
+      border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center;
+      font-size:15px;
+    }
+    footer a{text-decoration:none;color:#777}
+    footer a.active{color:#1098f1;font-weight:600}
   </style>
 </head>
+
 <body>
 
-  <header>
-    <img src="logo.jpg" alt="好想租屋 logo" onerror="this.style.display='none'">
-    <div class="right">
-      <!-- ✅ 這裡用 logout，跟 script.js 的綁定一致 -->
-      <button id="logout">登出</button>
-    </div>
-  </header>
+<header>
+  <img src="logo.jpg" alt="">
+  <h1>好想租屋</h1>
+</header>
 
-  <div class="wrap">
-    <input id="search" placeholder="搜尋關鍵字 / 地點（預留）" />
-
-    <div class="grid" id="list">
-      <!-- 這裡會放房源卡片或你的樣品清單 -->
-      <div class="card">
-        <img src="https://picsum.photos/id/1018/600/400" alt="">
-        <div class="info">
-          <strong>中山區雅房</strong>
-          <div>台北市 · 近捷運</div>
-          <div style="color:#b91c1c;margin-top:6px">$12,000／月</div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://picsum.photos/id/1005/600/400" alt="">
-        <div class="info">
-          <strong>板橋套房</strong>
-          <div>新北市 · 鄰商圈</div>
-          <div style="color:#b91c1c;margin-top:6px">$15,800／月</div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="https://picsum.photos/id/1011/600/400" alt="">
-        <div class="info">
-          <strong>苓雅電梯兩房</strong>
-          <div>高雄市 · 近捷運</div>
-          <div style="color:#b91c1c;margin-top:6px">$18,000／月</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="banner">
-      立即下載好想租屋 App 📱
-      <div class="btns">
-        <a href="https://apps.apple.com/app/" target="_blank" rel="noopener">前往 App Store</a>
-        <a href="https://play.google.com/store/apps" target="_blank" rel="noopener">前往 Google Play</a>
-      </div>
-    </div>
+<div class="wrap">
+  <div class="card">
+    <img src="https://picsum.photos/id/1018/600/400" />
+    <strong>中山區電梯房</strong>
+    <div class="price">$12,000／月</div>
   </div>
 
-  <footer>
-    <div>首頁</div><div>生鮮雜貨</div><div>瀏覽</div><div>訂單</div><div>帳戶</div>
-  </footer>
+  <div class="card">
+    <img src="https://picsum.photos/id/1027/600/400" />
+    <strong>板橋套房</strong>
+    <div class="price">$15,800／月</div>
+  </div>
 
-  <script type="module" src="./script.js"></script>
+  <div class="card">
+    <img src="https://picsum.photos/id/1005/600/400" />
+    <strong>淡水電梯美寓</strong>
+    <div class="price">$18,000／月</div>
+  </div>
+
+  <div class="banner">
+    <h3>立即下載好想租屋 App 📱</h3>
+    <div class="btns">
+      <a href="https://apps.apple.com/app/" target="_blank">前往 App Store</a>
+      <a href="https://play.google.com/store/apps" target="_blank">前往 Google Play</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="home.html"   class="active">首頁</a>
+  <a href="post.html">我要出租</a>
+  <a href="browse.html">瀏覽</a>
+  <a href="orders.html">訂單</a>
+  <a href="profile.html">帳戶</a>
+</footer>
+
+<script type="module" src="./script.js"></script>
 </body>
 </html>

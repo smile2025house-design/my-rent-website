@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>帳戶</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>訂單</title>
 
   <style>
-    body{font-family:system-ui,'Noto Sans TC';padding:20px;background:#fafafa}
+    body{font-family:system-ui,'Noto Sans TC';padding:20px;background:#f5f5f5}
     .wrap{max-width:600px;margin:auto}
     .item{padding:16px;background:white;border-radius:12px;margin-bottom:12px;border:1px solid #ddd}
-    button{width:100%;padding:14px;background:#f00;color:white;border:0;border-radius:10px;margin-top:20px}
 
     footer{
       position:fixed;bottom:0;left:0;width:100%;height:60px;background:white;
@@ -22,22 +21,25 @@
 <body>
 
 <div class="wrap">
-  <h2>帳戶資料</h2>
+  <h2>訂單紀錄</h2>
 
   <div class="item">
-    <div>姓名：王小明</div>
-    <div>Email：example@gmail.com</div>
+    <strong>中山區 套房</strong><br>
+    訂單狀態：已送出
   </div>
 
-  <button id="logout">登出</button>
+  <div class="item">
+    <strong>板橋 套房</strong><br>
+    訂單狀態：已完成
+  </div>
 </div>
 
 <footer>
   <a href="home.html">首頁</a>
   <a href="post.html">我要出租</a>
   <a href="browse.html">瀏覽</a>
-  <a href="orders.html">訂單</a>
-  <a href="profile.html" class="active">帳戶</a>
+  <a href="orders.html" class="active">訂單</a>
+  <a href="profile.html">帳戶</a>
 </footer>
 
 <script type="module" src="./script.js"></script>
