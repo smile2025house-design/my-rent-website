@@ -11,10 +11,9 @@
       background:#f5f5f5;
       color:#111;
     }
-
     a{text-decoration:none;color:inherit;}
 
-    /* ====== 頂部 Hero 區（Logo + 標語 + 搜尋列）====== */
+    /* ====== 頂部 Hero（Logo + 標語 + 搜尋列）====== */
     .hero{
       background:linear-gradient(135deg,#0b7890,#1298b0);
       padding:16px 16px 20px;
@@ -61,7 +60,6 @@
       opacity:.9;
     }
 
-    /* 搜尋列 */
     .search-shell{
       margin-top:6px;
       margin-bottom:12px;
@@ -105,7 +103,7 @@
       color:#9ca3af;
     }
 
-    /* 上方 3 個模式 tab（好想租屋 / 好想置產 / 居家維護） */
+    /* 上面三個模式 tab */
     .mode-tabs{
       display:flex;
       gap:12px;
@@ -135,15 +133,22 @@
       font-weight:600;
     }
 
-    /* ====== 主內容：房源清單 ====== */
+    /* ====== 主內容 ====== */
     main{
       max-width:960px;
       margin:12px auto 88px auto;
-      padding:0 16px 20px;
+      padding:0 16px 24px;
     }
 
+    .wrap{width:100%;}
+    /* 給 home.js 用，如果有用到 #list 選取器，這裡保留 */
+    #list{width:100%;}
+
+    .section-block{
+      margin-bottom:18px;
+    }
     .section-header{
-      margin:14px 0 8px;
+      margin:10px 2px 8px;
       font-size:16px;
       font-weight:600;
       display:flex;
@@ -155,25 +160,44 @@
       color:#6b7280;
     }
 
+    /* 橫向滑動列表，模仿 Airbnb */
+    .list-scroll{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      padding:4px 2px 10px;
+      scrollbar-width:none;
+      scroll-snap-type:x mandatory;
+    }
+    .list-scroll::-webkit-scrollbar{display:none;}
+
     .card{
       background:#fff;
       border-radius:18px;
       overflow:hidden;
-      margin-bottom:14px;
+      flex:0 0 72%;
+      max-width:280px;
       box-shadow:0 2px 6px rgba(15,23,42,.06);
+      scroll-snap-align:start;
     }
     .card-img-wrap{
       position:relative;
-    }
-    .card img{
-      display:block;
       width:100%;
-      height:auto;
+      padding-top:70%;   /* 卡片比例 */
+      overflow:hidden;
+    }
+    .card-img-wrap img{
+      position:absolute;
+      left:0;top:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
     .card-tag{
       position:absolute;
-      left:12px;
-      top:12px;
+      left:10px;
+      top:10px;
       padding:4px 10px;
       font-size:11px;
       border-radius:999px;
@@ -198,9 +222,9 @@
       font-weight:600;
     }
 
-    /* ====== 委託代管 Banner（下面深色那塊） ====== */
+    /* 委託代管 Banner */
     .manage-banner{
-      margin-top:16px;
+      margin-top:6px;
       border-radius:16px;
       background:#0b1120;
       color:#f9fafb;
@@ -227,7 +251,7 @@
       font-weight:600;
     }
 
-    /* ====== App 下載橫幅 ====== */
+    /* App 下載橫幅 */
     .banner{
       background:#20b2aa;
       border-radius:999px;
@@ -263,7 +287,7 @@
       font-weight:600;
     }
 
-    /* ====== 底部導覽列（像 Airbnb 的底部選單） ====== */
+    /* ====== 底部 5 個選單（探索 / 心願單 / 旅程 / 訊息 / 個人簡介）====== */
     footer{
       position:fixed;
       left:0;
@@ -301,12 +325,11 @@
     @media (min-width:768px){
       .brand-text h1{font-size:24px;}
       .brand-text p{font-size:14px;}
-      .card{border-radius:20px;}
     }
   </style>
 </head>
 <body>
-  <!-- ====== 頂部 Hero 區 ====== -->
+  <!-- ====== 頂部 Hero ====== -->
   <header class="hero">
     <div class="hero-inner">
       <div class="brand-row">
@@ -332,7 +355,7 @@
         </div>
       </div>
 
-      <!-- 上方 3 個模式 Tab -->
+      <!-- 三個模式 Tab -->
       <div class="mode-tabs">
         <button class="mode-tab active">
           <span>🏠</span>好想租屋
@@ -349,89 +372,62 @@
 
   <!-- ====== 主內容 ====== -->
   <main>
-    <!-- 區塊：熱門房源 -->
-    <section>
-      <div class="section-header">
-        <span>台北的熱門房源</span>
-        <small>為你挑選適合的生活圈</small>
-      </div>
+    <div class="wrap">
+      <div id="list">
 
-      <!-- 卡片 1 -->
-      <article class="card">
-        <div class="card-img-wrap">
-          <span class="card-tag">旅客精選</span>
-          <img src="https://picsum.photos/id/1016/800/450" alt="中山區電梯房">
-        </div>
-        <div class="card-body">
-          <div class="card-title">中山區電梯房</div>
-          <div class="card-desc">台北市・近捷運・採光佳</div>
-          <div class="card-price">$12,000 / 月</div>
-        </div>
-      </article>
+        <!-- 區塊一：熱門房源（可左右滑動） -->
+        <section class="section-block">
+          <div class="section-header">
+            <span>台北的熱門房源</span>
+            <small>旅客精選房源</small>
+          </div>
+          <div class="list-scroll">
+            <!-- 卡片 1 -->
+            <article class="card">
+              <div class="card-img-wrap">
+                <span class="card-tag">旅客精選</span>
+                <img src="https://picsum.photos/id/1016/800/600" alt="中山區電梯房">
+              </div>
+              <div class="card-body">
+                <div class="card-title">中山區電梯房</div>
+                <div class="card-desc">台北市・近捷運・採光佳</div>
+                <div class="card-price">$12,000 / 月</div>
+              </div>
+            </article>
 
-      <!-- 卡片 2 -->
-      <article class="card">
-        <div class="card-img-wrap">
-          <span class="card-tag">旅客精選</span>
-          <img src="https://picsum.photos/id/1027/800/450" alt="板橋景觀房">
-        </div>
-        <div class="card-body">
-          <div class="card-title">板橋景觀房</div>
-          <div class="card-desc">新北市・高樓層・景觀視野</div>
-          <div class="card-price">$15,800 / 月</div>
-        </div>
-      </article>
+            <!-- 卡片 2 -->
+            <article class="card">
+              <div class="card-img-wrap">
+                <span class="card-tag">旅客精選</span>
+                <img src="https://picsum.photos/id/1027/800/600" alt="板橋景觀房">
+              </div>
+              <div class="card-body">
+                <div class="card-title">板橋景觀房</div>
+                <div class="card-desc">新北市・高樓層・景觀視野</div>
+                <div class="card-price">$15,800 / 月</div>
+              </div>
+            </article>
 
-      <!-- 卡片 3 -->
-      <article class="card">
-        <div class="card-img-wrap">
-          <span class="card-tag">旅客精選</span>
-          <img src="https://picsum.photos/id/1005/800/450" alt="安平電梯套房">
-        </div>
-        <div class="card-body">
-          <div class="card-title">安平電梯套房</div>
-          <div class="card-desc">台南市・附傢俱・可立即入住</div>
-          <div class="card-price">$18,000 / 月</div>
-        </div>
-      </article>
-    </section>
+            <!-- 卡片 3 -->
+            <article class="card">
+              <div class="card-img-wrap">
+                <span class="card-tag">旅客精選</span>
+                <img src="https://picsum.photos/id/1005/800/600" alt="安平電梯套房">
+              </div>
+              <div class="card-body">
+                <div class="card-title">安平電梯套房</div>
+                <div class="card-desc">台南市・附傢俱・可立即入住</div>
+                <div class="card-price">$18,000 / 月</div>
+              </div>
+            </article>
+          </div>
+        </section>
 
-    <!-- 委託代管 Banner -->
-    <section class="manage-banner">
-      <h3>想省下找房客的時間嗎？</h3>
-      <p>
-        提供專業攝影＋文案＋上架＋代管，一條龍幫你打理出租流程。  
-        你只需要等著收租，填寫需求後，我們會主動與你聯繫。
-      </p>
-      <a href="post.html">了解代管服務</a>
-    </section>
-
-    <!-- App 下載橫幅 -->
-    <section class="banner">
-      <h3>立即下載 好想租屋 App 📱</h3>
-      <p>用手機逛房更方便，訊息不漏接，預約帶看一指完成！</p>
-      <div class="btns">
-        <a href="https://apps.apple.com/app/" target="_blank" rel="noopener">前往 App Store</a>
-        <a href="https://play.google.com/store/apps" target="_blank" rel="noopener">前往 Google Play</a>
-      </div>
-    </section>
-  </main>
-
-  <!-- ====== 底部導覽列（探索 / 心願單 / 旅程 / 訊息 / 個人簡介）====== -->
-  <footer>
-    <nav class="bottom-tabs">
-      <!-- 探索 -> 首頁 -->
-      <a href="home.html" class="bottom-tab active">
-        <span class="icon">🔍</span>
-        <span>首頁</span>
-      </a>
-
-      <!-- 心願單（之後可做成真正收藏頁，暫時先連到 browse.html 或你想要的頁面）-->
-      <a href="browse.html" class="bottom-tab">
-        <span class="icon">❤️</span>
-        <span>心願單</span>
-      </a>
-
-      <!-- 旅程 -> 預約帶看 -->
-      <a href="orders.html" class="bottom-tab">
-        <spa
+        <!-- 區塊二：下個月可訂房源（再一排橫向滑動） -->
+        <section class="section-block">
+          <div class="section-header">
+            <span>下個月首購的可訂房源</span>
+            <small>適合長期居住</small>
+          </div>
+          <div class="list-scroll">
+            <article class=
