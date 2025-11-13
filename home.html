@@ -4,79 +4,204 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>好想租屋｜首頁</title>
-
   <style>
-    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,'Noto Sans TC',sans-serif}
-    body{background:#f7f7f7}
-    header{text-align:center;padding:20px}
-    header img{width:120px;margin-bottom:10px}
-    h1{font-size:22px}
-
-    .wrap{padding:16px;max-width:760px;margin:auto}
-    .card{background:#fff;padding:10px;border-radius:12px;border:1px solid #ddd;margin-bottom:14px}
-    .card img{width:100%;border-radius:12px}
-    .card strong{font-size:18px;display:block;margin-top:8px}
-    .card .price{color:#c00;font-weight:600;margin-top:4px}
-
-    .banner{text-align:center;margin:30px 0}
-    .banner .btns a{
-      display:inline-block;padding:10px 16px;background:#0abab5;color:white;
-      border-radius:20px;margin:5px;text-decoration:none;
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;
+      background:#f5f5f5;
+      color:#111;
     }
 
-    footer{
-      position:fixed;bottom:0;left:0;width:100%;height:60px;background:white;
-      border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center;
+    /* ＝＝＝＝＝ 頂部整條 LOGO 區 ＝＝＝＝＝ */
+    header{
+      background:#0b7890;         /* 這裡是整條背景色，想改色只要改這行 */
+      padding:16px 0 12px;
+      color:#fff;
+    }
+    header .logo-bar{
+      max-width:960px;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    header img.logo{
+      width:90px;                 /* Logo 大小 */
+      height:auto;
+      display:block;
+      margin-bottom:6px;
+    }
+    header h1{
+      font-size:20px;
+      letter-spacing:2px;
+    }
+
+    /* ＝＝＝＝＝ 主要內容：房源卡片 ＝＝＝＝＝ */
+    main{
+      max-width:960px;
+      margin:16px auto 88px auto; /* 底下要留空給 footer tabs */
+      padding:0 16px;
+    }
+    .wrap{width:100%;}
+
+    .card{
+      background:#fff;
+      border-radius:16px;
+      overflow:hidden;
+      margin-bottom:16px;
+      box-shadow:0 2px 6px rgba(15,23,42,.06);
+    }
+    .card img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .card-body{
+      padding:12px 14px 14px;
+    }
+    .card-body strong{
+      display:block;
       font-size:15px;
+      margin-bottom:4px;
     }
-    footer a{text-decoration:none;color:#777}
-    footer a.active{color:#1098f1;font-weight:600}
+    .card-body .desc{
+      font-size:13px;
+      color:#6b7280;
+      margin-bottom:4px;
+    }
+    .card-body .price{
+      font-size:14px;
+      color:#b91c1c;
+      font-weight:600;
+    }
+
+    /* ＝＝＝＝＝ App 下載橫幅 ＝＝＝＝＝ */
+    .banner{
+      background:#20b2aa;
+      border-radius:999px;
+      margin:24px auto 0;
+      padding:18px 24px;
+      max-width:700px;
+      color:#fff;
+      text-align:center;
+    }
+    .banner h3{
+      font-size:15px;
+      margin-bottom:6px;
+    }
+    .banner .btns{
+      margin-top:6px;
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .banner a{
+      display:inline-block;
+      padding:8px 16px;
+      border-radius:999px;
+      background:#fff;
+      color:#0891b2;
+      text-decoration:none;
+      font-size:13px;
+      font-weight:600;
+    }
+
+    /* ＝＝＝＝＝ 底部導覽列 Tabs ＝＝＝＝＝ */
+    footer{
+      position:fixed;
+      left:0;
+      bottom:0;
+      width:100%;
+      height:56px;
+      border-top:1px solid #e5e7eb;
+      background:#fff;
+    }
+    footer .tabs{
+      max-width:960px;
+      margin:0 auto;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-around;
+      font-size:13px;
+    }
+    footer .tabs a{
+      text-decoration:none;
+      color:#9ca3af;
+    }
+    footer .tabs a.active{
+      color:#0f766e;
+      font-weight:600;
+    }
   </style>
 </head>
-
 <body>
-
-<header>
-  <img src="logo.jpg" alt="">
-  <h1>好想租屋</h1>
-</header>
-
-<div class="wrap">
-  <div class="card">
-    <img src="https://picsum.photos/id/1018/600/400" />
-    <strong>中山區電梯房</strong>
-    <div class="price">$12,000／月</div>
-  </div>
-
-  <div class="card">
-    <img src="https://picsum.photos/id/1027/600/400" />
-    <strong>板橋套房</strong>
-    <div class="price">$15,800／月</div>
-  </div>
-
-  <div class="card">
-    <img src="https://picsum.photos/id/1005/600/400" />
-    <strong>淡水電梯美寓</strong>
-    <div class="price">$18,000／月</div>
-  </div>
-
-  <div class="banner">
-    <h3>立即下載好想租屋 App 📱</h3>
-    <div class="btns">
-      <a href="https://apps.apple.com/app/" target="_blank">前往 App Store</a>
-      <a href="https://play.google.com/store/apps" target="_blank">前往 Google Play</a>
+  <!-- ＝＝＝＝＝ 頂部 LOGO 橫幅 ＝＝＝＝＝ -->
+  <header>
+    <div class="logo-bar">
+      <img src="logo.jpg" alt="好想租屋 logo" class="logo"
+           onerror="this.style.display='none'">
+      <h1>好想租屋</h1>
     </div>
-  </div>
-</div>
+  </header>
 
-<footer>
-  <a href="home.html"   class="active">首頁</a>
-  <a href="post.html">我要出租</a>
-  <a href="browse.html">瀏覽</a>
-  <a href="orders.html">訂單</a>
-  <a href="profile.html">帳戶</a>
-</footer>
+  <!-- ＝＝＝＝＝ 房源列表 ＝＝＝＝＝ -->
+  <main>
+    <div class="wrap">
+      <!-- 卡片 1 -->
+      <div class="card">
+        <img src="https://picsum.photos/id/1016/800/450" alt="中山區電梯房">
+        <div class="card-body">
+          <strong>中山區電梯房</strong>
+          <div class="desc">台北市・近捷運</div>
+          <div class="price">$12,000 / 月</div>
+        </div>
+      </div>
 
-<script type="module" src="./script.js"></script>
+      <!-- 卡片 2 -->
+      <div class="card">
+        <img src="https://picsum.photos/id/1027/800/450" alt="板橋景觀房">
+        <div class="card-body">
+          <strong>板橋景觀房</strong>
+          <div class="desc">新北市・高樓層</div>
+          <div class="price">$15,800 / 月</div>
+        </div>
+      </div>
+
+      <!-- 卡片 3 -->
+      <div class="card">
+        <img src="https://picsum.photos/id/1005/800/450" alt="安平電梯套房">
+        <div class="card-body">
+          <strong>安平電梯套房</strong>
+          <div class="desc">台南市・附傢俱</div>
+          <div class="price">$18,000 / 月</div>
+        </div>
+      </div>
+
+      <!-- App 下載區 -->
+      <div class="banner">
+        <h3>立即下載 好想租屋 App 📱</h3>
+        <div>用手機逛房更方便，訊息不漏接！</div>
+        <div class="btns">
+          <a href="https://apps.apple.com/app/" target="_blank" rel="noopener">前往 App Store</a>
+          <a href="https://play.google.com/store/apps" target="_blank" rel="noopener">前往 Google Play</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ＝＝＝＝＝ 底部導覽 ＝＝＝＝＝ -->
+  <footer>
+    <div class="tabs">
+      <a href="home.html" class="active">首頁</a>
+      <a href="post.html">我要出租</a>
+      <a href="browse.html">瀏覽</a>
+      <a href="orders.html">訂單</a>
+      <a href="profile.html">帳戶</a>
+    </div>
+  </footer>
+
+  <script type="module" src="./script.js"></script>
 </body>
 </html>
