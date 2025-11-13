@@ -14,13 +14,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDap-cGTy0KmhNbVQKB3Y-JLZk1pK42w",
+  apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
   authDomain: "smilehouse-a68bc.firebaseapp.com",
   projectId: "smilehouse-a68bc",
   storageBucket: "smilehouse-a68bc.firebasestorage.app",
   messagingSenderId: "542151591313",
-  appId: "1:542151591313:web:e10b1e0eb5a038e75c5630",
-  measurementId: "G-08LFEB4EER"
+  appId: "1:542151591313:web:e10b10e0b5a083fe75c630",
+  measurementId: "G-0Q5LFE84ER"
 };
 
 const app = initializeApp(firebaseConfig);
