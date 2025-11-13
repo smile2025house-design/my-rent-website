@@ -1,107 +1,152 @@
-// post.js – 「我要出租」頁面的即時預覽
+// post.js － 我要出租頁面（表單 + 預覽 + 縣市 / 區選單）
+// 目前只做前端顯示，尚未真的寫入 Firestore。
 
-// 簡單的金額格式化：15000 -> 15,000
-const formatPrice = (numStr) => {
-  if (!numStr) return "";
-  const n = Number(numStr);
-  if (!Number.isFinite(n) || n <= 0) return "";
-  return n.toLocaleString("zh-TW");
+import "./firebase.js"; // 先載入 Firebase 設定，之後要用 Firestore 時就可以直接用
+
+// ====== 台灣地區資料：縣市 -> 區 ======
+// 先幫你把「六都」都列進來，其它縣市你之後可以照格式往下加。
+const TAIWAN_AREAS = {
+  "台北市": [
+    "中正區","大同區","中山區","松山區","大安區","萬華區",
+    "信義區","士林區","北投區","內湖區","南港區","文山區"
+  ],
+  "新北市": [
+    "板橋區","新莊區","中和區","永和區","土城區","樹林區","三峽區",
+    "鶯歌區","三重區","蘆洲區","五股區","泰山區","新店區","深坑區",
+    "石碇區","坪林區","烏來區","八里區","淡水區","三芝區","石門區",
+    "金山區","萬里區","汐止區","瑞芳區","貢寮區","雙溪區","平溪區"
+  ],
+  "桃園市": [
+    "桃園區","中壢區","平鎮區","八德區","楊梅區","蘆竹區",
+    "大溪區","龍潭區","龜山區","大園區","觀音區","新屋區","復興區"
+  ],
+  "台中市": [
+    "中區","東區","南區","西區","北區","北屯區","西屯區","南屯區",
+    "太平區","大里區","霧峰區","烏日區","豐原區","大雅區","潭子區",
+    "大肚區","清水區","沙鹿區","梧棲區","神岡區","后里區","東勢區",
+    "新社區","石岡區","外埔區","大安區","大甲區","和平區"
+  ],
+  "台南市": [
+    "中西區","東區","南區","北區","安平區","安南區",
+    "永康區","歸仁區","新化區","左鎮區","玉井區","楠西區","南化區",
+    "仁德區","關廟區","龍崎區","官田區","麻豆區","佳里區","西港區",
+    "七股區","將軍區","學甲區","北門區","新營區","後壁區","白河區",
+    "東山區","六甲區","下營區","柳營區","鹽水區","善化區","大內區",
+    "山上區","新市區","安定區"
+  ],
+  "高雄市": [
+    "新興區","前金區","苓雅區","鹽埕區","鼓山區","旗津區","前鎮區","三民區",
+    "楠梓區","小港區","左營區","仁武區","大社區","岡山區","路竹區","阿蓮區",
+    "田寮區","燕巢區","橋頭區","梓官區","彌陀區","永安區","湖內區","鳳山區",
+    "大寮區","林園區","鳥松區","大樹區","旗山區","美濃區","六龜區","內門區",
+    "杉林區","甲仙區","桃源區","那瑪夏區","茂林區","茄萣區"
+  ]
+  // 之後如果你要加「基隆市、宜蘭縣、花蓮縣…」，
+  // 就照上面的格式往下加即可。
 };
 
+// ====== 抓取表單與預覽元素 ======
 const $ = (sel) => document.querySelector(sel);
 
-const bindPreview = () => {
-  const form = $("#post-form");
-  if (!form) return; // 保險：如果不在 post.html 就不要跑
+const titleInput    = $("#title");
+const citySelect    = $("#city");
+const districtSelect= $("#district");
+const typeSelect    = $("#type");
+const rentInput     = $("#rent");
+const descInput     = $("#desc");
+const imageInput    = $("#image");
+const submitBtn     = $("#submit");
 
-  const titleInput = $("#title");
-  const areaSelect = $("#area");
-  const typeSelect = $("#type");
-  const priceInput = $("#price");
-  const descInput = $("#desc");
-  const imgUrlInput = $("#imgUrl");
+// 預覽區
+const previewTitle   = $("#preview-title");
+const previewRegion  = $("#preview-region");
+const previewType    = $("#preview-type");
+const previewRent    = $("#preview-rent");
+const previewImg     = $("#preview-img");
 
-  const previewEmpty = $("#preview-empty");
-  const previewBlock = $("#preview-block");
+// ====== 初始化縣市 / 區選單 ======
+function initCityOptions() {
+  // 把 TAIWAN_AREAS 的 key（縣市名稱）依照字母排序後塞進 <select>
+  const cities = Object.keys(TAIWAN_AREAS);
+  cities.sort();
 
-  const previewTitle = $("#preview-title");
-  const previewMeta = $("#preview-meta");
-  const previewPrice = $("#preview-price");
-  const previewDesc = $("#preview-desc");
-  const previewImg = $("#preview-img");
-  const tagArea = $("#tag-area");
-  const tagType = $("#tag-type");
+  for (const city of cities) {
+    const opt = document.createElement("option");
+    opt.value = city;
+    opt.textContent = city;
+    citySelect.appendChild(opt);
+  }
+}
 
-  const updatePreview = () => {
-    const title = titleInput.value.trim();
-    const area = areaSelect.value.trim();
-    const type = typeSelect.value.trim();
-    const priceRaw = priceInput.value.trim();
-    const desc = descInput.value.trim();
-    const imgUrl = imgUrlInput.value.trim();
+function updateDistrictOptions() {
+  const city = citySelect.value;
+  districtSelect.innerHTML = ""; // 先清空
 
-    const hasMainInfo = title || priceRaw || area || type || desc || imgUrl;
+  if (!city || !TAIWAN_AREAS[city]) {
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "請先選縣市";
+    districtSelect.appendChild(opt);
+    return;
+  }
 
-    // 沒填任何東西 → 顯示空狀態
-    if (!hasMainInfo) {
-      previewEmpty.classList.remove("hidden");
-      previewBlock.classList.add("hidden");
-      return;
-    }
+  const first = document.createElement("option");
+  first.value = "";
+  first.textContent = "請選擇區 / 鄉 / 鎮";
+  districtSelect.appendChild(first);
 
-    previewEmpty.classList.add("hidden");
-    previewBlock.classList.remove("hidden");
+  for (const dist of TAIWAN_AREAS[city]) {
+    const opt = document.createElement("option");
+    opt.value = dist;
+    opt.textContent = dist;
+    districtSelect.appendChild(opt);
+  }
+}
 
-    // 標題
-    previewTitle.textContent = title || "還沒有標題，可以想一個吸引人的名稱";
+// ====== 更新右側預覽卡片 ======
+function updatePreview() {
+  const title = titleInput.value.trim() || "還沒有標題，請先輸入物件名稱";
+  const city  = citySelect.value;
+  const dist  = districtSelect.value;
+  const type  = typeSelect.value;
+  const rent  = rentInput.value.trim();
+  const desc  = descInput.value.trim();
+  const img   = imageInput.value.trim();
 
-    // 上方小字
-    let metaParts = [];
-    if (area) metaParts.push(area);
-    if (type) metaParts.push(type);
-    previewMeta.textContent = metaParts.length
-      ? metaParts.join("・")
-      : "尚未選擇區域與類型";
+  previewTitle.textContent = title;
 
-    // 價格
-    const formatted = formatPrice(priceRaw);
-    previewPrice.textContent = formatted ? `$${formatted} / 月` : "請輸入租金";
+  if (city && dist) {
+    previewRegion.textContent = `${city} ${dist}`;
+  } else if (city) {
+    previewRegion.textContent = city;
+  } else {
+    previewRegion.textContent = "區域會顯示在這裡";
+  }
 
-    // 描述
-    previewDesc.textContent =
-      desc ||
-      "這裡會顯示物件的亮點描述，例如：鄰近捷運、採光好、可養寵物、附家具⋯⋯";
+  previewType.textContent = type ? type : "物件類型 / 特色";
+  previewRent.textContent = rent ? `\$${Number(rent).toLocaleString()} / 月` : "請輸入租金";
 
-    // Tag
-    tagArea.textContent = area || "尚未選區域";
-    tagType.textContent = type || "尚未選類型";
+  if (img) {
+    previewImg.src = img;
+  }
+}
 
-    // 圖片
-    if (imgUrl) {
-      previewImg.src = imgUrl;
-    } else {
-      previewImg.src = "https://picsum.photos/id/1016/800/450";
-    }
-  };
+// ====== 綁定事件 ======
+initCityOptions();
+updateDistrictOptions();
+updatePreview();
 
-  // 綁定即時更新
-  [titleInput, areaSelect, typeSelect, priceInput, descInput, imgUrlInput].forEach(
-    (el) => {
-      if (!el) return;
-      el.addEventListener("input", updatePreview);
-      el.addEventListener("change", updatePreview);
-    }
-  );
-
-  // 表單送出暫時只顯示提示
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    updatePreview();
-    alert("目前先完成前端預覽，之後我們再一起接上 Firebase 真的把資料存起來。");
-  });
-
-  // 初始跑一次
+citySelect.addEventListener("change", () => {
+  updateDistrictOptions();
   updatePreview();
-};
+});
+districtSelect.addEventListener("change", updatePreview);
+titleInput.addEventListener("input", updatePreview);
+typeSelect.addEventListener("change", updatePreview);
+rentInput.addEventListener("input", updatePreview);
+descInput.addEventListener("input", updatePreview);
+imageInput.addEventListener("input", updatePreview);
 
-document.addEventListener("DOMContentLoaded", bindPreview);
+submitBtn.addEventListener("click", () => {
+  alert("目前先做到『前端表單＋預覽』，\n之後我們再一起把資料真的存到 Firebase。");
+});
