@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>好想租屋｜首頁</title>
-
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{
@@ -13,105 +12,153 @@
       color:#111;
     }
 
-    /* ======================================
-       頂部 Logo + 標題（文青設計）
-       ====================================== */
+    /* ＝＝＝＝＝ 頂部 Hero ＋ LOGO ＝＝＝＝＝ */
     header{
       background:#0b7890;
       color:#fff;
-      padding:18px 0 18px;
-      box-shadow:0 2px 8px rgba(15,23,42,.15);
+      box-shadow:0 2px 8px rgba(15,23,42,.25);
     }
-
-    header .logo-bar{
+    .hero{
       max-width:960px;
       margin:0 auto;
+      padding:18px 16px 16px;
+      display:flex;
+      gap:16px;
+    }
+    .hero-logo{
+      flex-shrink:0;
+      width:88px;
+      height:88px;
+      border-radius:22px;
+      background:#fff;
       display:flex;
       align-items:center;
-      justify-content:flex-start; /* ← Logo 靠左 */
-      gap:14px;
-      padding:0 16px;
+      justify-content:center;
+      box-shadow:0 8px 20px rgba(15,23,42,.45);
     }
-
-    /* Logo 圖片 */
-    header img.logo{
-      width:clamp(80px, 14vw, 120px);
-      height:auto;
-      display:block;
-
-      /* 移除白框、陰影 */
-      background:transparent;
-      border-radius:0;
-      padding:0;
-      box-shadow:none;
-
+    .hero-logo img{
+      max-width:78px;
+      max-height:78px;
       object-fit:contain;
+      border-radius:18px;
+      display:block;
     }
-
-    /* 標題區 */
-    .brand-text h1{
-      font-size:26px;
+    .hero-text{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .hero-text h1{
+      font-size:22px;
       letter-spacing:3px;
-      font-weight:700;
       margin-bottom:4px;
     }
-
-    .brand-text .sub{
-      font-size:14px;
-      opacity:.9;
-      letter-spacing:1px;
+    .hero-text p{
+      font-size:13px;
+      opacity:.88;
     }
 
+    /* ＝＝＝＝＝ 搜尋列（像 591 上方那條）＝＝＝＝＝ */
+    .search-bar{
+      max-width:960px;
+      margin:0 auto 12px;
+      padding:0 16px 12px;
+    }
+    .search-inner{
+      background:#ffffff;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      padding:6px 8px 6px 10px;
+      gap:8px;
+      box-shadow:0 4px 12px rgba(15,23,42,.16);
+    }
+    .search-city{
+      border:none;
+      background:transparent;
+      font-size:13px;
+      padding:6px 4px;
+      border-right:1px solid #e5e7eb;
+      max-width:120px;
+      outline:none;
+    }
+    .search-input{
+      flex:1;
+      border:none;
+      background:transparent;
+      font-size:13px;
+      outline:none;
+      padding:6px 4px;
+    }
+    .search-location-btn,
+    .search-btn{
+      border:none;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .search-location-btn{
+      background:#e0f2fe;
+      color:#0ea5e9;
+    }
+    .search-btn{
+      background:#0f766e;
+      color:#fff;
+      font-weight:600;
+    }
+    .search-note{
+      margin-top:4px;
+      font-size:11px;
+      color:#e5e7eb;
+      padding-left:4px;
+    }
 
-    /* ======================================
-       房源卡片
-       ====================================== */
+    /* ＝＝＝＝＝ 主要內容：房源卡片 ＝＝＝＝＝ */
     main{
       max-width:960px;
-      margin:16px auto 88px;
+      margin:8px auto 88px auto;
       padding:0 16px;
     }
-
     .card{
       background:#fff;
       border-radius:16px;
       overflow:hidden;
       margin-bottom:16px;
       box-shadow:0 2px 6px rgba(15,23,42,.06);
+      transition:transform .15s ease, box-shadow .15s ease;
     }
-
+    .card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 14px rgba(15,23,42,.12);
+    }
     .card img{
-      width:100%;
       display:block;
+      width:100%;
       height:auto;
     }
-
     .card-body{
       padding:12px 14px 14px;
     }
-
     .card-body strong{
       display:block;
-      font-size:16px;
+      font-size:15px;
       margin-bottom:4px;
     }
-
     .card-body .desc{
       font-size:13px;
       color:#6b7280;
       margin-bottom:4px;
     }
-
     .card-body .price{
-      font-size:15px;
+      font-size:14px;
       color:#b91c1c;
       font-weight:600;
     }
 
-
-    /* ======================================
-       App 下載橫幅
-       ====================================== */
+    /* ＝＝＝＝＝ App 下載橫幅 ＝＝＝＝＝ */
     .banner{
       background:#20b2aa;
       border-radius:999px;
@@ -121,12 +168,10 @@
       color:#fff;
       text-align:center;
     }
-
     .banner h3{
       font-size:15px;
       margin-bottom:6px;
     }
-
     .banner .btns{
       margin-top:6px;
       display:flex;
@@ -145,10 +190,7 @@
       font-weight:600;
     }
 
-
-    /* ======================================
-       底部 Tab 導覽
-       ====================================== */
+    /* ＝＝＝＝＝ 底部導覽列 Tabs ＝＝＝＝＝ */
     footer{
       position:fixed;
       left:0;
@@ -158,7 +200,6 @@
       border-top:1px solid #e5e7eb;
       background:#fff;
     }
-
     footer .tabs{
       max-width:960px;
       margin:0 auto;
@@ -168,75 +209,106 @@
       justify-content:space-around;
       font-size:13px;
     }
-
     footer .tabs a{
       text-decoration:none;
       color:#9ca3af;
     }
-
     footer .tabs a.active{
       color:#0f766e;
       font-weight:600;
     }
+
+    @media (max-width:600px){
+      .hero{
+        padding:16px 16px 10px;
+      }
+      .hero-logo{
+        width:80px;height:80px;border-radius:20px;
+      }
+      .hero-text h1{font-size:20px;}
+      .banner{margin-top:18px;padding:16px 16px;}
+    }
   </style>
 </head>
-
 <body>
-
-  <!-- ======== 頂部 Logo 區 ======== -->
+  <!-- ＝＝＝＝＝ 頂部 Hero ＋ 搜尋列 ＝＝＝＝＝ -->
   <header>
-    <div class="logo-bar">
-      <img src="logo.jpg" alt="好想租屋 logo" class="logo">
-      <div class="brand-text">
+    <div class="hero">
+      <div class="hero-logo">
+        <img src="logo.jpg" alt="好想租屋 logo" onerror="this.style.display='none'">
+      </div>
+      <div class="hero-text">
         <h1>好想租屋</h1>
-        <div class="sub">找到一個家，不只是找到一個地址。</div>
+        <p>找到一個家，不只是找到一個地址。</p>
+      </div>
+    </div>
+
+    <div class="search-bar">
+      <div class="search-inner">
+        <!-- 目前先用簡短縣市，下階段再換成全台縣市下拉 -->
+        <select id="search-city" class="search-city">
+          <option value="">全台灣</option>
+          <option value="台北市">台北市</option>
+          <option value="新北市">新北市</option>
+          <option value="台南市">台南市</option>
+        </select>
+
+        <input id="search-keyword" class="search-input"
+               placeholder="搜尋關鍵字 / 地點 / 預算…" />
+
+        <button id="btn-location" class="search-location-btn">📍 用我的位置</button>
+        <button id="btn-search" class="search-btn">搜尋</button>
+      </div>
+      <div id="search-note" class="search-note">
+        小提醒：允許定位後，我們會優先顯示你附近的房源。
       </div>
     </div>
   </header>
 
-  <!-- ======== 房源內容 ======== -->
-  <main>
-
-    <div class="card">
-      <img src="https://picsum.photos/id/1016/800/450">
+  <!-- ＝＝＝＝＝ 房源列表 ＝＝＝＝＝ -->
+  <main id="list">
+    <!-- 卡片 1：台北市 -->
+    <article class="card" data-city="台北市" data-title="中山區電梯房 近捷運">
+      <img src="https://picsum.photos/id/1016/800/450" alt="中山區電梯房">
       <div class="card-body">
         <strong>中山區電梯房</strong>
         <div class="desc">台北市・近捷運</div>
         <div class="price">$12,000 / 月</div>
       </div>
-    </div>
+    </article>
 
-    <div class="card">
-      <img src="https://picsum.photos/id/1027/800/450">
+    <!-- 卡片 2：新北市 -->
+    <article class="card" data-city="新北市" data-title="板橋景觀房 高樓層">
+      <img src="https://picsum.photos/id/1027/800/450" alt="板橋景觀房">
       <div class="card-body">
         <strong>板橋景觀房</strong>
         <div class="desc">新北市・高樓層</div>
         <div class="price">$15,800 / 月</div>
       </div>
-    </div>
+    </article>
 
-    <div class="card">
-      <img src="https://picsum.photos/id/1005/800/450">
+    <!-- 卡片 3：台南市 -->
+    <article class="card" data-city="台南市" data-title="安平電梯套房 含家具">
+      <img src="https://picsum.photos/id/1005/800/450" alt="安平電梯套房">
       <div class="card-body">
         <strong>安平電梯套房</strong>
         <div class="desc">台南市・附傢俱</div>
         <div class="price">$18,000 / 月</div>
       </div>
-    </div>
+    </article>
 
-    <!-- App 下載 Banner -->
-    <div class="banner">
+    <!-- App 下載區 -->
+    <section class="banner">
       <h3>立即下載 好想租屋 App 📱</h3>
       <div>用手機逛房更方便，訊息不漏接！</div>
       <div class="btns">
-        <a href="https://apps.apple.com/app/" target="_blank">App Store</a>
-        <a href="https://play.google.com/store/apps" target="_blank">Google Play</a>
+        <a href="https://apps.apple.com/app/" target="_blank" rel="noopener">前往 App Store</a>
+        <a href="https://play.google.com/store/apps" target="_blank" rel="noopener">前往 Google Play</a>
       </div>
-    </div>
-
+    </section>
   </main>
 
-  <!-- ======== 底部導覽 ======== -->
+  <!-- ＝＝＝＝＝ 底部導覽 ＝＝＝＝＝ -->
   <footer>
     <div class="tabs">
       <a href="home.html" class="active">首頁</a>
@@ -247,8 +319,9 @@
     </div>
   </footer>
 
+  <!-- 共用登入 / 轉址邏輯 -->
   <script type="module" src="./script.js"></script>
-<script type="module" src="./firebase.js"></script>
-<script type="module" src="./post.js"></script>
+  <!-- 首頁專用：搜尋＋定位 -->
+  <script type="module" src="./home.js"></script>
 </body>
 </html>
