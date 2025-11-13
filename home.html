@@ -4,327 +4,317 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>好想租屋｜首頁</title>
-
   <style>
+    /* ========= 全站基礎 ========= */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
       background: #f5f5f5;
       color: #111827;
     }
-
-    a {
-      color: inherit;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .page {
       min-height: 100vh;
-      padding-bottom: 80px; /* 預留空間給底部導覽列 */
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+      padding-bottom: 80px; /* 給底部導航留空間 */
     }
 
-    /* ====== 頂部大區塊（Logo + 標語 + 三個分類）====== */
-    .hero {
-      background: linear-gradient(130deg, #0b7890, #0b8790, #129880);
-      color: #fff;
-      padding: 16px 16px 18px;
-      box-shadow: 0 2px 16px rgba(15, 23, 42, .35);
+    main {
+      max-width: 960px;
+      margin: 0 auto 16px;
+      padding: 0 16px 24px;
     }
 
+    /* ========= 上方 Hero 區（Logo + Tabs + 搜尋） ========= */
+    .hero-wrap {
+      background: linear-gradient(130deg, #0b7890 0%, #0b8790 40%, #1298b0 100%);
+      padding: 16px 16px 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+      border-radius: 0 0 32px 32px;
+      margin-bottom: 18px;
+    }
     .hero-inner {
       max-width: 960px;
       margin: 0 auto;
+      color: #f9fafb;
     }
 
-    .brand-card {
+    .brand-row {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(15, 23, 42, .25);
-      box-shadow: 0 10px 30px rgba(15, 23, 42, .45);
-      backdrop-filter: blur(8px);
+      margin-bottom: 12px;
     }
-
-    .brand-logo-wrap {
+    .brand-logo-box {
       width: 72px;
       height: 72px;
-      border-radius: 22px;
-      background: #0b4f68;
+      border-radius: 24px;
+      background: #0f172a;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
     }
-
-    .brand-logo {
-      width: 64px;
-      height: auto;
-      display: block;
+    .brand-logo-box img {
+      max-width: 58px;
+      max-height: 58px;
       object-fit: contain;
     }
-
-    .brand-text-main {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      margin-bottom: 4px;
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
-
-    .brand-text-sub {
+    .brand-title {
+      font-size: 22px;
+      letter-spacing: 3px;
+      font-weight: 700;
+    }
+    .brand-tagline {
       font-size: 13px;
       opacity: .9;
     }
 
-    /* 上方三個分類：好想租屋 / 好想置產 / 居家維護 */
-    .top-tabs {
+    /* Tabs：好想租屋 / 好想置產 / 居家維護 */
+    .hero-tabs {
       display: flex;
-      gap: 10px;
-      margin-top: 14px;
-      overflow-x: auto;
-      padding-bottom: 2px;
+      gap: 8px;
+      margin: 8px 0 12px;
+      flex-wrap: wrap;
     }
-
-    .top-tab {
-      flex-shrink: 0;
+    .hero-tab {
+      flex: 0 0 auto;
       padding: 8px 14px;
       border-radius: 999px;
-      font-size: 13px;
-      background: rgba(15, 23, 42, .25);
-      color: #e5f4ff;
+      background: rgba(15, 23, 42, 0.15);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: default;
-      white-space: nowrap;
-    }
-
-    .top-tab span.emoji {
-      font-size: 16px;
-    }
-
-    .top-tab.active {
-      background: #fbbf24;
-      color: #0f172a;
-      font-weight: 700;
-    }
-
-    /* ====== 搜尋列（城市 / 關鍵字 / 位置 / 搜尋）====== */
-    .search-bar {
-      margin-top: 14px;
-      padding: 10px 12px 12px;
-      background: #f9fafb;
-      border-radius: 999px;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, .35);
-    }
-
-    .search-row-1 {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .search-city {
-      flex: 0 0 120px;
-      border-radius: 999px;
-      border: none;
-      padding: 8px 12px;
       font-size: 13px;
-      background: #fff;
-      color: #111827;
-    }
-
-    .search-input {
-      flex: 1;
-      border-radius: 999px;
-      border: none;
-      padding: 8px 14px;
-      font-size: 13px;
-      background: #fff;
-      color: #111827;
-    }
-
-    .search-row-2 {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-top: 4px;
-    }
-
-    .btn-locate,
-    .btn-search {
-      flex: 0 0 auto;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: none;
-      font-size: 13px;
+      backdrop-filter: blur(6px);
       cursor: pointer;
+      transition: transform .12s ease-out, box-shadow .12s ease-out, background .12s;
+    }
+    .hero-tab span.emoji {
+      font-size: 18px;
+    }
+    .hero-tab.active {
+      background: #f9fafb;
+      color: #065f46;
+      box-shadow: 0 6px 14px rgba(15,23,42,.28);
+      font-weight: 600;
+    }
+    .hero-tab:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(15,23,42,.24);
+    }
+
+    /* ========= 搜尋條 ========= */
+    .search-shell {
+      margin-top: 6px;
+    }
+    .search-card {
+      width: 100%;
+      border-radius: 999px;
+      background: #f9fafb;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.3);
+    }
+    .search-top-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-city {
+      flex: 0 0 130px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      font-size: 13px;
+    }
+    .search-input-wrap {
+      flex: 1 1 auto;
+      position: relative;
+    }
+    .search-input-wrap input {
+      width: 100%;
+      padding: 7px 12px 7px 30px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: 13px;
+    }
+    .search-input-wrap .icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      opacity: .5;
+    }
+    .search-btn-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-geo {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid #d1fae5;
+      background: #ecfdf5;
+      color: #047857;
+      font-size: 12px;
+      padding: 6px 10px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      white-space: nowrap;
-    }
-
-    .btn-locate {
-      background: #e5f3ff;
-      color: #0369a1;
-    }
-
-    .btn-search {
-      background: #047857;
-      color: #fff;
-      padding-inline: 24px;
-      margin-left: auto;
-    }
-
-    .loc-note {
-      margin-top: 4px;
-      font-size: 11px;
-      color: #d1fae5;
-      padding-left: 4px;
-    }
-
-    /* ====== 主內容：房源卡片 ====== */
-    main {
-      max-width: 960px;
-      margin: 16px auto 0;
-      padding: 0 16px 0;
-    }
-
-    .section {
-      margin-bottom: 24px;
-    }
-
-    .section-title-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .section-sub {
-      font-size: 12px;
-      color: #6b7280;
-      margin-left: 4px;
-    }
-
-    .section-link {
-      font-size: 12px;
-      color: #0f766e;
       cursor: pointer;
     }
+    .btn-search {
+      flex: 0 0 auto;
+      margin-left: auto;
+      border-radius: 999px;
+      border: none;
+      padding: 8px 22px;
+      background: #047857;
+      color: #ecfdf5;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(4, 120, 87, .45);
+    }
+    .search-note {
+      font-size: 11px;
+      color: #4b5563;
+      padding: 0 4px 2px;
+    }
+    .search-note strong { color:#065f46; }
 
+    /* 地理位置提示 */
+    .geo-note {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #e5f8ff;
+      opacity: .9;
+    }
+
+    /* ========= 區塊標題 ========= */
+    .section {
+      margin-top: 8px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 12px 0 8px;
+    }
+    .section-header h2 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .section-header .sub {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .section-header a.more {
+      font-size: 12px;
+      color: #047857;
+      text-decoration: none;
+    }
+
+    /* ========= 房源卡片 Airbnb 風 ========= */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 14px;
     }
-
-    .card {
-      background: #fff;
+    .listing-card {
+      background: #f9fafb;
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 10px 18px rgba(15, 23, 42, .14);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
       display: flex;
       flex-direction: column;
+      cursor: pointer;
+      transition: transform .12s ease-out, box-shadow .12s ease-out;
     }
-
-    .card-img-wrap {
+    .listing-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, .16);
+    }
+    .listing-img-wrap {
       position: relative;
-      width: 100%;
-      padding-top: 66%; /* 3:2 比例 */
+      padding-top: 66%;
       overflow: hidden;
     }
-
-    .card-img {
+    .listing-img-wrap img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
-    .card-body {
-      padding: 10px 14px 12px;
+    .badge {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      background: rgba(15, 23, 42, .78);
+      color:#f9fafb;
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:11px;
+    }
+    .fav {
+      position:absolute;
+      right:10px;
+      top:10px;
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      background:rgba(249,250,251,.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
     }
 
-    .card-title {
+    .listing-body {
+      padding: 10px 12px 12px;
+    }
+    .listing-title {
       font-size: 15px;
       font-weight: 600;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
-
-    .card-meta {
-      font-size: 13px;
+    .listing-meta {
+      font-size: 12px;
       color: #6b7280;
       margin-bottom: 4px;
     }
-
-    .card-price {
+    .listing-price {
       font-size: 14px;
-      color: #b91c1c;
       font-weight: 700;
+      color: #b91c1c;
     }
 
-    /* ====== App 下載 Banner（保留原本的）====== */
-    .banner {
-      background: #20b2aa;
-      border-radius: 999px;
-      margin: 28px auto 10px;
-      padding: 18px 24px;
-      max-width: 700px;
-      color: #fff;
-      text-align: center;
-    }
-
-    .banner h3 {
-      font-size: 15px;
-      margin-bottom: 6px;
-    }
-
-    .banner p {
-      font-size: 13px;
-      opacity: .92;
-      margin-bottom: 6px;
-    }
-
-    .banner .btns {
-      margin-top: 6px;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .banner a {
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 999px;
-      background: #fff;
-      color: #0891b2;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    /* ====== 底部 Airbnb 風格 5 個欄位 ====== */
+    /* ========= 底部導航（Airbnb 風格） ========= */
     .bottom-nav {
       position: fixed;
       left: 0;
+      right: 0;
       bottom: 0;
-      width: 100%;
       height: 64px;
       background: #ffffff;
       border-top: 1px solid #e5e7eb;
@@ -332,142 +322,250 @@
       justify-content: space-around;
       align-items: center;
       font-size: 11px;
-      z-index: 50;
+      z-index: 40;
     }
-
-    .bottom-nav a {
+    .nav-item {
       flex: 1;
-      text-decoration: none;
-      color: #9ca3af;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 2px;
+      color: #9ca3af;
     }
-
-    .bottom-nav a .icon {
-      font-size: 20px;
-      line-height: 1;
+    .nav-item .icon {
+      font-size: 18px;
     }
-
-    .bottom-nav a.active {
-      color: #0f766e;
+    .nav-item span.label {
+      letter-spacing: 1px;
+    }
+    .nav-item.active {
+      color: #047857;
       font-weight: 600;
     }
 
-    @media (min-width: 768px) {
-      .brand-card {
-        padding: 16px 22px;
+    /* ========= RWD ========= */
+    @media (max-width: 640px) {
+      .hero-wrap {
+        border-radius: 0 0 24px 24px;
       }
-
-      .brand-text-main {
-        font-size: 24px;
+      .brand-row {
+        align-items: flex-start;
       }
-
-      .search-bar {
-        padding-inline: 16px;
+      .brand-title {
+        font-size: 20px;
+      }
+      .search-card {
+        border-radius: 18px;
+      }
+      main {
+        padding: 0 12px 24px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <!-- ====== 頂部 Hero 區塊 ====== -->
-    <header class="hero">
-      <div class="hero-inner">
-        <div class="brand-card">
-          <div class="brand-logo-wrap">
-            <img src="logo.jpg" alt="好想租屋 logo" class="brand-logo"
-                 onerror="this.style.display='none'">
-          </div>
-          <div>
-            <div class="brand-text-main">好想租屋</div>
-            <div class="brand-text-sub">找到一個家，不只是找到一個地址。</div>
-          </div>
-        </div>
+<div class="page">
 
-        <!-- 三個主要分類 -->
-        <div class="top-tabs">
-          <div class="top-tab active">
-            <span class="emoji">🏠</span>
-            <span>好想租屋</span>
-          </div>
-          <div class="top-tab">
-            <span class="emoji">🏢</span>
-            <span>好想置產</span>
-          </div>
-          <div class="top-tab">
-            <span class="emoji">🛠️</span>
-            <span>居家維護</span>
-          </div>
+  <!-- ========= Hero：Logo + 標語 + Tabs + 搜尋 ========= -->
+  <header class="hero-wrap">
+    <div class="hero-inner">
+      <!-- 品牌列 -->
+      <div class="brand-row">
+        <div class="brand-logo-box">
+          <img src="logo.jpg" alt="好想租屋 Logo"
+               onerror="this.style.display='none'">
         </div>
+        <div class="brand-text">
+          <div class="brand-title">好想租屋</div>
+          <div class="brand-tagline">找到一個家，不只是找到一個地址。</div>
+        </div>
+      </div>
 
-        <!-- 搜尋列：城市 + 關鍵字 + 使用我的位置 + 搜尋 -->
-        <div class="search-bar">
-          <div class="search-row-1">
+      <!-- 上方三個主分類 -->
+      <div class="hero-tabs">
+        <div class="hero-tab active">
+          <span class="emoji">🏠</span>
+          <span>好想租屋</span>
+        </div>
+        <div class="hero-tab">
+          <span class="emoji">🏙</span>
+          <span>好想置產</span>
+        </div>
+        <div class="hero-tab">
+          <span class="emoji">🛠</span>
+          <span>居家維護</span>
+        </div>
+      </div>
+
+      <!-- Airbnb 風搜尋條 -->
+      <div class="search-shell">
+        <div class="search-card">
+          <div class="search-top-row">
             <select id="citySelect" class="search-city">
-              <option value="all">全台灣</option>
+              <option value="">全台灣</option>
               <option value="台北市">台北市</option>
               <option value="新北市">新北市</option>
+              <option value="桃園市">桃園市</option>
+              <option value="台中市">台中市</option>
               <option value="台南市">台南市</option>
-              <!-- 之後如果要加更多縣市，可以在這裡補上 -->
+              <option value="高雄市">高雄市</option>
+              <!-- 其他縣市可之後再補 -->
             </select>
 
-            <input
-              id="keywordInput"
-              class="search-input"
-              type="text"
-              placeholder="搜尋關鍵字／地點／預算…"
-            />
+            <div class="search-input-wrap">
+              <span class="icon">🔍</span>
+              <input id="keywordInput"
+                     type="text"
+                     placeholder="搜尋關鍵字 / 地點 / 預算…" />
+            </div>
           </div>
 
-          <div class="search-row-2">
-            <button id="btn-locate" class="btn-locate" type="button">
-              <span>📍</span>
-              <span>使用我的位置</span>
+          <div class="search-btn-row">
+            <button id="btn-location" class="btn-geo" type="button">
+              📍 使用我的位置
             </button>
-
             <button id="btn-search" class="btn-search" type="button">
               搜尋
             </button>
           </div>
 
-          <div id="loc-note" class="loc-note">
-            已為你顯示全台灣房源，你也可以同時配合城市與關鍵字做進階搜尋。
+          <div class="search-note" id="searchNote">
+            已為你顯示 <strong>全台灣房源</strong>，你也可以搭配城市與關鍵字做進階搜尋。
           </div>
+        </div>
+
+        <div class="geo-note" id="geoNote">
+          ＊如果你同意分享大概位置，我們會優先幫你顯示附近的房源。
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <!-- ====== 主內容：房源列表 ====== -->
-    <main>
-      <!-- 區塊 1：台北的熱門房源 -->
-      <section class="section" id="section-hot">
-        <div class="section-title-row">
-          <div>
-            <span class="section-title">台北的熱門房源</span>
-            <span class="section-sub">目前最受歡迎、詢問度高的房間</span>
-          </div>
-          <div class="section-link">瀏覽更多房源</div>
+  <!-- ========= 主內容：房源卡片 ========= -->
+  <main>
+    <!-- 區塊一：台北的熱門房源 -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>台北的熱門房源</h2>
+          <div class="sub">目前最受歡迎、詢問度高的房間</div>
         </div>
+        <a href="#" class="more">查看更多房源 ›</a>
+      </div>
 
-        <div class="card-grid" id="list">
-          <!-- 卡片 1 -->
-          <article class="card" data-city="台北市">
-            <div class="card-img-wrap">
-              <img
-                class="card-img"
-                src="https://picsum.photos/id/1016/800/500"
-                alt="中山區電梯房"
-              />
-            </div>
-            <div class="card-body">
-              <div class="card-title">中山區電梯房</div>
-              <div class="card-meta">台北市・近捷運・有管理員</div>
-              <div class="card-price">$12,000 / 月</div>
-            </div>
-          </article>
+      <div class="card-grid">
+        <!-- 卡片 1 -->
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://picsum.photos/id/1016/800/520" alt="中山區電梯房">
+            <div class="badge">旅客精選</div>
+            <div class="fav">♡</div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">中山區電梯房</div>
+            <div class="listing-meta">台北市・近捷運・有管理員</div>
+            <div class="listing-price">$12,000 / 月</div>
+          </div>
+        </article>
 
-          <!-- 卡片 2 -->
-        
+        <!-- 卡片 2 -->
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://picsum.photos/id/1027/800/520" alt="板橋景觀房">
+            <div class="badge">旅客精選</div>
+            <div class="fav">♡</div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">板橋景觀房</div>
+            <div class="listing-meta">新北市・高樓層・近板橋車站</div>
+            <div class="listing-price">$15,800 / 月</div>
+          </div>
+        </article>
+
+        <!-- 卡片 3 -->
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://picsum.photos/id/1005/800/520" alt="安平電梯套房">
+            <div class="badge">旅客精選</div>
+            <div class="fav">♡</div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">安平電梯套房</div>
+            <div class="listing-meta">台南市・靠近運河・可攜帶寵物</div>
+            <div class="listing-price">$18,000 / 月</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 區塊二：下個月首選的可訂房源 -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>下個月首選的可訂房源</h2>
+          <div class="sub">為你的下一趟生活先把房間準備好</div>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <!-- 這裡先放兩張示意，之後可以把 Firestore 房源插入 -->
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://picsum.photos/id/1035/800/520" alt="捷運旁溫馨套房">
+            <div class="badge">本月新上架</div>
+            <div class="fav">♡</div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">捷運旁溫馨套房</div>
+            <div class="listing-meta">新北市・走路 3 分鐘到捷運站</div>
+            <div class="listing-price">$14,500 / 月</div>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://picsum.photos/id/1043/800/520" alt="河岸景觀兩房">
+            <div class="badge">長租優惠</div>
+            <div class="fav">♡</div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title">河岸景觀兩房</div>
+            <div class="listing-meta">台北市・河景第一排・含車位</div>
+            <div class="listing-price">$32,000 / 月</div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========= 底部導航（Airbnb 風） ========= -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item active">
+      <span class="icon">🔍</span>
+      <span class="label">首頁</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="icon">🤍</span>
+      <span class="label">心願單</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="icon">📅</span>
+      <span class="label">預約帶看</span>
+    </a>
+    <a href="post.html" class="nav-item">
+      <span class="icon">🛠</span>
+      <span class="label">委託代管</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <span class="icon">👤</span>
+      <span class="label">個人簡介</span>
+    </a>
+  </nav>
+
+  <!-- ========= JS：共用登入導頁 ＋ 首頁專用邏輯 ========= -->
+  <script type="module" src="./script.js"></script>
+  <script type="module" src="./home.js"></script>
+</div>
+</body>
+</html>
