@@ -2,46 +2,509 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>帳戶</title>
-
+  <title>好想租屋｜個人簡介</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body{font-family:system-ui,'Noto Sans TC';padding:20px;background:#fafafa}
-    .wrap{max-width:600px;margin:auto}
-    .item{padding:16px;background:white;border-radius:12px;margin-bottom:12px;border:1px solid #ddd}
-    button{width:100%;padding:14px;background:#f00;color:white;border:0;border-radius:10px;margin-top:20px}
-
-    footer{
-      position:fixed;bottom:0;left:0;width:100%;height:60px;background:white;
-      border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    footer a{text-decoration:none;color:#777}
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: #f5f5f5;
+      color: #111827;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== 頂部列：標題＋通知 ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #f5f5f5;
+      padding: 10px 16px 6px;
+    }
+
+    .top-bar {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-bar-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .top-bar-actions button {
+      border: none;
+      background: #ffffff;
+      border-radius: 999px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* ===== 主體容器 ===== */
+    main {
+      max-width: 960px;
+      margin: 0 auto 64px;
+      padding: 0 16px 16px;
+    }
+
+    .section-gap {
+      margin-top: 16px;
+    }
+
+    /* ===== 大頭貼卡片 ===== */
+    .profile-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 20px 18px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar-wrap {
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #0b7890;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    .profile-main-text h1 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .profile-main-text p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .profile-tag {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 11px;
+    }
+
+    /* ===== 上方功能卡：物件出租管理 / 租金收入 ===== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 16px 14px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 110px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .feature-card:active {
+      transform: scale(0.97);
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.15);
+    }
+
+    .feature-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .feature-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .feature-icon {
+      margin-left: auto;
+      font-size: 20px;
+      margin-top: 4px;
+    }
+
+    /* ===== 成為房東卡 ===== */
+    .host-card {
+      background: linear-gradient(135deg, #0b7890, #38bdf8);
+      border-radius: 20px;
+      padding: 18px 16px;
+      color: #ffffff;
+      margin-top: 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.3);
+    }
+
+    .host-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .host-card-desc {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .host-card button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      background: #ffffff;
+      color: #0b7890;
+      cursor: pointer;
+    }
+
+    /* ===== 功能列表 ===== */
+    .list-section {
+      margin-top: 24px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 8px 0;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .list-item-icon {
+      width: 24px;
+      font-size: 16px;
+      text-align: center;
+      margin-right: 10px;
+    }
+
+    .list-item-main {
+      flex: 1;
+    }
+
+    .list-item-label {
+      font-size: 14px;
+    }
+
+    .list-item-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .list-item-arrow {
+      font-size: 16px;
+      color: #d1d5db;
+    }
+
+    .list-divider {
+      margin: 0 16px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .list-item.danger {
+      color: #b91c1c;
+    }
+
+    /* ===== 底部：切換房東模式按鈕 ===== */
+    .host-toggle-wrap {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .host-toggle-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-size: 14px;
+      background: #111827;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .host-toggle-btn span.icon {
+      font-size: 17px;
+    }
+
+    /* ===== 底部導覽列（與首頁一致） ===== */
+    footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      z-index: 30;
+    }
+
+    .bottom-nav {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      height: 56px;
+    }
+
+    .bottom-nav a {
+      flex: 1;
+      font-size: 11px;
+      color: #6b7280;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .bottom-nav a.active {
+      color: #0b7890;
+    }
+
+    .bottom-nav .icon {
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    @media (min-width: 1024px) {
+      header {
+        padding-inline: 32px;
+      }
+      main {
+        padding-inline: 32px;
+      }
+    }
   </style>
 </head>
-
 <body>
+  <!-- 頂部列 -->
+  <header>
+    <div class="top-bar">
+      <div class="top-bar-title">個人簡介</div>
+      <div class="top-bar-actions">
+        <button aria-label="通知">
+          🔔
+        </button>
+      </div>
+    </div>
+  </header>
 
-<div class="wrap">
-  <h2>帳戶資料</h2>
+  <main>
+    <!-- 大頭貼 / 名字卡片 -->
+    <section class="section-gap">
+      <div class="profile-card">
+        <div class="avatar-wrap">
+          好租
+        </div>
+        <div class="profile-main-text">
+          <h1 id="profileName">好想租屋會員</h1>
+          <p id="profileRole">目前以旅客身份使用，好好享受找房體驗。</p>
+          <div class="profile-tag">
+            <span>✨ 建立完整個人簡介，未來開啟房東模式更方便。</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="item">
-    <div>姓名：王小明</div>
-    <div>Email：example@gmail.com</div>
-  </div>
+    <!-- 物件出租管理 / 租金收入 -->
+    <section class="section-gap">
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div>
+            <div class="feature-label">房東工具</div>
+            <div class="feature-title">物件出租管理</div>
+            <div class="feature-desc">管理你委託代管與自主管理的所有物件。</div>
+          </div>
+          <div class="feature-icon">📦</div>
+        </div>
 
-  <button id="logout">登出</button>
-</div>
+        <div class="feature-card">
+          <div>
+            <div class="feature-label">收入總覽</div>
+            <div class="feature-title">租金收入</div>
+            <div class="feature-desc">查看每月租金入帳與歷史收益紀錄。</div>
+          </div>
+          <div class="feature-icon">💰</div>
+        </div>
+      </div>
+    </section>
 
-<footer>
-  <div class="tabs">
-    <a href="home.html">首頁</a>
-    <a href="post.html">委託代管</a>
-    <a href="browse.html">找房看屋</a>
-    <a href="orders.html">案件進度</a>
-    <a href="profile.html" class="active">我的</a>
-  </div>
-</footer>
+    <!-- 成為房東（預留未來功能） -->
+    <section class="section-gap">
+      <div class="host-card">
+        <div class="host-card-title">成為房東，讓空房變成穩定收入</div>
+        <div class="host-card-desc">
+          只要幾個步驟，就能刊登你的房源，交給好想租屋協助管理與媒合。
+        </div>
+        <button type="button">暫存為未來功能</button>
+      </div>
+    </section>
 
-<script type="module" src="./script.js"></script>
-</body>
-</html>
+    <!-- 功能列表：帳號設定 / 協助 / 隱私 / 法律 / 登出 -->
+    <section class="section-gap">
+      <div class="list-section">
+        <div class="list-item">
+          <div class="list-item-icon">⚙️</div>
+          <div class="list-item-main">
+            <div class="list-item-label">帳號設定</div>
+            <div class="list-item-sub">管理登入方式、聯絡方式與通知偏好。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item">
+          <div class="list-item-icon">❓</div>
+          <div class="list-item-main">
+            <div class="list-item-label">尋求協助</div>
+            <div class="list-item-sub">常見問題、客服聯絡與平台使用說明。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item">
+          <div class="list-item-icon">👀</div>
+          <div class="list-item-main">
+            <div class="list-item-label">瀏覽個人簡介</div>
+            <div class="list-item-sub">預覽房客或房東眼中看到的你的樣子。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item">
+          <div class="list-item-icon">🖐️</div>
+          <div class="list-item-main">
+            <div class="list-item-label">隱私</div>
+            <div class="list-item-sub">管理你的資料曝光與聯絡方式顯示範圍。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item">
+          <div class="list-item-icon">📣</div>
+          <div class="list-item-main">
+            <div class="list-item-label">推薦房東／達人</div>
+            <div class="list-item-sub">把你信任的房東與服務推薦給更多人。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item">
+          <div class="list-item-icon">🤝</div>
+          <div class="list-item-main">
+            <div class="list-item-label">尋找搭檔</div>
+            <div class="list-item-sub">未來可與室友、共同投資人一起管理物件。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item">
+          <div class="list-item-icon">📘</div>
+          <div class="list-item-main">
+            <div class="list-item-label">法律</div>
+            <div class="list-item-sub">租賃合約範本、權益說明與平台條款。</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+        <div class="list-divider"></div>
+
+        <div class="list-item danger">
+          <div class="list-item-icon">🚪</div>
+          <div class="list-item-main">
+            <div class="list-item-label">登出</div>
+          </div>
+          <div class="list-item-arrow">›</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 切換至接待模式按鈕（房東模式） -->
+    <section class="host-toggle-wrap">
+      <button type="button" class="host-toggle-btn">
+        <span class="icon">🔁</span>
+        <span>切換至接待模式（房東模式）</span>
+      </button>
+    </section>
+  </main>
+
+  <!-- 底部導覽列 -->
+  <footer>
+    <nav class="bottom-nav">
+      <a href="home.html">
+        <span class="icon">🔍</span>
+        <span>首頁</span>
+      </a>
+      <a href="browse.html">
+        <span class="icon">🤍</span>
+        <span>心願單</span>
+      </a>
+      <a href="orders.html">
+        <span class="icon">📅</span>
+        <span>預約帶看</span>
+      </a>
+      <a href="post.html">
+        <span class="icon">🛠</span>
+        <span>居家維護</span>
+      </a>
+      <a href="profile.html" class="active">
+        <span class="icon">👤</span>
+        <span>個人簡介</span>
+      </a>
+    </nav>
+  </footer>
+
+  <!-- Firebase 登入共用邏輯（跟其他頁一樣） -->
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./script.js"></script>
