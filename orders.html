@@ -1,49 +1,295 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>訂單</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>預約帶看｜好想租屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-  <style>
-    body{font-family:system-ui,'Noto Sans TC';padding:20px;background:#f5f5f5}
-    .wrap{max-width:600px;margin:auto}
-    .item{padding:16px;background:white;border-radius:12px;margin-bottom:12px;border:1px solid #ddd}
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang TC", "Microsoft JhengHei", sans-serif;
+        background: #f5f5f5;
+        color: #222;
+      }
 
-    footer{
-      position:fixed;bottom:0;left:0;width:100%;height:60px;background:white;
-      border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center;
-    }
-    footer a{text-decoration:none;color:#777}
-  </style>
-</head>
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
 
-<body>
+      /* ===== 頂部列：標題＋鈴鐺 ===== */
+      header {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
 
-<div class="wrap">
-  <h2>訂單紀錄</h2>
+      .top-bar {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-  <div class="item">
-    <strong>中山區 套房</strong><br>
-    訂單狀態：已送出
-  </div>
+      .top-bar-title {
+        font-size: 18px;
+        font-weight: 700;
+      }
 
-  <div class="item">
-    <strong>板橋 套房</strong><br>
-    訂單狀態：已完成
-  </div>
-</div>
+      .top-bar-actions button {
+        border: none;
+        background: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
 
-<footer>
-  <div class="tabs">
-    <a href="home.html">首頁</a>
-    <a href="post.html">委託代管</a>
-    <a href="browse.html">找房看屋</a>
-    <a href="orders.html" class="active">案件進度</a>
-    <a href="profile.html">我的</a>
-  </div>
-</footer>
+      /* ===== 主內容 ===== */
+      main {
+        max-width: 960px;
+        margin: 12px auto 72px;
+        padding-inline: 16px;
+      }
 
-<script type="module" src="./script.js"></script>
-</body>
+      .section {
+        margin-bottom: 24px;
+      }
+
+      .section h2 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .section p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #4b5563;
+      }
+
+      .section ul {
+        margin-top: 8px;
+        padding-left: 18px;
+        font-size: 14px;
+        color: #4b5563;
+        line-height: 1.6;
+      }
+
+      .section ul li {
+        margin-bottom: 4px;
+      }
+
+      /* ===== 預約卡片 ===== */
+      .order-card {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 12px 14px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .order-main h3 {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .order-meta {
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.5;
+      }
+
+      .order-meta strong {
+        color: #b91c1c;
+        font-weight: 700;
+      }
+
+      .order-status {
+        flex-shrink: 0;
+      }
+
+      .status-badge {
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+
+      .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .status-confirmed {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .order-note {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      /* ===== 底部導覽列 ===== */
+      footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ffffff;
+        border-top: 1px solid #e5e7eb;
+        z-index: 20;
+      }
+
+      .bottom-nav {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        height: 56px;
+      }
+
+      .bottom-nav a {
+        flex: 1;
+        font-size: 11px;
+        color: #6b7280;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .bottom-nav a.active {
+        color: #0b7890;
+      }
+
+      .bottom-nav .icon {
+        font-size: 17px;
+        line-height: 1;
+      }
+
+      @media (min-width: 1024px) {
+        header {
+          padding-inline: 32px;
+        }
+        .top-bar {
+          padding-inline: 0;
+        }
+        main {
+          padding-inline: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 頂部列 -->
+    <header>
+      <div class="top-bar">
+        <div class="top-bar-title">預約帶看</div>
+        <div class="top-bar-actions">
+          <button aria-label="通知">🔔</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主內容 -->
+    <main>
+      <!-- 區塊 1：說明卡片 -->
+      <section class="section">
+        <h2>帶看服務說明</h2>
+        <p>
+          每一筆預約帶看服務酌收帶看費
+          <strong>NT$200／次</strong>，由專人陪同看屋。
+        </p>
+        <ul>
+          <li>線上選擇想看的房源，填寫聯絡方式與可帶看時段。</li>
+          <li>我們會以簡訊或 Email 再次確認預約是否成立。</li>
+          <li>帶看完成後，若成功成交，可折抵部分服務費。</li>
+        </ul>
+      </section>
+
+      <!-- 區塊 2：目前預約（先用假資料，之後接 Firestore appointments） -->
+      <section class="section">
+        <h2>我的預約</h2>
+
+        <article class="order-card">
+          <div class="order-main">
+            <h3>北屯輕軌質感套房</h3>
+            <p class="order-meta">
+              日期：2025-03-10（週一）<br />
+              時段：14:00 - 15:00<br />
+              帶看費：<strong>NT$200</strong>
+            </p>
+          </div>
+          <div class="order-status">
+            <span class="status-badge status-pending">待確認</span>
+          </div>
+        </article>
+
+        <article class="order-card">
+          <div class="order-main">
+            <h3>板橋高樓景觀兩房</h3>
+            <p class="order-meta">
+              日期：2025-03-12（週三）<br />
+              時段：19:00 - 20:00<br />
+              帶看費：<strong>NT$200</strong>
+            </p>
+          </div>
+          <div class="order-status">
+            <span class="status-badge status-confirmed">已確認</span>
+          </div>
+        </article>
+
+        <p class="order-note">
+          ＊之後我們會把這裡改成：自動讀取 Firestore
+          <code>appointments</code> 集合的實際資料。
+        </p>
+      </section>
+    </main>
+
+    <!-- 底部導覽列 -->
+    <footer>
+      <nav class="bottom-nav">
+        <a href="home.html">
+          <span class="icon">🔍</span>
+          <span>首頁</span>
+        </a>
+        <a href="browse.html">
+          <span class="icon">🤍</span>
+          <span>心願單</span>
+        </a>
+        <a href="orders.html" class="active">
+          <span class="icon">📅</span>
+          <span>預約帶看</span>
+        </a>
+        <a href="post.html">
+          <span class="icon">🛠</span>
+          <span>委託代管</span>
+        </a>
+        <a href="profile.html">
+          <span class="icon">👤</span>
+          <span>個人簡介</span>
+        </a>
+      </nav>
+    </footer>
+
+    <!-- 共用登入／驗證邏輯 -->
+    <script type="module" src="./firebase.js"></script>
+    <script type="module" src="./script.js"></script>
+  </body>
 </html>
