@@ -2,274 +2,98 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>好想置產｜房產指南｜好想租屋</title>
+  <title>好想置產｜房產指南</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
-      background: #f3f4f6;
-      color: #111827;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: #f5f5f5;
+      color: #222;
     }
 
-    /* ===== 頂部 Hero + Logo ===== */
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== 頂部 HEADER ===== */
     header {
-      background: linear-gradient(135deg, #0b7890, #0b7890, #1298b0);
+      background: linear-gradient(120deg, #0b7890, #1298b0);
       color: #fff;
-      padding: 18px 16px 24px;
+      padding: 18px 16px 20px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
 
-    .hero {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .hero-logo {
-      width: 62px;
-      height: 62px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      flex-shrink: 0;
-    }
-
-    .hero-logo img {
-      max-width: 46px;
-      max-height: 46px;
-      display: block;
-      object-fit: contain;
-    }
-
-    .hero-text h1 {
+    header h1 {
       font-size: 22px;
-      letter-spacing: 3px;
-      margin: 0 0 6px;
-    }
-
-    .hero-text p {
-      font-size: 13px;
-      opacity: 0.9;
-      line-height: 1.6;
+      letter-spacing: 2px;
       margin: 0;
     }
 
-    /* ===== 上排三個主功能 Tab（跟首頁一樣） ===== */
-    .main-tabs {
-      max-width: 960px;
-      margin: 18px auto 0;
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-
-    .main-tab {
-      flex: 0 0 auto;
-      min-width: 120px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.4);
-      background: rgba(255,255,255,0.18);
-      color: #e5f4ff;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      white-space: nowrap;
-      backdrop-filter: blur(8px);
-    }
-
-    .main-tab .icon {
-      font-size: 18px;
-    }
-
-    .main-tab.active {
-      background: #fefefe;
-      color: #0b7890;
-      box-shadow: 0 6px 16px rgba(15,23,42,0.25);
+    header p {
+      opacity: 0.9;
+      margin-top: 4px;
+      font-size: 13px;
     }
 
     /* ===== 主內容 ===== */
     main {
       max-width: 960px;
-      margin: 18px auto 80px;
-      padding: 0 16px 24px;
+      margin: 20px auto 80px;
+      padding: 0 16px;
     }
 
     .section {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 18px 18px 20px;
-      box-shadow: 0 4px 14px rgba(15,23,42,0.06);
-      margin-bottom: 16px;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 32px;
     }
 
     .section-title {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
+      margin-bottom: 10px;
     }
 
-    .section-sub {
-      font-size: 12px;
-      color: #6b7280;
-      margin-top: 2px;
-    }
-
-    .section-link {
-      font-size: 12px;
-      color: #0b7890;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    /* ===== 主題導覽卡片（像 591 房產指南） ===== */
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    .card-list {
+      display: flex;
+      overflow-x: auto;
       gap: 12px;
+      padding-bottom: 10px;
     }
 
-    .guide-card {
-      border-radius: 14px;
-      padding: 12px 12px 14px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      cursor: pointer;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    .card {
+      flex: 0 0 260px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.08);
     }
 
-    .guide-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(15,23,42,0.12);
-      border-color: #0b7890;
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
     }
 
-    .guide-tag {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: #e0f2fe;
-      color: #0369a1;
-      margin-bottom: 6px;
+    .card-body {
+      padding: 12px;
     }
 
-    .guide-title {
+    .card-title {
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 4px;
     }
 
-    .guide-desc {
+    .card-desc {
       font-size: 12px;
       color: #6b7280;
       line-height: 1.5;
     }
 
-    /* ===== 文章清單 ===== */
-    .article-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .article-card {
-      display: flex;
-      gap: 10px;
-      padding: 10px 8px;
-      border-radius: 12px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-    }
-
-    .article-badge {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 2px;
-    }
-
-    .article-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .article-desc {
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.4;
-    }
-
-    .article-meta {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 4px;
-    }
-
-    /* ===== 工具區塊 ===== */
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .tool-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 10px 10px 12px;
-      border-radius: 14px;
-      border: 1px solid #d1d5db;
-      text-decoration: none;
-      background: #f9fafb;
-      color: #111827;
-      font-size: 13px;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, background 0.12s ease;
-    }
-
-    .tool-card span {
-      font-size: 11px;
-      color: #6b7280;
-      margin-top: 4px;
-    }
-
-    .tool-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(15,23,42,0.12);
-      border-color: #0b7890;
-      background: #ffffff;
-    }
-
-    .section-note {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    /* ===== 底部導覽列（跟其他頁一樣） ===== */
+    /* ===== 底部導覽列 ===== */
     footer {
       position: fixed;
       left: 0;
@@ -296,7 +120,6 @@
       align-items: center;
       justify-content: center;
       gap: 2px;
-      text-decoration: none;
     }
 
     .bottom-nav a.active {
@@ -307,187 +130,115 @@
       font-size: 17px;
       line-height: 1;
     }
-
-    @media (min-width: 1024px) {
-      header {
-        padding-inline: 32px;
-      }
-      main {
-        padding-inline: 24px;
-      }
-    }
   </style>
 </head>
 
 <body>
+  <!-- HEADER -->
   <header>
-    <div class="hero">
-      <div class="hero-logo">
-        <img src="logo.jpg" alt="好想租屋 logo" onerror="this.style.display='none'">
-      </div>
-      <div class="hero-text">
-        <h1>好想置產｜房產指南</h1>
-        <p>
-          幫你整理首購、換屋、投資必看的房產知識，搭配精選物件與實用工具，
-          讓買房這件大事可以被拆解成一步一步完成。
-        </p>
-      </div>
-    </div>
-
-    <!-- 上排三個主功能 -->
-    <nav class="main-tabs">
-      <button class="main-tab" id="tab-rent">
-        <span class="icon">🏠</span>
-        <span>好想租屋</span>
-      </button>
-      <button class="main-tab active" id="tab-buy">
-        <span class="icon">🏢</span>
-        <span>好想置產</span>
-      </button>
-      <button class="main-tab" id="tab-service">
-        <span class="icon">🔑</span>
-        <span>委託代管</span>
-      </button>
-    </nav>
+    <h1>好想置產</h1>
+    <p>帶你用最輕鬆的方式學會買房、看房、估價、貸款。</p>
   </header>
 
+  <!-- MAIN -->
   <main>
-    <!-- 區塊一：主題導覽 -->
+
+    <!-- 區塊 1：房產新手指南 -->
     <section class="section">
-      <div class="section-header">
-        <div>
-          <div class="section-title">依照你的階段開始</div>
-          <div class="section-sub">先選擇「你現在是誰」，再往下看延伸文章與工具。</div>
-        </div>
-      </div>
-
-      <div class="guide-grid">
-        <div class="guide-card" data-tag="first">
-          <div class="guide-tag">首購族</div>
-          <div class="guide-title">第一次買房：從預算到看屋流程</div>
-          <div class="guide-desc">
-            幫你釐清「我到底買得起多少？」、「該先選地點還是預算？」，
-            以及第一次看預售 / 成屋時要特別注意的細節。
+      <div class="section-title">🏡 新手必讀｜買房指南</div>
+      <div class="card-list">
+        <div class="card">
+          <img src="./products/buy01.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">買房 5 步驟完整教學</div>
+            <div class="card-desc">從看屋 → 斡旋 → 議價 → 交屋，全流程一次看懂。</div>
           </div>
         </div>
 
-        <div class="guide-card" data-tag="upgrade">
-          <div class="guide-tag">換屋族</div>
-          <div class="guide-title">從小換大：舊屋出售與新屋銜接</div>
-          <div class="guide-desc">
-            介紹「先賣後買 vs 先買後賣」的風險與差異，
-            搭配銀行貸款成數與舊屋貸款結清的實務做法。
+        <div class="card">
+          <img src="./products/buy02.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">2024 房價趨勢分析</div>
+            <div class="card-desc">全台熱區房價、未來三年預測，買房最佳時機。</div>
           </div>
         </div>
 
-        <div class="guide-card" data-tag="invest">
-          <div class="guide-tag">投資 / 收租</div>
-          <div class="guide-title">以租養房？投資物件怎麼選</div>
-          <div class="guide-desc">
-            從投報率、空租風險、未來轉手性來看投資物件，
-            適合想把房子當成長期資產或收租工具的你。
+        <div class="card">
+          <img src="./products/buy03.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">貸款怎麼申請？</div>
+            <div class="card-desc">首購族、青年貸款、成數、利率一次搞懂。</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 區塊二：最新文章 / 內容導覽 -->
+    <!-- 區塊 2：地區房價 -->
     <section class="section">
-      <div class="section-header">
-        <div>
-          <div class="section-title">最新文章與懶人包</div>
-          <div class="section-sub">未來可串接後台文章系統，目前先以固定內容示意。</div>
+      <div class="section-title">📈 各縣市房價行情</div>
+      <div class="card-list">
+        <div class="card">
+          <img src="./products/city01.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">台北市</div>
+            <div class="card-desc">平均單價：88 萬／坪</div>
+          </div>
         </div>
-      </div>
 
-      <div class="article-list">
-        <article class="article-card">
-          <div>
-            <div class="article-badge">首購族入門</div>
-            <div class="article-title">先存頭期款還是先看房？三個步驟幫你排順序</div>
-            <div class="article-desc">
-              很多人一開始只看到「總價」，卻忽略實際每月現金流壓力。
-              這篇會從頭期款、緊急預備金、每月房貸三個角度幫你抓平衡。
-            </div>
-            <div class="article-meta">閱讀時間約 6 分鐘・適合首購族</div>
+        <div class="card">
+          <img src="./products/city02.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">新北市</div>
+            <div class="card-desc">平均單價：48 萬／坪</div>
           </div>
-        </article>
+        </div>
 
-        <article class="article-card">
-          <div>
-            <div class="article-badge">換屋 / 升級</div>
-            <div class="article-title">有小孩後想換大一點的房：怎麼抓地點與學區？</div>
-            <div class="article-desc">
-              不是所有「學區宅」都適合你，除了學校評價以外，通勤、生活機能、
-              長輩照護也都要一起考慮，這篇幫你列出檢查清單。
-            </div>
-            <div class="article-meta">閱讀時間約 5 分鐘・適合換屋族</div>
+        <div class="card">
+          <img src="./products/city03.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">桃園市</div>
+            <div class="card-desc">平均單價：32 萬／坪</div>
           </div>
-        </article>
-
-        <article class="article-card">
-          <div>
-            <div class="article-badge">投資與稅務</div>
-            <div class="article-title">自住 vs 投資：稅金、持有成本怎麼算才不會後悔</div>
-            <div class="article-desc">
-              包含房地合一稅、地價稅、房屋稅與裝潢折舊觀念，
-              讓你在出價前先知道自己真正要負擔的是多少。
-            </div>
-            <div class="article-meta">閱讀時間約 8 分鐘・適合投資客</div>
-          </div>
-        </article>
+        </div>
       </div>
     </section>
 
-    <!-- 區塊三：實用工具與外部連結 -->
+    <!-- 區塊 3：建案推薦 -->
     <section class="section">
-      <div class="section-header">
-        <div>
-          <div class="section-title">實用工具與官方資訊</div>
-          <div class="section-sub">先從幾個常用工具開始，未來可再擴充更多服務。</div>
+      <div class="section-title">🏗️ 新建案推薦</div>
+      <div class="card-list">
+        <div class="card">
+          <img src="./products/project01.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">東區｜精品小宅</div>
+            <div class="card-desc">步行 3 分鐘到捷運，投資首選。</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="./products/project02.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">桃園｜高 CP 值社區</div>
+            <div class="card-desc">三房含車位，坪效佳，生活便利。</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="./products/project03.jpg" alt="" />
+          <div class="card-body">
+            <div class="card-title">高雄｜水岸景觀宅</div>
+            <div class="card-desc">景觀視野無敵，稀有釋出。</div>
+          </div>
         </div>
       </div>
-
-      <div class="tool-grid">
-        <a
-          class="tool-card"
-          href="https://lvr.land.moi.gov.tw/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          實價登錄查詢
-          <span>內政部不動產交易實價查詢服務網，查看附近成交行情。</span>
-        </a>
-
-        <a
-          class="tool-card"
-          href="#"
-          onclick="alert('之後可以導到「房貸試算」工具頁，目前先以提示代替唷！'); return false;"
-        >
-          房貸月付試算
-          <span>規劃每月可以負擔的房貸金額，預抓現金流壓力。</span>
-        </a>
-
-        <a
-          class="tool-card"
-          href="#"
-          onclick="alert('之後可導向「稅費與成本說明」專頁，目前為示意連結。'); return false;"
-        >
-          稅費與交易成本
-          <span>整理仲介服務費、代書費、稅金與其他一次性成本。</span>
-        </a>
-      </div>
-
-      <p class="section-note">
-        提醒：以上工具與連結僅供快速導覽，實際資訊請以各官方網站與合格專業人士說明為準。
-      </p>
     </section>
+
   </main>
 
-  <!-- 底部導覽列：維持與其他頁一致，目前首頁為 active -->
+  <!-- 底部導覽 -->
   <footer>
     <nav class="bottom-nav">
-      <a href="home.html" class="active">
+      <a href="home.html">
         <span class="icon">🔍</span>
         <span>首頁</span>
       </a>
@@ -499,9 +250,9 @@
         <span class="icon">📅</span>
         <span>預約帶看</span>
       </a>
-      <a href="post.html">
-        <span class="icon">🛠</span>
-        <span>居家維護</span>
+      <a href="manage.html">
+        <span class="icon">🔑</span>
+        <span>委託代管</span>
       </a>
       <a href="profile.html">
         <span class="icon">👤</span>
@@ -510,9 +261,5 @@
     </nav>
   </footer>
 
-  <!-- Firebase + 共用登入邏輯 + 本頁 JS -->
-  <script type="module" src="./firebase.js"></script>
-  <script type="module" src="./script.js"></script>
-  <script type="module" src="./buy.js"></script>
 </body>
 </html>
