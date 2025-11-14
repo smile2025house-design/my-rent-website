@@ -5,6 +5,35 @@ import {
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// 上排主功能 tab 點擊行為
+function setupMainTabs() {
+  const rentTab = document.getElementById("tab-rent");
+  const buyTab = document.getElementById("tab-buy");
+  const serviceTab = document.getElementById("tab-service");
+
+  // 「好想租屋」：回到首頁（其實本來就在這頁，只是保險留著）
+  if (rentTab) {
+    rentTab.addEventListener("click", () => {
+      window.location.href = "home.html";
+    });
+  }
+
+  // 「好想置產」：先放預留，之後可以改成 buy.html
+  if (buyTab) {
+    buyTab.addEventListener("click", () => {
+      alert("好想置產功能開發中，敬請期待！");
+      // 之後你有 buy.html 時，可以改成：
+      // window.location.href = "buy.html";
+    });
+  }
+
+  // 「委託代管」：導到 manage.html（你代管 30% 那個頁面）
+  if (serviceTab) {
+    serviceTab.addEventListener("click", () => {
+      window.location.href = "manage.html";
+    });
+  }
+}
 // 產生共用卡片
 function createListingCard(item, sectionKey) {
   const card = document.createElement("article");
@@ -131,5 +160,6 @@ function renderGifts() {
 }
 
 // 執行
+setupMainTabs();
 loadListings();
 renderGifts();
