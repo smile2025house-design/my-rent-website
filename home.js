@@ -5,104 +5,117 @@ import {
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => document.querySelectorAll(sel);
-
-/** 將價格轉成加上逗號的字串 */
-function formatPrice(num) {
-  if (typeof num !== "number") return num || "";
-  return num.toLocaleString("zh-TW");
-}
-
-/** 建立一張房源卡片 DOM */
-function createCard(item, badgeText = "旅客精選") {
+// 產生共用卡片
+function createListingCard(item, sectionKey) {
   const card = document.createElement("article");
   card.className = "listing-card";
 
-  const locationText = item.location || "地點未填寫";
-  const descText = item.desc || "";
+  let badgeText = "旅客精選";
+  if (sectionKey === "new") badgeText = "本月新上架";
+  if (sectionKey === "hot-rent") badgeText = "熱門精選";
+  if (sectionKey === "hot-sale") badgeText = "投資熱區";
+  if (sectionKey === "project") badgeText = "新建案推薦";
+  if (sectionKey === "gift") badgeText = "合作好物";
+
+  const unit = sectionKey === "gift" ? " / 盒" : " / 月";
+
+  const location = item.location || "";
+  const desc = item.desc || "";
 
   card.innerHTML = `
     <div class="listing-img-wrap">
-      <img src="${item.img || "https://picsum.photos/seed/house/800/500"}" alt="${item.title || "出租房源"}" />
+      <img src="${item.img}" alt="${item.title || ""}" />
       <span class="badge">${badgeText}</span>
-      <button class="wish-btn" type="button">🤍</button>
+      <button class="wish-btn" type="button" aria-label="加入心願單">♡</button>
     </div>
     <div class="listing-body">
-      <div class="listing-title">${item.title || "未命名房源"}</div>
-      <div class="listing-meta">${locationText}・${descText}</div>
-      <div class="listing-price">$${formatPrice(item.price)} <span>/ 月</span></div>
+      <div class="listing-title">${item.title || ""}</div>
+      <div class="listing-meta">${location}．${desc}</div>
+      <div class="listing-price">
+        $${Number(item.price || 0).toLocaleString()}
+        <span>${unit}</span>
+      </div>
     </div>
   `;
+
   return card;
 }
 
-/** 把資料渲染到某一個區塊 */
-function renderSection(sectionKey, items, badgeText) {
-  const container = document.querySelector(
-    `.listing-track[data-section="${sectionKey}"]`
-  );
-  if (!container) return;
-
-  container.innerHTML = "";
-  items.forEach((item) => {
-    const card = createCard(item, badgeText);
-    container.appendChild(card);
-  });
-}
-
-/** 主要載入流程 */
+// 從 Firestore 載入房源，分配到四個區塊
 async function loadListings() {
   try {
     const snap = await getDocs(collection(db, "listings"));
-    const all = snap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const all = [];
+    snap.forEach((doc) => {
+      all.push({ id: doc.id, ...doc.data() });
+    });
+
+    // 這裡簡單用順序分配，你目前有 7 筆就會依照順序塞進去
+    const groups = {
+      new: [],
+      "hot-rent": [],
+      "hot-sale": [],
+      project: [],
+    };
+
+    all.forEach((item, index) => {
+      if (index < 4) {
+        groups.new.push(item);
+      } else if (index < 8) {
+        groups["hot-rent"].push(item);
+      } else if (index < 12) {
+        groups["hot-sale"].push(item);
+      } else {
+        groups.project.push(item);
+      }
+    });
+
+    Object.entries(groups).forEach(([key, items]) => {
+      const track = document.querySelector(
+        `.listing-track[data-section="${key}"]`
+      );
+      if (!track) return;
+      track.innerHTML = "";
+      items.forEach((item) => {
+        track.appendChild(createListingCard(item, key));
+      });
+    });
 
     console.log("Firestore listings 筆數：", all.length);
-
-    if (!all.length) return;
-
-    // 這裡先簡單用「分段切片」方式分配到四個區塊
-    const newList = all.slice(0, 4);
-    const hotRent = all.slice(2, 6);
-    const hotSale = all.slice(4, 8);
-    const projects = all.slice(6, 10);
-
-    renderSection("new", newList, "本月新上架");
-    renderSection("hot-rent", hotRent, "熱門精選");
-    renderSection("hot-sale", hotSale, "投資熱區");
-    renderSection("project", projects, "新建案推薦");
   } catch (err) {
     console.error("讀取 listings 失敗：", err);
   }
 }
 
-/** 簡單處理上排 tab 狀態（目前只做樣式） */
-function setupTabs() {
-  const tabs = $$(".main-tab");
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      // 之後如果要切換不同內容，可以在這裡接功能
-    });
+// 烏魚子／伴手禮區：先用固定資料
+const giftItems = [
+  {
+    title: "烏魚號頂級烏魚子禮盒",
+    desc: "節慶送禮首選，職人日曬熟成，冷凍真空包裝。",
+    location: "屏東縣・東港鎮",
+    price: 1880,
+    img: "./karasumi.jpg", // 或改成你的圖片網址
+  },
+  // 之後如果有其他廠商想上架，可以在這裡再加物件
+  // {
+  //   title: "XXX 聯名禮盒",
+  //   desc: "限量聯名，好吃又好看。",
+  //   location: "台北市・信義區",
+  //   price: 980,
+  //   img: "https://你的圖片網址",
+  // },
+];
+
+function renderGifts() {
+  const track = document.querySelector('.listing-track[data-section="gift"]');
+  if (!track) return;
+  track.innerHTML = "";
+
+  giftItems.forEach((item) => {
+    track.appendChild(createListingCard(item, "gift"));
   });
 }
 
-/** 定位按鈕（沿用你之前的概念，先簡單顯示提示文字） */
-function setupLocationButton() {
-  const btnLocate = $("#btn-locate");
-  const note = $("#searchNote");
-  if (!btnLocate || !note) return;
-
-  btnLocate.addEventListener("click", () => {
-    note.textContent = "定位功能尚在規劃中，目前先為你顯示全台灣房源。";
-  });
-}
-
-/** 初始化 */
-setupTabs();
-setupLocationButton();
+// 執行
 loadListings();
+renderGifts();
