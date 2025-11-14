@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>好想租屋｜首頁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     * {
       box-sizing: border-box;
@@ -14,7 +15,7 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         "PingFang TC", "Microsoft JhengHei", sans-serif;
-      background: #f5f5f5;
+      background: #f7f7f7;
       color: #222;
     }
 
@@ -23,39 +24,43 @@
       color: inherit;
     }
 
- 
-     /* ===== 頂部：Logo + 標語（新版） ===== */
+    /* ===== 頂部：Airbnb 風格 Hero 區 ===== */
     header {
-      background: linear-gradient(135deg, #0b7890, #19a2b6);
+      background: linear-gradient(135deg, #0b7890, #11a3c0);
       color: #fff;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
-      padding: 14px 16px 18px;
+      padding: 18px 16px 26px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
     }
 
     .header-inner {
-      max-width: 960px;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
-    /* 第一排：LOGO + 品牌名稱＋標語 */
     .brand-row {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
       gap: 14px;
-      margin-bottom: 14px;
     }
 
     .brand-logo {
-      flex-shrink: 0;
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.18);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     }
 
     .brand-logo img {
@@ -66,120 +71,130 @@
 
     .brand-text h1 {
       font-size: 22px;
-      letter-spacing: 3px;
-      margin-bottom: 4px;
+      letter-spacing: 2px;
+      margin-bottom: 3px;
     }
 
     .brand-text p {
       font-size: 13px;
-      opacity: 0.96;
-      line-height: 1.6;
+      opacity: 0.95;
     }
 
-    /* 第二排：三個主功能 tab */
-    .main-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
+    .brand-right {
+      font-size: 11px;
+      opacity: 0.85;
+      text-align: right;
+      line-height: 1.5;
     }
 
-    .main-tab {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.18s ease, transform 0.08s ease,
-        box-shadow 0.18s ease;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+    /* Airbnb 風格的搜尋膠囊 */
+    .search-shell {
+      max-width: 720px;
+      margin: 0 auto;
     }
 
-    .main-tab span.icon {
-      font-size: 17px;
-    }
-
-    .main-tab.active {
-      background: #ffffff;
-      color: #0b7890;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
-    }
-
-    .main-tab:active {
-      transform: scale(0.96);
-    }
-
-    /* 第三排：搜尋列 */
-    .search-bar {
-      background: #ffffff;
-      border-radius: 999px;
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
-    }
-
-    .search-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .search-bar select,
-    .search-bar input {
-      border: none;
-      background: #f3f4f6;
+    .search-pill {
+      background: #fff;
       border-radius: 999px;
       padding: 8px 10px;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .search-bar select {
-      flex: 0 0 110px;
-    }
-
-    .search-bar input {
-      flex: 1;
-    }
-
-    .search-actions {
       display: flex;
-      gap: 6px;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
     }
 
-    .btn-ghost,
-    .btn-primary {
-      border-radius: 999px;
-      padding: 8px 12px;
+    .pill-main {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-direction: column;
+      padding-inline: 10px;
+      border-right: 1px solid #e5e7eb;
+    }
+
+    .pill-group:last-child {
+      border-right: none;
+    }
+
+    .pill-label {
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+
+    .pill-value {
       font-size: 13px;
-      border: none;
-      cursor: pointer;
+      font-weight: 600;
+      color: #111827;
       white-space: nowrap;
     }
 
-    .btn-ghost {
-      background: #e5f3f6;
-      color: #0b7890;
+    .pill-city-select {
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      color: #111827;
+      padding: 0;
+      outline: none;
+      max-width: 150px;
     }
 
-    .btn-primary {
-      background: #0b7890;
+    .pill-input {
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      outline: none;
+      min-width: 120px;
+    }
+
+    .pill-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      background: #e0f2fe;
+      color: #0369a1;
+      display: none; /* 先隱藏，日後要開再改成 inline-flex */
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-search-main {
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      background: #111827;
       color: #fff;
-      padding-inline: 22px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-search-main .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #fbbf24;
     }
 
     .search-note {
-      font-size: 12px;
-      margin-top: 6px;
+      margin-top: 8px;
+      font-size: 11px;
       opacity: 0.9;
     }
 
@@ -187,11 +202,58 @@
       font-weight: 600;
     }
 
-    /* ===== 主內容 ===== */
+    /* ===== 上排主功能 Tab（Airbnb 類似分類） ===== */
+    .main-tabs {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .main-tabs::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .main-tabs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 999px;
+    }
+
+    .main-tab {
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 7px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #f9fafb;
+      backdrop-filter: blur(8px);
+    }
+
+    .main-tab .icon {
+      font-size: 16px;
+    }
+
+    .main-tab.active {
+      background: #f9fafb;
+      color: #0b7890;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+    }
+
+    .main-tab:active {
+      transform: scale(0.97);
+    }
+
+    /* ===== 主內容區：Airbnb 卡片列表 ===== */
     main {
-      max-width: 960px;
-      margin: 12px auto 64px;
-      padding-inline: 12px;
+      max-width: 1120px;
+      margin: 18px auto 70px;
+      padding: 0 12px;
     }
 
     .section {
@@ -202,12 +264,12 @@
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin-bottom: 10px;
       gap: 8px;
+      margin-bottom: 10px;
     }
 
     .section-title {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
     }
 
@@ -219,11 +281,10 @@
 
     .section-link {
       font-size: 12px;
-      color: #0b7890;
+      color: #0f766e;
       white-space: nowrap;
     }
 
-    /* ===== 橫向滑動列表 ===== */
     .listing-scroll {
       overflow-x: auto;
       padding-bottom: 10px;
@@ -240,15 +301,15 @@
 
     .listing-track {
       display: flex;
-      gap: 12px;
+      gap: 14px;
     }
 
     .listing-card {
       flex: 0 0 260px;
       background: #ffffff;
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
       display: flex;
       flex-direction: column;
     }
@@ -288,11 +349,11 @@
       position: absolute;
       right: 10px;
       top: 10px;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 999px;
       border: none;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -301,7 +362,7 @@
     }
 
     .listing-body {
-      padding: 10px 12px 12px;
+      padding: 10px 12px 14px;
     }
 
     .listing-title {
@@ -332,7 +393,7 @@
       font-size: 11px;
       color: #6b7280;
       font-weight: 400;
-      margin-left: 2px;
+      margin-left: 4px;
     }
 
     /* ===== 底部導覽列 ===== */
@@ -347,10 +408,10 @@
     }
 
     .bottom-nav {
-      max-width: 960px;
+      max-width: 1120px;
       margin: 0 auto;
       display: flex;
-      height: 56px;
+      height: 60px;
     }
 
     .bottom-nav a {
@@ -364,13 +425,14 @@
       gap: 2px;
     }
 
-    .bottom-nav a.active {
-      color: #0b7890;
+    .bottom-nav a .icon {
+      font-size: 18px;
+      line-height: 1;
     }
 
-    .bottom-nav .icon {
-      font-size: 17px;
-      line-height: 1;
+    .bottom-nav a.active {
+      color: #0b7890;
+      font-weight: 600;
     }
 
     @media (min-width: 1024px) {
@@ -384,20 +446,92 @@
   </style>
 </head>
 <body>
-    <header>
+  <header>
     <div class="header-inner">
-      <!-- 第一排：LOGO + 品牌文字 -->
       <div class="brand-row">
-        <div class="brand-logo">
-          <img src="./assets/img_0129.jpg" alt="好想租屋 Logo" />
+        <div class="brand-left">
+          <div class="brand-logo">
+            <!-- 這裡用你現在的 logo.jpg，如果之後換圖再改 src 即可 -->
+            <img src="./logo.jpg" alt="好想租屋 Logo">
+          </div>
+          <div class="brand-text">
+            <h1>好想租屋</h1>
+            <p>找到一個家，不只是找到一個地址，讓歸屬感成為一種日常。</p>
+          </div>
         </div>
-        <div class="brand-text">
-          <h1>好想租屋</h1>
-          <p>找到一個家，不只是找到一個地址，讓歸屬感成為一種日常。</p>
+        <div class="brand-right">
+          線上專業代管・全台服務<br>
+          房屋出租｜買賣｜新建案｜居家維護
         </div>
       </div>
 
-      <!-- 第二排：三個主功能 -->
+      <!-- Airbnb 風格搜尋膠囊 -->
+      <div class="search-shell">
+        <div class="search-pill">
+          <div class="pill-main">
+            <div class="pill-group">
+              <div class="pill-label">地區</div>
+              <select id="citySelect" class="pill-city-select">
+                <option value="all">全台灣</option>
+                <option value="台北市">台北市</option>
+                <option value="新北市">新北市</option>
+                <option value="桃園市">桃園市</option>
+                <option value="台中市">台中市</option>
+                <option value="台南市">台南市</option>
+                <option value="高雄市">高雄市</option>
+                <option value="基隆市">基隆市</option>
+                <option value="新竹市">新竹市</option>
+                <option value="嘉義市">嘉義市</option>
+                <option value="新竹縣">新竹縣</option>
+                <option value="苗栗縣">苗栗縣</option>
+                <option value="彰化縣">彰化縣</option>
+                <option value="南投縣">南投縣</option>
+                <option value="雲林縣">雲林縣</option>
+                <option value="嘉義縣">嘉義縣</option>
+                <option value="屏東縣">屏東縣</option>
+                <option value="宜蘭縣">宜蘭縣</option>
+                <option value="花蓮縣">花蓮縣</option>
+                <option value="台東縣">台東縣</option>
+                <option value="澎湖縣">澎湖縣</option>
+                <option value="金門縣">金門縣</option>
+                <option value="連江縣">連江縣</option>
+                <option value="其他縣市">其他縣市</option>
+              </select>
+            </div>
+
+            <div class="pill-group">
+              <div class="pill-label">關鍵字</div>
+              <input
+                id="keywordInput"
+                class="pill-input"
+                type="text"
+                placeholder="捷運 / 社區名稱 / 預算..."
+              />
+            </div>
+
+            <div class="pill-group">
+              <div class="pill-label">類型</div>
+              <div class="pill-value">租屋・買賣・新建案</div>
+            </div>
+          </div>
+
+          <div class="pill-actions">
+            <!-- 之後要開定位功能，只要把 display: none 拿掉 -->
+            <button class="btn-ghost" id="btn-locate">
+              📍 我的附近
+            </button>
+            <button class="btn-search-main" id="btn-search">
+              <span class="dot"></span>
+              搜尋
+            </button>
+          </div>
+        </div>
+        <p class="search-note" id="searchNote">
+          已為你顯示 <span>全台灣</span> 房源，你可以搭配城市與關鍵字做進階搜尋。
+        </p>
+      </div>
+
+      <!-- 上排三個主功能（與 home.js 配合） -->
       <nav class="main-tabs">
         <button class="main-tab active" id="tab-rent">
           <span class="icon">🏠</span>
@@ -412,127 +546,16 @@
           <span>委託代管</span>
         </button>
       </nav>
-
-      <!-- 第三排：搜尋區 -->
-      <div class="search-bar">
-        <div class="search-row">
-          <select id="citySelect">
-            <option value="all">全台灣</option>
-            <option value="台北市">台北市</option>
-            <option value="新北市">新北市</option>
-            <option value="桃園市">桃園市</option>
-            <option value="台中市">台中市</option>
-            <option value="台南市">台南市</option>
-            <option value="高雄市">高雄市</option>
-            <option value="基隆市">基隆市</option>
-            <option value="新竹市">新竹市</option>
-            <option value="嘉義市">嘉義市</option>
-            <option value="新竹縣">新竹縣</option>
-            <option value="苗栗縣">苗栗縣</option>
-            <option value="彰化縣">彰化縣</option>
-            <option value="南投縣">南投縣</option>
-            <option value="雲林縣">雲林縣</option>
-            <option value="嘉義縣">嘉義縣</option>
-            <option value="屏東縣">屏東縣</option>
-            <option value="宜蘭縣">宜蘭縣</option>
-            <option value="花蓮縣">花蓮縣</option>
-            <option value="台東縣">台東縣</option>
-            <option value="澎湖縣">澎湖縣</option>
-            <option value="金門縣">金門縣</option>
-            <option value="連江縣">連江縣</option>
-            <option value="其他縣市">其他縣市</option>
-          </select>
-
-          <input
-            id="keywordInput"
-            type="text"
-            placeholder="搜尋關鍵字 / 地點 / 預算..."
-          />
-        </div>
-
-        <div class="search-actions">
-          <button class="btn-ghost" id="btn-locate">📍 使用我的位置</button>
-          <button class="btn-primary" id="btn-search">搜尋</button>
-        </div>
-      </div>
-
-      <p class="search-note" id="searchNote">
-        已為你顯示全台灣房源，你也可以同時配合城市與關鍵字做進階搜尋。
-      </p>
-    </div>
-  </header>
-
-      <!-- 上排三個主功能 -->
-      <nav class="main-tabs">
-        <button class="main-tab active" id="tab-rent">
-          <span class="icon">🏠</span>
-          <span>好想租屋</span>
-        </button>
-        <button class="main-tab" id="tab-buy">
-          <span class="icon">🏢</span>
-          <span>好想置產</span>
-        </button>
-        <button class="main-tab" id="tab-service">
-          <span class="icon">🔑</span>
-          <span>委託代管</span>
-        </button>
-      </nav>
-
-      <!-- 搜尋區 -->
-      <div class="search-bar">
-        <div class="search-row">
-          <select id="citySelect">
-            <option value="all">全台灣</option>
-            <option value="台北市">台北市</option>
-            <option value="新北市">新北市</option>
-            <option value="桃園市">桃園市</option>
-            <option value="台中市">台中市</option>
-            <option value="台南市">台南市</option>
-            <option value="高雄市">高雄市</option>
-            <option value="基隆市">基隆市</option>
-            <option value="新竹市">新竹市</option>
-            <option value="嘉義市">嘉義市</option>
-            <option value="新竹縣">新竹縣</option>
-            <option value="苗栗縣">苗栗縣</option>
-            <option value="彰化縣">彰化縣</option>
-            <option value="南投縣">南投縣</option>
-            <option value="雲林縣">雲林縣</option>
-            <option value="嘉義縣">嘉義縣</option>
-            <option value="屏東縣">屏東縣</option>
-            <option value="宜蘭縣">宜蘭縣</option>
-            <option value="花蓮縣">花蓮縣</option>
-            <option value="台東縣">台東縣</option>
-            <option value="澎湖縣">澎湖縣</option>
-            <option value="金門縣">金門縣</option>
-            <option value="連江縣">連江縣</option>
-            <option value="其他縣市">其他縣市</option>
-          </select>
-
-          <input
-            id="keywordInput"
-            type="text"
-            placeholder="搜尋關鍵字 / 地點 / 預算..."
-          />
-        </div>
-
-        <div class="search-actions">
-          <button class="btn-ghost" id="btn-locate">📍 使用我的位置</button>
-          <button class="btn-primary" id="btn-search">搜尋</button>
-        </div>
-      </div>
-      <p class="search-note" id="searchNote">
-        已為你顯示全台灣房源，你也可以同時配合城市與關鍵字做進階搜尋。
-      </p>
     </div>
   </header>
 
   <main>
-    <!-- 區塊 1：本月 NEW 上架 -->
+    <!-- 區塊 1：本月 NEW 上架（不分租＆售） -->
     <section class="section" id="sec-new">
       <div class="section-header">
         <div>
           <div class="section-title">本月 NEW 上架（不分租＆售）</div>
-          <div class="section-sub">最新釋出的出租房源，搶先掌握第一手資訊。</div>
+          <div class="section-sub">最新釋出的房屋物件，搶先掌握第一手資訊。</div>
         </div>
         <a href="#" class="section-link">查看更多房源 ›</a>
       </div>
@@ -541,12 +564,12 @@
       </div>
     </section>
 
-    <!-- 區塊 2：熱門精選房源 -->
+    <!-- 區塊 2：熱門代管精選房源 -->
     <section class="section" id="sec-hot-rent">
       <div class="section-header">
         <div>
           <div class="section-title">熱門代管精選房源</div>
-          <div class="section-sub">目前最受歡迎、詢問度最高的房間。</div>
+          <div class="section-sub">專業代管管理中，詢問度最高的房源。</div>
         </div>
         <a href="#" class="section-link">查看更多房源 ›</a>
       </div>
@@ -560,7 +583,7 @@
       <div class="section-header">
         <div>
           <div class="section-title">HOT 地產買賣</div>
-          <div class="section-sub">嚴選買賣物件，適合自住與投資。</div>
+          <div class="section-sub">嚴選買賣物件，適合自住與投資配置。</div>
         </div>
         <a href="#" class="section-link">查看更多物件 ›</a>
       </div>
@@ -598,7 +621,7 @@
     </section>
   </main>
 
-  <!-- 底部導覽列 -->
+  <!-- 底部導覽列：固定五個 -->
   <footer>
     <nav class="bottom-nav">
       <a href="home.html" class="active">
@@ -624,11 +647,7 @@
     </nav>
   </footer>
 
-  <!-- Firebase + 共用登入邏輯 -->
+  <!-- Firebase + 共用登入邏輯 + 首頁專用邏輯 -->
   <script type="module" src="./firebase.js"></script>
   <script type="module" src="./script.js"></script>
-  <!-- 首頁專用：載入 Firestore 房源並分配到各個區塊 -->
   <script type="module" src="./home.js"></script>
-</body>
-</html>
-        </div>
