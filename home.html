@@ -23,106 +23,98 @@
       color: inherit;
     }
 
-    /* ===== 頂部：Logo + 標語 ===== */
-.brand-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;          /* LOGO 跟文字拉開一點 */
-  margin-bottom: 18px;
-}
+ 
+     /* ===== 頂部：Logo + 標語（新版） ===== */
+    header {
+      background: linear-gradient(135deg, #0b7890, #19a2b6);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25);
+      padding: 14px 16px 18px;
+    }
 
-.brand-logo {
-  flex-shrink: 0;
-  width: auto;
-  height: auto;
-  display: flex;
-  align-items: center;
-}
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
 
-/* 讓 LOGO 顯眼一點（桌機 / 大螢幕）*/
-.brand-logo img {
-  width: 130px;       /* 原本 90px，現在放大 */
-  height: auto;
-  object-fit: contain;
-}
+    /* 第一排：LOGO + 品牌名稱＋標語 */
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
 
-/* 手機上稍微縮小一點，不要太壓迫畫面 */
-@media (max-width: 480px) {
-  .brand-logo img {
-    width: 110px;
-  }
+    .brand-logo {
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+    }
 
-  .brand-text h1 {
-    font-size: 20px;
-  }
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-  .brand-text p {
-    font-size: 12px;
-  }
-}
+    .brand-text h1 {
+      font-size: 22px;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
 
-/* 標題文字保持原本設定即可 */
-.brand-text h1 {
-  font-size: 22px;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
+    .brand-text p {
+      font-size: 13px;
+      opacity: 0.96;
+      line-height: 1.6;
+    }
 
-.brand-text p {
-  font-size: 13px;
-  opacity: 0.9;
-  line-height: 1.5;
-}
-
-/* 手機版：LOGO + 文字改成上下排，間距縮小一點 */
-@media (max-width: 600px) {
-  .brand-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .brand-logo img {
-    height: 52px;  /* 手機稍微縮小一點 */
-  }
-}
-
-    /* ===== 上排三個主功能 tab ===== */
+    /* 第二排：三個主功能 tab */
     .main-tabs {
       display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .main-tab {
       flex: 1;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.12);
       border-radius: 999px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-    }
-
-    .main-tab.active {
-      background: #ffffff;
-      color: #0b7890;
+      transition: background 0.18s ease, transform 0.08s ease,
+        box-shadow 0.18s ease;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
     }
 
     .main-tab span.icon {
       font-size: 17px;
     }
 
-    .main-tab:active {
-      transform: scale(0.97);
+    .main-tab.active {
+      background: #ffffff;
+      color: #0b7890;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
     }
 
-    /* ===== 搜尋列區塊 ===== */
+    .main-tab:active {
+      transform: scale(0.96);
+    }
+
+    /* 第三排：搜尋列 */
     .search-bar {
       background: #ffffff;
       border-radius: 999px;
@@ -131,6 +123,7 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 6px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
     }
 
     .search-row {
@@ -391,17 +384,83 @@
   </style>
 </head>
 <body>
-  <header>
+    <header>
     <div class="header-inner">
+      <!-- 第一排：LOGO + 品牌文字 -->
       <div class="brand-row">
         <div class="brand-logo">
-  <img src="assets/img_0129.jpg" alt="好想租屋 Logo" />
-</div>
+          <img src="./assets/img_0129.jpg" alt="好想租屋 Logo" />
+        </div>
         <div class="brand-text">
           <h1>好想租屋</h1>
           <p>找到一個家，不只是找到一個地址，讓歸屬感成為一種日常。</p>
         </div>
       </div>
+
+      <!-- 第二排：三個主功能 -->
+      <nav class="main-tabs">
+        <button class="main-tab active" id="tab-rent">
+          <span class="icon">🏠</span>
+          <span>好想租屋</span>
+        </button>
+        <button class="main-tab" id="tab-buy">
+          <span class="icon">🏢</span>
+          <span>好想置產</span>
+        </button>
+        <button class="main-tab" id="tab-service">
+          <span class="icon">🔑</span>
+          <span>委託代管</span>
+        </button>
+      </nav>
+
+      <!-- 第三排：搜尋區 -->
+      <div class="search-bar">
+        <div class="search-row">
+          <select id="citySelect">
+            <option value="all">全台灣</option>
+            <option value="台北市">台北市</option>
+            <option value="新北市">新北市</option>
+            <option value="桃園市">桃園市</option>
+            <option value="台中市">台中市</option>
+            <option value="台南市">台南市</option>
+            <option value="高雄市">高雄市</option>
+            <option value="基隆市">基隆市</option>
+            <option value="新竹市">新竹市</option>
+            <option value="嘉義市">嘉義市</option>
+            <option value="新竹縣">新竹縣</option>
+            <option value="苗栗縣">苗栗縣</option>
+            <option value="彰化縣">彰化縣</option>
+            <option value="南投縣">南投縣</option>
+            <option value="雲林縣">雲林縣</option>
+            <option value="嘉義縣">嘉義縣</option>
+            <option value="屏東縣">屏東縣</option>
+            <option value="宜蘭縣">宜蘭縣</option>
+            <option value="花蓮縣">花蓮縣</option>
+            <option value="台東縣">台東縣</option>
+            <option value="澎湖縣">澎湖縣</option>
+            <option value="金門縣">金門縣</option>
+            <option value="連江縣">連江縣</option>
+            <option value="其他縣市">其他縣市</option>
+          </select>
+
+          <input
+            id="keywordInput"
+            type="text"
+            placeholder="搜尋關鍵字 / 地點 / 預算..."
+          />
+        </div>
+
+        <div class="search-actions">
+          <button class="btn-ghost" id="btn-locate">📍 使用我的位置</button>
+          <button class="btn-primary" id="btn-search">搜尋</button>
+        </div>
+      </div>
+
+      <p class="search-note" id="searchNote">
+        已為你顯示全台灣房源，你也可以同時配合城市與關鍵字做進階搜尋。
+      </p>
+    </div>
+  </header>
 
       <!-- 上排三個主功能 -->
       <nav class="main-tabs">
