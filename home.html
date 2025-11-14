@@ -43,22 +43,18 @@
       margin-bottom: 16px;
     }
 
+    /* 清掉原本有底色、圓角的框框，只保留圖片本身 */
     .brand-logo {
       flex-shrink: 0;
-      width: 72px;
-      height: 72px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #0c4c60;
       display: flex;
       align-items: center;
-      justify-content: center;
     }
 
     .brand-logo img {
-      width: 60px;
-      height: 60px;
+      height: 64px;      /* LOGO 高度，可依喜好微調 */
+      width: auto;
       object-fit: contain;
+      display: block;
     }
 
     .brand-text h1 {
@@ -381,7 +377,8 @@
     <div class="header-inner">
       <div class="brand-row">
         <div class="brand-logo">
-          <img src="./logo.jpg" alt="好想租屋 Logo" />
+          <!-- 新 LOGO 圖片（assets/img_0129.jpg） -->
+          <img src="./assets/img_0129.jpg" alt="好想租屋 Logo" />
         </div>
         <div class="brand-text">
           <h1>好想租屋</h1>
@@ -390,20 +387,20 @@
       </div>
 
       <!-- 上排三個主功能 -->
-<nav class="main-tabs">
-  <button class="main-tab active" id="tab-rent">
-    <span class="icon">🏠</span>
-    <span>好想租屋</span>
-  </button>
-  <button class="main-tab" id="tab-buy">
-    <span class="icon">🏢</span>
-    <span>好想置產</span>
-  </button>
-  <button class="main-tab" id="tab-service">
-    <span class="icon">🔑</span>
-    <span>委託代管</span>
-  </button>
-</nav>
+      <nav class="main-tabs">
+        <button class="main-tab active" id="tab-rent">
+          <span class="icon">🏠</span>
+          <span>好想租屋</span>
+        </button>
+        <button class="main-tab" id="tab-buy">
+          <span class="icon">🏢</span>
+          <span>好想置產</span>
+        </button>
+        <button class="main-tab" id="tab-service">
+          <span class="icon">🔑</span>
+          <span>委託代管</span>
+        </button>
+      </nav>
 
       <!-- 搜尋區 -->
       <div class="search-bar">
@@ -471,7 +468,7 @@
     <!-- 區塊 2：熱門精選房源 -->
     <section class="section" id="sec-hot-rent">
       <div class="section-header">
-  <div>
+        <div>
           <div class="section-title">熱門代管精選房源</div>
           <div class="section-sub">目前最受歡迎、詢問度最高的房間。</div>
         </div>
@@ -526,30 +523,30 @@
   </main>
 
   <!-- 底部導覽列 -->
-<footer>
-  <nav class="bottom-nav">
-    <a href="home.html" class="active">
-      <span class="icon">🔍</span>
-      <span>首頁</span>
-    </a>
-    <a href="browse.html">
-      <span class="icon">🤍</span>
-      <span>心願單</span>
-    </a>
-    <a href="orders.html">
-      <span class="icon">📅</span>
-      <span>預約帶看</span>
-    </a>
-    <a href="post.html">
-      <span class="icon">🛠</span>
-      <span>居家維護</span>
-    </a>
-    <a href="profile.html">
-      <span class="icon">👤</span>
-      <span>個人簡介</span>
-    </a>
-  </nav>
-</footer>
+  <footer>
+    <nav class="bottom-nav">
+      <a href="home.html" class="active">
+        <span class="icon">🔍</span>
+        <span>首頁</span>
+      </a>
+      <a href="browse.html">
+        <span class="icon">🤍</span>
+        <span>心願單</span>
+      </a>
+      <a href="orders.html">
+        <span class="icon">📅</span>
+        <span>預約帶看</span>
+      </a>
+      <a href="post.html">
+        <span class="icon">🛠</span>
+        <span>居家維護</span>
+      </a>
+      <a href="profile.html">
+        <span class="icon">👤</span>
+        <span>個人簡介</span>
+      </a>
+    </nav>
+  </footer>
 
   <!-- Firebase + 共用登入邏輯 -->
   <script type="module" src="./firebase.js"></script>
@@ -558,3 +555,4 @@
   <script type="module" src="./home.js"></script>
 </body>
 </html>
+        </div>
