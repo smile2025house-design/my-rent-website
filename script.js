@@ -1,102 +1,152 @@
 // script.js
-// -----------------------------------------------------
-// 共用登入狀態監聽 + 登出事件
-// -----------------------------------------------------
+// 共用登入／登出邏輯（index.html、profile.html、verify.html 都會載入）
 
 import { auth } from "./firebase.js";
 import {
   onAuthStateChanged,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-/**
- * 更新「個人簡介」頁面的 UI
- * - profileName
- * - profileRole
- */
-function updateProfilePage(user) {
-  const nameEl = document.getElementById("profileName");
-  const roleEl = document.getElementById("profileRole");
-
-  if (!nameEl && !roleEl) return; // 不在 profile.html，直接略過
-
+/* --------------------------------------------------
+ * 1. 監聽目前登入狀態（所有頁面共用）
+ * -------------------------------------------------- */
+onAuthStateChanged(auth, (user) => {
   if (user) {
-    // 有登入
-    const displayName = user.displayName || "好想租屋會員";
-    const email = user.email || "";
-
-    nameEl.textContent = displayName;
-
-    // 這裡先給一段簡單文案，你之後可以自己改
-    if (roleEl) {
-      roleEl.textContent =
-        email
-          ? `目前以會員身份使用：${email}，好好享受找房體驗。`
-          : "目前以會員身份使用，好好享受找房體驗。";
-    }
+    console.log("[auth] 當前登入狀態：", `"${user.uid}"`);
   } else {
-    // 未登入（訪客模式）
-    if (nameEl) nameEl.textContent = "訪客模式";
-    if (roleEl)
-      roleEl.textContent = "登入後即可同步預約紀錄、房源收藏與帶看服務。";
+    console.log('[auth] 當前登入狀態："未登入"');
   }
-}
+});
 
-/**
- * 綁定登出按鈕
- * - profile.html 裡的整行「登出」：id="logoutRow"
- * - 其他頁面如果有按鈕 id="logoutBtn" 也會一起支援
- */
-function setupLogoutHandlers() {
-  const logoutRow = document.getElementById("logoutRow");
-  const logoutBtn = document.getElementById("logoutBtn");
+/* --------------------------------------------------
+ * 2. 首頁 index.html：處理各種登入按鈕
+ * -------------------------------------------------- */
+function initLoginPage() {
+  // 依照 index.html 的 id 名稱來抓元素（全部都是 dash 版本）
+  const btnPhone  = document.getElementById("btn-phone");
+  const btnGoogle = document.getElementById("btn-google");
+  const btnLine   = document.getElementById("btn-line");
+  const btnEmail  = document.getElementById("btn-email");
+  const btnGuest  = document.getElementById("btn-guest");
+  const btnForget = document.getElementById("btn-forget");
 
-  const handler = async () => {
-    const confirmLogout = window.confirm("確定要登出帳號嗎？");
-    if (!confirmLogout) return;
+  // 如果這些按鈕都找不到，代表現在不是 index.html，就直接離開
+  if (
+    !btnPhone &&
+    !btnGoogle &&
+    !btnLine &&
+    !btnEmail &&
+    !btnGuest &&
+    !btnForget
+  ) {
+    return;
+  }
 
+  /* ---- Google 登入 ---- */
+  btnGoogle?.addEventListener("click", async () => {
     try {
-      await signOut(auth);
-      alert("已成功登出，下次再回來找房子～");
-      // 登出後導回首頁（你也可以改成 index.html）
+      console.log("[auth] Google 登入開始");
+      const provider = new GoogleAuthProvider();
+
+      // 使用彈出視窗方式登入
+      await signInWithPopup(auth, provider);
+
+      console.log("[auth] Google 登入成功");
+      // 登入成功導回首頁
       window.location.href = "home.html";
     } catch (err) {
-      console.error("登出失敗：", err);
-      alert("登出時發生錯誤，請稍後再試。");
+      console.error("[auth] Google 登入失敗：", err);
+      alert("Google 登入失敗，請稍後再試一次。");
     }
-  };
+  });
 
-  if (logoutRow) {
-    logoutRow.addEventListener("click", handler);
-  }
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", handler);
-  }
-}
+  /* ---- 手機登入（之後可再接完整驗證流程） ---- */
+  btnPhone?.addEventListener("click", () => {
+    const phoneInput = /** @type {HTMLInputElement|null} */ (
+      document.getElementById("phone")
+    );
+    const phone = phoneInput?.value.trim() || "";
 
-/**
- * 初始化：整個網站共用
- */
-function initAuthListener() {
-  onAuthStateChanged(auth, (user) => {
-    console.log("[auth] 當前登入狀態：", user ? user.uid : "未登入");
+    if (!phone) {
+      alert("請先輸入手機號碼。");
+      return;
+    }
 
-    // 更新個人簡介頁面的內容
-    updateProfilePage(user);
+    // 目前先導到 verify.html，之後可以在那邊完成簡訊驗證流程
+    // 這邊只做示意，方便你之後接 Firebase Phone Auth
+    const url = new URL("verify.html", window.location.origin);
+    url.searchParams.set("phone", phone);
+    window.location.href = url.toString();
+  });
 
-    // 之後如果有「房東模式頁面需要強制登入」，可以在這裡加判斷：
-    // const path = window.location.pathname;
-    // if (!user && path.endsWith("manage.html")) {
-    //   alert("請先登入會員再使用物件出租管理功能。");
-    //   window.location.href = "verify.html"; // 或你的登入頁
-    // }
+  /* ---- LINE / Email 登入：目前先預留位子 ---- */
+  btnLine?.addEventListener("click", () => {
+    alert("LINE 登入之後再來接，現在請先用 Google 測試登入流程。");
+  });
+
+  btnEmail?.addEventListener("click", () => {
+    alert("Email 登入之後再來接，現在請先用 Google 測試登入流程。");
+  });
+
+  /* ---- 訪客模式 ---- */
+  btnGuest?.addEventListener("click", () => {
+    // 如需更進階，可以用 localStorage 記錄 guest 狀態
+    console.log("[auth] 以訪客身份繼續");
+    window.location.href = "home.html";
+  });
+
+  /* ---- 找回帳戶：暫時先導到 verify.html ---- */
+  btnForget?.addEventListener("click", () => {
+    window.location.href = "verify.html";
   });
 }
 
-// -----------------------------------------------------
-// 實際執行
-// -----------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  initAuthListener();
-  setupLogoutHandlers();
-});
+/* --------------------------------------------------
+ * 3. 個人簡介 profile.html：處理登出按鈕
+ * -------------------------------------------------- */
+function initProfilePage() {
+  const logoutRow = document.getElementById("logoutRow");
+  if (!logoutRow) return; // 不是 profile.html 就離開
+
+  logoutRow.addEventListener("click", async () => {
+    const ok = window.confirm("確定要登出這個帳號嗎？");
+    if (!ok) return;
+
+    try {
+      console.log("[auth] 登出開始");
+      await signOut(auth);
+      console.log("[auth] 已登出成功");
+      // 回到登入方式選擇頁（index.html）
+      window.location.href = "index.html";
+    } catch (err) {
+      console.error("[auth] 登出失敗：", err);
+      alert("登出失敗，請稍後再試一次。");
+    }
+  });
+}
+
+/* --------------------------------------------------
+ * 4. verify.html：之後可在這裡處理手機驗證結果
+ *    目前先簡單顯示查詢參數（如果有的話）
+ * -------------------------------------------------- */
+function initVerifyPage() {
+  if (!location.pathname.endsWith("verify.html")) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const phone = params.get("phone");
+  const errBox = document.getElementById("err");
+
+  if (phone && errBox) {
+    errBox.style.display = "block";
+    errBox.textContent = `目前僅示範導頁流程，尚未真正發送簡訊驗證碼。（手機：${phone}）`;
+  }
+}
+
+/* --------------------------------------------------
+ * 5. 啟動對應頁面的初始化
+ * -------------------------------------------------- */
+initLoginPage();   // 如果是 index.html，會自動偵測按鈕並啟用
+initProfilePage(); // 如果是 profile.html，會自動偵測登出列並啟用
+initVerifyPage();  // 如果是 verify.html，會處理簡單訊息顯示
