@@ -161,8 +161,13 @@
     }
   </style>
 </head>
-
 <body>
+
+  <script type="module">
+  import { requireAuth } from "./auth-guard.js";
+  requireAuth();
+</script>
+
   <!-- 頂部列 -->
   <header>
     <div class="top-bar">
@@ -252,5 +257,6 @@
   <!-- Firebase + 登入控制 -->
   <script type="module" src="./firebase.js"></script>
   <script type="module" src="./script.js"></script>
+  <script type="module">
 </body>
 </html>
