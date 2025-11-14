@@ -2,260 +2,168 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>個人簡介｜好想租屋</title>
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC",
-        "Microsoft JhengHei", sans-serif;
       margin: 0;
-      background: #f5f5f5;
+      font-family: system-ui, "Noto Sans TC", sans-serif;
+      background: #f3f4f6;
     }
 
-    /* 頂部列 */
-    .top-bar {
-      background: #ffffff;
-      padding: 14px 20px;
-      font-size: 17px;
+    header {
+      background: linear-gradient(135deg, #0b7890, #0894b0, #1298b0);
+      padding: 18px;
+      color: #fff;
+      text-align: center;
+      font-size: 19px;
       font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
     }
 
-    .top-bar-actions button {
-      background: none;
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .user-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .user-card img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ddd;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .user-email {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 14px;
+    }
+
+    .btn-logout {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fff;
       border: none;
-      font-size: 20px;
+      font-size: 14px;
       cursor: pointer;
     }
 
-    /* 大頭貼卡片 */
-    .profile-card {
-      background: white;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .avatar-wrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 999px;
-      background: #0b7890;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .profile-main-text h1 {
-      font-size: 20px;
-      margin: 0 0 6px;
-    }
-
-    .profile-main-text p {
-      margin: 0;
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-    /* 區塊小標題 */
     .section-title {
       font-size: 17px;
       font-weight: 700;
-      margin: 22px 20px 10px;
+      margin: 20px 0 10px;
     }
 
-    /* 列表樣式 */
-    .list-section {
-      background: white;
-      margin: 0 20px 16px;
+    .section-box {
+      background: #fff;
       border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      margin-bottom: 12px;
     }
 
-    .list-item {
-      display: flex;
-      align-items: center;
-      padding: 16px 20px;
-      cursor: pointer;
-    }
-
-    .list-item:hover {
-      background: #f9fafb;
-    }
-
-    .list-item-icon {
-      font-size: 20px;
-      margin-right: 14px;
-    }
-
-    .list-item-main {
-      flex: 1;
-    }
-
-    .list-item-label {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .list-item-sub {
-      font-size: 13px;
-      color: #6b7280;
-      margin-top: 3px;
-    }
-
-    .list-item-arrow {
-      font-size: 18px;
-      color: #9ca3af;
-    }
-
-    .list-divider {
-      height: 1px;
-      background: #e5e7eb;
-      margin-left: 20px;
-    }
-
-    /* 底部導覽列 */
     footer {
       position: fixed;
-      left: 0;
-      right: 0;
       bottom: 0;
-      background: #ffffff;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: #fff;
       border-top: 1px solid #e5e7eb;
-    }
-
-    .bottom-nav {
       display: flex;
-      height: 56px;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -2px 6px rgba(0,0,0,.05);
     }
 
-    .bottom-nav a {
-      flex: 1;
-      text-align: center;
-      font-size: 12px;
-      color: #6b7280;
+    footer a {
       text-decoration: none;
-      padding-top: 6px;
+      text-align: center;
+      font-size: 13px;
+      color: #4b5563;
     }
 
-    .bottom-nav a.active {
+    footer .icon {
+      font-size: 18px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    footer a.active {
       color: #0b7890;
       font-weight: 700;
     }
-
-    .bottom-nav .icon {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 2px;
-    }
   </style>
 </head>
+
 <body>
 
-  <script type="module">
-  import { requireAuth } from "./auth-guard.js";
-  requireAuth();
-</script>
+<header>個人簡介</header>
 
-  <!-- 頂部列 -->
-  <header>
-    <div class="top-bar">
-      <div class="top-bar-title">個人簡介</div>
-      <div class="top-bar-actions">
-        <button aria-label="通知">🔔</button>
-      </div>
-    </div>
-  </header>
+<div class="container">
 
-  <main>
-    <!-- 大頭貼區 -->
-    <section class="section-gap">
-      <div class="profile-card">
-        <div class="avatar-wrap">好租</div>
-        <div class="profile-main-text">
-          <h1 id="profileName">好想租屋會員</h1>
-          <p id="profileRole">目前以旅客身份使用，好好享受找房體驗。</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 功能列表 -->
-    <div class="section-title">帳號設定 / 協助 / 隱私 / 法律 / 登出</div>
-
-    <section class="list-section">
-      <div class="list-item">
-        <div class="list-item-icon">⚙️</div>
-        <div class="list-item-main">
-          <div class="list-item-label">帳號設定</div>
-          <div class="list-item-sub">管理登入方式、聯絡方式與通知偏好。</div>
-        </div>
-        <div class="list-item-arrow">›</div>
-      </div>
-
-      <div class="list-divider"></div>
-
-      <div class="list-item">
-        <div class="list-item-icon">❓</div>
-        <div class="list-item-main">
-          <div class="list-item-label">尋求協助</div>
-          <div class="list-item-sub">常見問題、客服聯絡與平台使用說明。</div>
-        </div>
-        <div class="list-item-arrow">›</div>
-      </div>
-
-      <div class="list-divider"></div>
-
-<!-- 登出 -->
-<div class="list-item" id="logoutRow">
-  <div class="list-item-icon">🚪</div>
-  <div class="list-item-main">
-    <div class="list-item-label">登出</div>
-    <div class="list-item-sub">結束這次使用，之後再回來找房。</div>
+  <!-- 會員資訊卡片 -->
+  <div class="user-card" id="userCard">
+    <img id="userPhoto" src="https://via.placeholder.com/90" alt="avatar" />
+    <div class="user-name" id="userName">尚未登入</div>
+    <div class="user-email" id="userEmail">—</div>
+    <button class="btn-logout" id="btnLogout">登出</button>
   </div>
-  <div class="list-item-arrow">›</div>
+
+  <div class="section-title">我的服務</div>
+
+  <div class="section-box">🔑 物件出租管理</div>
+  <div class="section-box">💰 租金收入</div>
+  <div class="section-box">📘 成為房東指南</div>
+
 </div>
-    </section>
-  </main>
 
-  <!-- 底部導覽列 -->
-  <footer>
-    <nav class="bottom-nav">
-      <a href="home.html">
-        <span class="icon">🔍</span>
-        首頁
-      </a>
-      <a href="browse.html">
-        <span class="icon">🤍</span>
-        心願單
-      </a>
-      <a href="orders.html">
-        <span class="icon">📅</span>
-        預約帶看
-      </a>
-      <a href="post.html">
-        <span class="icon">🛠</span>
-        居家維護
-      </a>
-      <a href="profile.html" class="active">
-        <span class="icon">👤</span>
-        個人簡介
-      </a>
-    </nav>
-  </footer>
+<!-- 導覽列 -->
+<footer>
+  <a href="home.html">
+    <span class="icon">🏠</span>
+    首頁
+  </a>
+  <a href="browse.html">
+    <span class="icon">❤️</span>
+    心願單
+  </a>
+  <a href="orders.html">
+    <span class="icon">📅</span>
+    預約帶看
+  </a>
+  <a href="post.html">
+    <span class="icon">🛠</span>
+    居家維護
+  </a>
+  <a href="profile.html" class="active">
+    <span class="icon">👤</span>
+    個人簡介
+  </a>
+</footer>
 
-<!-- Firebase + 登入控制 -->
 <script type="module" src="./firebase.js"></script>
 <script type="module" src="./script.js"></script>
+
 </body>
 </html>
