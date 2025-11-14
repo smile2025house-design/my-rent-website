@@ -24,50 +24,54 @@
     }
 
     /* ===== 頂部：Logo + 標語 ===== */
-    header {
-      background: linear-gradient(120deg, #0b7890, #1298b0);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.25);
-      padding: 18px 16px 20px;
-    }
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
 
-    .header-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+/* 只當作 LOGO 容器，不再加背景框、圓角 */
+.brand-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
 
-    .brand-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
+/* 使用新版 LOGO 圖，控制高度，讓比例漂亮 */
+.brand-logo img {
+  height: 64px;      /* 桌機版 LOGO 高度 */
+  width: auto;
+  object-fit: contain;
+  border-radius: 0;  /* 拿掉圓角框 */
+  box-shadow: none;  /* 不要陰影，看起來更乾淨 */
+}
 
-    /* 清掉原本有底色、圓角的框框，只保留圖片本身 */
-    .brand-logo {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-    }
+/* 標題文字保持原本設定即可 */
+.brand-text h1 {
+  font-size: 22px;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
 
-    .brand-logo img {
-      height: 64px;      /* LOGO 高度，可依喜好微調 */
-      width: auto;
-      object-fit: contain;
-      display: block;
-    }
+.brand-text p {
+  font-size: 13px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
 
-    .brand-text h1 {
-      font-size: 22px;
-      letter-spacing: 2px;
-      margin-bottom: 4px;
-    }
+/* 手機版：LOGO + 文字改成上下排，間距縮小一點 */
+@media (max-width: 600px) {
+  .brand-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 
-    .brand-text p {
-      font-size: 13px;
-      opacity: 0.9;
-      line-height: 1.5;
-    }
+  .brand-logo img {
+    height: 52px;  /* 手機稍微縮小一點 */
+  }
+}
 
     /* ===== 上排三個主功能 tab ===== */
     .main-tabs {
@@ -378,7 +382,7 @@
       <div class="brand-row">
         <div class="brand-logo">
           <!-- 新 LOGO 圖片（assets/img_0129.jpg） -->
-          <img src="./assets/img_0129.jpg" alt="好想租屋 Logo" />
+          <img src="assets/img_0129.jpg alt="好想租屋 Logo" />
         </div>
         <div class="brand-text">
           <h1>好想租屋</h1>
