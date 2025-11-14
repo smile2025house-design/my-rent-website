@@ -27,24 +27,38 @@
 .brand-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 20px;          /* LOGO 跟文字拉開一點 */
+  margin-bottom: 18px;
 }
 
-/* 只當作 LOGO 容器，不再加背景框、圓角 */
 .brand-logo {
   flex-shrink: 0;
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
 }
 
-/* 使用新版 LOGO 圖，控制高度，讓比例漂亮 */
+/* 讓 LOGO 顯眼一點（桌機 / 大螢幕）*/
 .brand-logo img {
-  height: 64px;      /* 桌機版 LOGO 高度 */
-  width: auto;
+  width: 130px;       /* 原本 90px，現在放大 */
+  height: auto;
   object-fit: contain;
-  border-radius: 0;  /* 拿掉圓角框 */
-  box-shadow: none;  /* 不要陰影，看起來更乾淨 */
+}
+
+/* 手機上稍微縮小一點，不要太壓迫畫面 */
+@media (max-width: 480px) {
+  .brand-logo img {
+    width: 110px;
+  }
+
+  .brand-text h1 {
+    font-size: 20px;
+  }
+
+  .brand-text p {
+    font-size: 12px;
+  }
 }
 
 /* 標題文字保持原本設定即可 */
