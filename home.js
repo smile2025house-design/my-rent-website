@@ -41,6 +41,26 @@ function createListingCard(item, sectionKey) {
   return card;
 }
 
+/**
+ * 從陣列 all 裡面「輪流」取出幾筆資料
+ * - start: 起始偏移量
+ * - count: 想要顯示幾筆
+ * 總筆數不夠時，會用 % 取餘數作循環，不會出現空區塊
+ */
+function pickItemsWithWrap(all, start, count) {
+  const result = [];
+  if (!all.length) return result;
+
+  const len = all.length;
+  const realCount = Math.min(count, len); // 不要超過實際筆數
+
+  for (let i = 0; i < realCount; i++) {
+    const index = (start + i) % len;
+    result.push(all[index]);
+  }
+  return result;
+}
+
 // 從 Firestore 載入房源，分配到四個區塊
 async function loadListings() {
   try {
@@ -50,25 +70,19 @@ async function loadListings() {
       all.push({ id: doc.id, ...doc.data() });
     });
 
-    // 這裡簡單用順序分配，你目前有 7 筆就會依照順序塞進去
-    const groups = {
-      new: [],
-      "hot-rent": [],
-      "hot-sale": [],
-      project: [],
-    };
+    // 如果完全沒有資料，就直接結束（避免報錯）
+    if (!all.length) {
+      console.log("目前 Firestore 沒有 listings 資料");
+      return;
+    }
 
-    all.forEach((item, index) => {
-      if (index < 4) {
-        groups.new.push(item);
-      } else if (index < 8) {
-        groups["hot-rent"].push(item);
-      } else if (index < 12) {
-        groups["hot-sale"].push(item);
-      } else {
-        groups.project.push(item);
-      }
-    });
+    // 這裡設定每個區塊希望顯示的「最多筆數」
+    const groups = {
+      new: pickItemsWithWrap(all, 0, 4),       // 本月 NEW 上架
+      "hot-rent": pickItemsWithWrap(all, 2, 4), // 熱門精選房源
+      "hot-sale": pickItemsWithWrap(all, 4, 4), // HOT 地產買賣
+      project: pickItemsWithWrap(all, 6, 4),    // 新建案推薦
+    };
 
     Object.entries(groups).forEach(([key, items]) => {
       const track = document.querySelector(
