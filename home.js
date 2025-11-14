@@ -91,10 +91,10 @@ async function loadListings() {
 const giftItems = [
   {
     title: "烏魚號頂級烏魚子禮盒",
-    desc: "節慶送禮首選，職人日曬熟成，冷凍真空包裝。",
-    location: "屏東縣・東港鎮",
+    desc: "節慶送禮首選，職人手工日曬熟成，冷凍真空包裝。",
+    location: "高雄市・茄萣區",
     price: 1880,
-    img: "./karasumi.jpg", // 或改成你的圖片網址
+    img: "./products/karasumi.png", // 或改成你的圖片網址
   },
   // 之後如果有其他廠商想上架，可以在這裡再加物件
   // {
