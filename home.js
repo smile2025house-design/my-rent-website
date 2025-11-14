@@ -5,35 +5,60 @@ import {
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 上排主功能 tab 點擊行為
+// 上排主功能 Tab 點擊行為（header 那一排）
 function setupMainTabs() {
   const rentTab = document.getElementById("tab-rent");
   const buyTab = document.getElementById("tab-buy");
   const serviceTab = document.getElementById("tab-service");
 
-  // 「好想租屋」：回到首頁（其實本來就在這頁，只是保險留著）
+  // 「好想租屋」：回到首頁
   if (rentTab) {
     rentTab.addEventListener("click", () => {
       window.location.href = "home.html";
     });
   }
 
-  // 「好想置產」：先放預留，之後可以改成 buy.html
+  // 「好想置產」：導到 buy.html（房產指南）
   if (buyTab) {
-    buyTab.addEventListener("click", () => {
-      alert("好想置產功能開發中，敬請期待！");
-      // 之後你有 buy.html 時，可以改成：
-      // window.location.href = "buy.html";
+    buyTab.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "buy.html";
     });
   }
 
-  // 「委託代管」：導到 manage.html（你代管 30% 那個頁面）
+  // 「委託代管」：導到 manage.html
   if (serviceTab) {
-    serviceTab.addEventListener("click", () => {
+    serviceTab.addEventListener("click", (e) => {
+      e.preventDefault();
       window.location.href = "manage.html";
     });
   }
 }
+
+/**
+ * 把「頁面上所有寫著『好想置產』的按鈕 / 連結」
+ * 統一改成：點了就去 buy.html
+ *（避免舊的 alert / 開發中邏輯還殘留）
+ */
+function forceAllBuyLinksToBuyPage() {
+  const candidates = document.querySelectorAll("a, button, div, span");
+
+  candidates.forEach((el) => {
+    const text = (el.textContent || "").trim();
+    if (!text.includes("好想置產")) return;
+
+    // 避免重複綁定，多加一個旗標
+    if (el.dataset.buyBound === "1") return;
+    el.dataset.buyBound = "1";
+
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = "buy.html";
+    });
+  });
+}
+
 // 產生共用卡片
 function createListingCard(item, sectionKey) {
   const card = document.createElement("article");
@@ -99,15 +124,13 @@ async function loadListings() {
       all.push({ id: doc.id, ...doc.data() });
     });
 
-    // 如果完全沒有資料，就直接結束（避免報錯）
     if (!all.length) {
       console.log("目前 Firestore 沒有 listings 資料");
       return;
     }
 
-    // 這裡設定每個區塊希望顯示的「最多筆數」
     const groups = {
-      new: pickItemsWithWrap(all, 0, 4),       // 本月 NEW 上架
+      new: pickItemsWithWrap(all, 0, 4),        // 本月 NEW 上架
       "hot-rent": pickItemsWithWrap(all, 2, 4), // 熱門精選房源
       "hot-sale": pickItemsWithWrap(all, 4, 4), // HOT 地產買賣
       project: pickItemsWithWrap(all, 6, 4),    // 新建案推薦
@@ -137,18 +160,11 @@ const giftItems = [
     desc: "節慶送禮首選，職人手工日曬熟成，冷凍真空包裝。",
     location: "高雄市・茄萣區",
     price: 1880,
-    img: "./products/karasumi.png", // 或改成你的圖片網址
+    img: "./products/karasumi.png",
   },
-  // 之後如果有其他廠商想上架，可以在這裡再加物件
-  // {
-  //   title: "XXX 聯名禮盒",
-  //   desc: "限量聯名，好吃又好看。",
-  //   location: "台北市・信義區",
-  //   price: 980,
-  //   img: "https://你的圖片網址",
-  // },
 ];
 
+// 渲染合作好物
 function renderGifts() {
   const track = document.querySelector('.listing-track[data-section="gift"]');
   if (!track) return;
@@ -159,7 +175,8 @@ function renderGifts() {
   });
 }
 
-// 執行
+// ---- 執行入口 ----
 setupMainTabs();
+forceAllBuyLinksToBuyPage();
 loadListings();
 renderGifts();
