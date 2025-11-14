@@ -305,6 +305,11 @@
 </head>
 <body>
 
+<script type="module">
+  import { requireAuth } from "./auth-guard.js";
+  requireAuth();
+</script>
+
   <!-- 頂部 Logo 條 -->
   <header>
     <div class="logo-bar">

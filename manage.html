@@ -182,6 +182,11 @@
   </style>
 </head>
 <body>
+
+      <script type="module">
+  import { requireAuth } from "./auth-guard.js";
+  requireAuth();
+</script>
   <!-- 頂部：專業代管 Hero -->
   <header>
     <div class="hero">

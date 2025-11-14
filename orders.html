@@ -247,6 +247,13 @@
   </style>
 </head>
 <body>
+
+<script type="module">
+  import { requireAuth } from "./auth-guard.js";
+
+  // 檢查是否有登入，沒登入就跳 verify.html
+  requireAuth();
+</script>
   <!-- 頂部列 -->
   <header>
     <div class="top-bar">
@@ -323,5 +330,6 @@
   <script type="module" src="./script.js"></script>
   <!-- 預約帶看專用 -->
   <script type="module" src="./orders.js"></script>
+</script>
 </body>
 </html>

@@ -20,7 +20,6 @@
     footer a{text-decoration:none;color:#777}
   </style>
 </head>
-
 <body>
 
 <div class="wrap">
@@ -48,7 +47,9 @@
     <a href="profile.html">我的</a>
   </div>
 </footer>
-
-<script type="module" src="./script.js"></script>
 </body>
+<script type="module">
+  import { requireAuth } from "./auth-guard.js";
+  requireAuth();
+</script>
 </html>
