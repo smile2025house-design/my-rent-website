@@ -1,16 +1,20 @@
 // profile.js
-// 個人簡介頁：登入檢查 + 身份切換 + 基本資料顯示
+// 個人簡介頁：登入檢查 + 身份顯示 + 基本資料整合（和 account.js 對應）
 
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  doc,
+  getDoc,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// localStorage 的 key（請讓 account.js 存到同一個 key）
-const STORAGE_KEY_PROFILE = "myRentProfile"; // 基本資料
-const STORAGE_KEY_ROLE = "myRentRole";       // 目前身份
+// 與 account.js 對應的 localStorage key
+const STORAGE_KEY_PROFILE = "myRentProfile";
+const STORAGE_KEY_ROLE = "myRentRole";
 
-// 各種身份的對應說明文字
+// 各種身份的說明（Airbnb 風格文案）
 const ROLE_CONFIG = {
   guest: {
     label: "房客／旅客",
@@ -22,36 +26,38 @@ const ROLE_CONFIG = {
   },
   master: {
     label: "包租公／包租婆",
-    desc: "適合擁有多間房、轉租或委託代管，重視整體資產與現金流管理。",
+    desc: "擁有多間房、委託代管，重視現金流與長期穩定經營的房產經營者。",
   },
   agent: {
     label: "代管業者",
-    desc: "適合協助多位房東管理房源、維修與帳務的專業代管公司。",
+    desc: "協助多位房東管理物件、租金、修繕與報表的專業團隊。",
   },
   investor: {
     label: "置產投資人",
-    desc: "適合關注房市趨勢、投報率與長期資產佈局的投資者。",
+    desc: "專注房地產趨勢與投報率，尋找適合長期投資的物件。",
   },
   other: {
     label: "其他身份",
-    desc: "尚未明確角色，或是同時具有多重身份的使用者。",
+    desc: "尚未明確角色，或是同時具備多重身份的使用者。",
   },
 };
 
-// 取得頁面元素
+// 頁面元素
 const avatarIcon = document.getElementById("avatarIcon");
 const userNameEl = document.getElementById("userName");
+const userCityEl = document.getElementById("userCity");
+const userPhoneEl = document.getElementById("userPhone");
 const userRoleLabelEl = document.getElementById("userRoleLabel");
-
 const roleSpan = document.getElementById("roleSpan");
 const roleDesc = document.getElementById("roleDesc");
 const chipsContainer = document.getElementById("roleChips");
+const editBtn = document.getElementById("btnEditProfile");
 
 // ----------------------
 // 1. 監聽登入狀態
 // ----------------------
 function setupAuthWatcher() {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (!user) {
       console.log('[auth] 當前登入狀態："未登入"');
       window.location.href = "index.html";
@@ -67,32 +73,66 @@ function setupAuthWatcher() {
       "好想租屋會員";
 
     applyProfileName(defaultName);
-    restoreBasicProfile();
+
+    // 同步 Firestore 與 localStorage 資料
+    await restoreProfileData(user);
+    setupRoleChips();
+    restoreRole();
   });
 }
 
 // ----------------------
-// 2. 基本資料（名字、頭像）
+// 2. 從 Firestore / localStorage 拉資料
 // ----------------------
-function applyProfileName(name) {
-  if (userNameEl) userNameEl.textContent = name || "好想租屋會員";
-  if (avatarIcon) avatarIcon.textContent = name?.trim()?.[0] || "租";
-}
-
-// 從 localStorage 把 account.html 存的資料拉出來
-function restoreBasicProfile() {
+async function restoreProfileData(user) {
   try {
+    // Firestore 先
+    const ref = doc(db, "profiles", user.uid);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      const data = snap.data();
+      console.log("[profile] 從 Firestore 取得資料：", data);
+      fillProfileUI(data);
+
+      // 更新 localStorage（同步給下次快速載入）
+      const localData = {
+        name: data.name || "",
+        phone: data.phone || "",
+        city: data.city || "",
+      };
+      localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(localData));
+      if (data.role) localStorage.setItem(STORAGE_KEY_ROLE, data.role);
+      return;
+    }
+
+    // 若 Firestore 沒資料，改從 localStorage 讀
     const raw = localStorage.getItem(STORAGE_KEY_PROFILE);
-    if (!raw) return;
-    const data = JSON.parse(raw);
-    if (data && data.name) applyProfileName(data.name);
+    if (raw) {
+      const local = JSON.parse(raw);
+      console.log("[profile] 使用 localStorage 資料：", local);
+      fillProfileUI(local);
+    }
   } catch (err) {
-    console.warn("讀取本機基本資料失敗：", err);
+    console.error("[profile] 讀取會員資料失敗：", err);
   }
 }
 
 // ----------------------
-// 3. 身份 chips 切換
+// 3. 顯示會員資料在畫面上
+// ----------------------
+function fillProfileUI(data) {
+  if (!data) return;
+  if (userNameEl && data.name) userNameEl.textContent = data.name;
+  if (userCityEl && data.city) userCityEl.textContent = data.city;
+  if (userPhoneEl && data.phone) userPhoneEl.textContent = data.phone;
+  if (avatarIcon)
+    avatarIcon.textContent =
+      data.name?.trim()?.[0] || "租";
+}
+
+// ----------------------
+// 4. 身份 chips 切換
 // ----------------------
 function applyRole(roleKey) {
   const config = ROLE_CONFIG[roleKey] || ROLE_CONFIG.guest;
@@ -132,12 +172,15 @@ function setupRoleChips() {
 }
 
 // ----------------------
-// 初始化
+// 5. 點擊「編輯」導向 account.html
 // ----------------------
-function initProfilePage() {
-  setupAuthWatcher();
-  setupRoleChips();
-  restoreRole();
+if (editBtn) {
+  editBtn.addEventListener("click", () => {
+    window.location.href = "account.html";
+  });
 }
 
-initProfilePage();
+// ----------------------
+// 初始化
+// ----------------------
+setupAuthWatcher();
