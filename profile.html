@@ -2,168 +2,479 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>個人簡介｜好想租屋</title>
 
   <style>
     body {
       margin: 0;
-      font-family: system-ui, "Noto Sans TC", sans-serif;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
       background: #f3f4f6;
+      color: #111827;
     }
 
+    /* 頂部藍色列（模仿 Airbnb App Bar） */
     header {
-      background: linear-gradient(135deg, #0b7890, #0894b0, #1298b0);
-      padding: 18px;
-      color: #fff;
-      text-align: center;
-      font-size: 19px;
-      font-weight: 700;
-      box-shadow: 0 2px 8px rgba(0,0,0,.25);
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .user-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.1);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .user-card img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #ddd;
-      margin-bottom: 10px;
-    }
-
-    .user-name {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .user-email {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 14px;
-    }
-
-    .btn-logout {
+      background: #0f766e;
+      color: #ffffff;
       padding: 10px 16px;
-      border-radius: 999px;
-      background: #ef4444;
-      color: #fff;
+      box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-bar {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-bar-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .top-bar-actions button {
       border: none;
-      font-size: 14px;
+      background: transparent;
+      color: #ffffff;
+      font-size: 18px;
       cursor: pointer;
     }
 
-    .section-title {
-      font-size: 17px;
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px 16px 80px;
+    }
+
+    /* 頭像卡片區 */
+    .profile-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      margin-bottom: 16px;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: #22c55e;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
       font-weight: 700;
-      margin: 20px 0 10px;
+      flex-shrink: 0;
     }
 
-    .section-box {
-      background: #fff;
-      border-radius: 14px;
-      padding: 14px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.08);
-      margin-bottom: 12px;
+    .profile-info h2 {
+      margin: 0 0 4px;
+      font-size: 18px;
     }
 
+    .profile-info p {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    /* ⬇⬇ 新增：右側「編輯基本資料」按鈕區 ⬇⬇ */
+    .profile-actions {
+      margin-left: auto;
+    }
+
+    .edit-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      background: #e5e7eb;
+      color: #374151;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .edit-btn:hover {
+      background: #d1d5db;
+    }
+    /* ⬆⬆ 新增結束 ⬆⬆ */
+
+    /* 身份 chips 區 */
+    .role-row {
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-inline: 2px;
+    }
+
+    .role-title {
+      font-size: 13px;
+      color: #6b7280;
+      margin-right: 4px;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #ecfdf3;
+      font-size: 12px;
+      color: #166534;
+      font-weight: 600;
+    }
+
+    .chips-row-wrapper {
+      overflow-x: auto;
+      padding-bottom: 2px;
+      margin-bottom: 14px;
+    }
+
+    .chips-row {
+      display: inline-flex;
+      gap: 8px;
+      padding: 4px 2px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      padding: 6px 12px;
+      font-size: 12px;
+      background: #ffffff;
+      color: #374151;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .chip.active {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .role-desc {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 16px;
+      padding-inline: 2px;
+    }
+
+    /* 服務卡片區塊 */
+    .section-gap {
+      margin-top: 18px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title span.icon {
+      font-size: 16px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .service-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px 12px 14px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+      cursor: default;
+    }
+
+    .service-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      margin-bottom: 6px;
+    }
+
+    .service-card h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .service-card p {
+      margin: 0;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* 底部導覽（跟其他頁一致） */
     footer {
       position: fixed;
-      bottom: 0;
       left: 0;
+      bottom: 0;
       width: 100%;
-      height: 60px;
-      background: #fff;
+      height: 56px;
       border-top: 1px solid #e5e7eb;
+      background: #ffffff;
+    }
+
+    footer .tabs {
+      max-width: 960px;
+      margin: 0 auto;
+      height: 100%;
       display: flex;
-      justify-content: space-around;
       align-items: center;
-      box-shadow: 0 -2px 6px rgba(0,0,0,.05);
-    }
-
-    footer a {
-      text-decoration: none;
-      text-align: center;
+      justify-content: space-around;
       font-size: 13px;
-      color: #4b5563;
     }
 
-    footer .icon {
-      font-size: 18px;
-      display: block;
-      margin-bottom: 3px;
+    footer .tabs a {
+      text-decoration: none;
+      color: #9ca3af;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 11px;
     }
 
-    footer a.active {
-      color: #0b7890;
-      font-weight: 700;
+    footer .tabs a .icon {
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    footer .tabs a.active {
+      color: #0f766e;
+      font-weight: 600;
+    }
+
+    @media (min-width: 1024px) {
+      header,
+      main {
+        padding-inline: 32px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- 頂部列 -->
+  <header>
+    <div class="top-bar">
+      <div class="top-bar-title">個人簡介</div>
+      <div class="top-bar-actions">
+        <button aria-label="通知">🔔</button>
+      </div>
+    </div>
+  </header>
 
-<header>個人簡介</header>
+  <main>
+    <!-- 頭像卡片 + 編輯按鈕 -->
+    <section class="section-gap">
+      <div class="profile-card">
+        <div class="avatar" id="avatarIcon">租</div>
 
-<div class="container">
+        <div class="profile-info">
+          <h2 id="userName">好想租屋會員</h2>
+          <p id="userRoleLabel">目前的身份：尚未設定</p>
+        </div>
 
-  <!-- 會員資訊卡片 -->
-  <div class="user-card" id="userCard">
-    <img id="userPhoto" src="https://via.placeholder.com/90" alt="avatar" />
-    <div class="user-name" id="userName">尚未登入</div>
-    <div class="user-email" id="userEmail">—</div>
-    <button class="btn-logout" id="btnLogout">登出</button>
-  </div>
+        <div class="profile-actions">
+          <button class="edit-btn" type="button"
+                  onclick="window.location.href='account.html'">
+            編輯基本資料
+          </button>
+        </div>
+      </div>
+    </section>
 
-  <div class="section-title">我的服務</div>
+    <!-- 身份 chips 列 -->
+    <section>
+      <div class="role-row">
+        <div>
+          <span class="role-title">切換你現在的身份</span>
+          <span class="role-badge" id="roleSpan">尚未設定</span>
+        </div>
+      </div>
 
-  <div class="section-box">🔑 物件出租管理</div>
-  <div class="section-box">💰 租金收入</div>
-  <div class="section-box">📘 成為房東指南</div>
+      <div class="chips-row-wrapper">
+        <div class="chips-row" id="roleChips">
+          <button class="chip" data-role="guest">房客／旅客</button>
+          <button class="chip" data-role="landlord">房東</button>
+          <button class="chip" data-role="master">包租公／包租婆</button>
+          <button class="chip" data-role="agent">代管業者</button>
+          <button class="chip" data-role="investor">置產投資人</button>
+          <button class="chip" data-role="other">其他身份</button>
+        </div>
+      </div>
 
-</div>
+      <p class="role-desc" id="roleDesc">
+        選擇一個最符合你現在使用情境的角色，系統會依照身份優先顯示適合的工具與提醒。
+      </p>
+    </section>
 
-<!-- 導覽列 -->
-<footer>
-  <a href="home.html">
-    <span class="icon">🏠</span>
-    首頁
-  </a>
-  <a href="browse.html">
-    <span class="icon">❤️</span>
-    心願單
-  </a>
-  <a href="orders.html">
-    <span class="icon">📅</span>
-    預約帶看
-  </a>
-  <a href="post.html">
-    <span class="icon">🛠</span>
-    居家維護
-  </a>
-  <a href="profile.html" class="active">
-    <span class="icon">👤</span>
-    個人簡介
-  </a>
-</footer>
+    <!-- 出租管理 -->
+    <section class="section-gap">
+      <div class="section-title">
+        <span class="icon">🔑</span>
+        <span>出租管理</span>
+      </div>
 
-<script type="module" src="./firebase.js"></script>
-<script type="module" src="./script.js"></script>
+      <div class="card-grid" id="section-rent">
+        <article class="service-card">
+          <div class="service-tag">物件管理</div>
+          <h3>管理你的出租物件</h3>
+          <p>查看目前委託管理、待出租或自主管理中的房源，之後可串接 Firestore 房源清單。</p>
+        </article>
 
+        <article class="service-card">
+          <div class="service-tag">租金收入</div>
+          <h3>每月租金與收款紀錄</h3>
+          <p>統計每月入帳租金、已收／未收款狀態，未來可整合帳務報表。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">代管委託</div>
+          <h3>查看委託代管進度</h3>
+          <p>追蹤代管合約、付款紀錄與對帳情形，之後可加入線上簽約與通知。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 房客服務 -->
+    <section class="section-gap">
+      <div class="section-title">
+        <span class="icon">🛠</span>
+        <span>房客服務</span>
+      </div>
+
+      <div class="card-grid" id="section-service">
+        <article class="service-card">
+          <div class="service-tag">合約紀錄</div>
+          <h3>租約與歷史紀錄</h3>
+          <p>集中管理歷年租約與附件，未來可從 Firestore 或檔案庫載入資料。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">報修與維護</div>
+          <h3>維修申請與處理進度</h3>
+          <p>紀錄房客報修內容、維護流程與處理狀態，幫助你掌握每一次維修。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">租金與費用</div>
+          <h3>租金與各項費用付款</h3>
+          <p>未來可整合第三方金流與繳費紀錄，方便查詢與對帳。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 置產服務 -->
+    <section class="section-gap">
+      <div class="section-title">
+        <span class="icon">🏠</span>
+        <span>置產服務</span>
+      </div>
+
+      <div class="card-grid" id="section-invest">
+        <article class="service-card">
+          <div class="service-tag">房產指南</div>
+          <h3>好想置產房產指南</h3>
+          <p>閱讀房市趨勢、試算案例與購屋流程，點擊可前往「好想置產」頁面（buy.html）。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">屋況諮詢</div>
+          <h3>專業屋況諮詢與健檢</h3>
+          <p>預約屋況檢查、估價與出租前整理建議，之後可串接預約系統。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">代找投資物件</div>
+          <h3>量身挑選投資物件</h3>
+          <p>輸入你的預算與投報目標，未來可由顧問團隊媒合適合的標的。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 帳號與其他 -->
+    <section class="section-gap">
+      <div class="section-title">
+        <span class="icon">⚙️</span>
+        <span>帳號與其他</span>
+      </div>
+
+      <div class="card-grid" id="section-other">
+        <article class="service-card">
+          <div class="service-tag">帳號設定</div>
+          <h3>登入方式與安全設定</h3>
+          <p>管理電話、Email、第三方登入方式與通知偏好。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">客服與協助</div>
+          <h3>聯繫客服與常見問題</h3>
+          <p>查看平台使用說明、客服聯繫方式與服務流程。</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-tag">法律資訊</div>
+          <h3>租賃與代管相關法規</h3>
+          <p>瞭解租賃住宅、包租代管與房東義務，未來可連結到法規資料庫。</p>
+        </article>
+    </div>
+    </section>
+  </main>
+
+  <!-- 底部導覽 -->
+  <footer>
+    <div class="tabs">
+      <a href="home.html">
+        <span class="icon">🏠</span>
+        <span>首頁</span>
+      </a>
+      <a href="browse.html">
+        <span class="icon">🤍</span>
+        <span>心願單</span>
+      </a>
+      <a href="orders.html">
+        <span class="icon">📅</span>
+        <span>預約帶看</span>
+      </a>
+      <a href="manage.html">
+        <span class="icon">🛠</span>
+        <span>居家維護</span>
+      </a>
+      <a href="profile.html" class="active">
+        <span class="icon">👤</span>
+        <span>個人簡介</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Firebase / 登入狀態 / 身份 chips 控制 -->
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./profile.js"></script>
 </body>
 </html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員資料｜好想租屋</title>
+
+  <style>
+    body {
+      font-family: system-ui, "Noto Sans TC", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+      padding: 18px 16px 20px;
+    }
+
+    .group-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+      color: #374151;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #4b5563;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      box-sizing: border-box;
+      font-family: inherit;
+      background: #f9fafb;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .row-2 {
+      display: flex;
+      gap: 10px;
+    }
+
+    .row-2 .field {
+      flex: 1;
+    }
+
+    .btn-row {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      padding: 11px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: #0f766e;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #115e59;
+    }
+
+    .btn-ghost {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+      min-height: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="header">
+      <h1>會員資料</h1>
+      <p>填寫一次之後，下次登入就會自動帶出你的基本資料。</p>
+    </div>
+
+    <div class="card">
+      <form id="profileForm">
+        <!-- 區塊：基本資料 -->
+        <div class="group-title">基本資料</div>
+
+        <div class="field">
+          <label for="fullName">姓名 *</label>
+          <input id="fullName" type="text" placeholder="例如：王小明" required />
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="phone">手機 *</label>
+            <input id="phone" type="tel" placeholder="09xx-xxx-xxx" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="可自動帶入通知用信箱" />
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="lineId">LINE ID</label>
+            <input id="lineId" type="text" placeholder="選填，方便客服聯繫" />
+          </div>
+          <div class="field">
+            <label for="idNumber">身分證字號（或統編）</label>
+            <input id="idNumber" type="text" placeholder="僅作合約使用，不會公開" />
+          </div>
+        </div>
+
+        <!-- 區塊：居住與職業 -->
+        <div class="group-title">居住與職業</div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="city">主要服務 / 居住城市</label>
+            <select id="city">
+              <option value="">請選擇</option>
+              <option value="台北市">台北市</option>
+              <option value="新北市">新北市</option>
+              <option value="桃園市">桃園市</option>
+              <option value="台中市">台中市</option>
+              <option value="台南市">台南市</option>
+              <option value="高雄市">高雄市</option>
+              <option value="其他地區">其他地區</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="job">職業</label>
+            <input id="job" type="text" placeholder="例如：工程師、老師、自營商…" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="address">聯絡地址</label>
+          <input id="address" type="text" placeholder="收掛號、合約、紙本文件之地址" />
+        </div>
+
+        <!-- 區塊：出租 / 投資經驗 -->
+        <div class="group-title">出租 / 投資經驗</div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="experienceYears">經驗年數</label>
+            <input id="experienceYears" type="number" min="0" placeholder="0 代表剛起步" />
+          </div>
+          <div class="field">
+            <label for="unitCount">名下物件數量</label>
+            <input id="unitCount" type="number" min="0" placeholder="目前擁有或管理幾間？" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="preference">主要需求 / 投資偏好</label>
+          <textarea id="preference" placeholder="例如：長租穩定收租、學生套房、小套房投資、都會區電梯華廈…"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="note">備註給好想租屋團隊</label>
+          <textarea id="note" placeholder="任何想讓我們知道的需求或限制，都可以寫在這裡。"></textarea>
+          <div class="hint">這些內容只會用於提供服務，不會公開顯示。</div>
+        </div>
+
+        <!-- 按鈕 -->
+        <div class="btn-row">
+          <button type="button" class="btn-ghost" id="btnBack">返回個人簡介</button>
+          <button type="submit" class="btn-primary">儲存資料</button>
+        </div>
+
+        <div class="status" id="statusText"></div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="./account.js"></script>
+</body>
+</html>
