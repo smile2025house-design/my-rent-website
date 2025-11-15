@@ -1,5 +1,5 @@
 // account.js
-// 會員基本資料編輯頁（和 profile.js 完全連動）
+// 會員資料編輯頁（和 profile 頁面共用同一份資料）
 
 import { auth, db } from "./firebase.js";
 import {
@@ -7,45 +7,58 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   doc,
-  setDoc,
   getDoc,
+  setDoc,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ⚙️ 和 profile.js 對齊的 key
-const STORAGE_KEY_PROFILE = "myRentProfile"; // 基本資料
-const STORAGE_KEY_ROLE = "myRentRole";       // 身分
+// 和 profile.js 對齊的 localStorage key（之後 profile 頁可以共用）
+const STORAGE_KEY_PROFILE = "myRentProfile";
 
-// 這些是你在 account.html 裡的欄位 id（請確認頁面有這些元素）
-const form = document.getElementById("accountForm");
-const nameInput = document.getElementById("accName");
-const phoneInput = document.getElementById("accPhone");
-const cityInput = document.getElementById("accCity");
-const roleSelect = document.getElementById("accRole"); // 下拉選單：身分
-const noteInput = document.getElementById("accNote");
-const statusBox = document.getElementById("accountStatus");
+// ------- 1. 抓取畫面上的欄位（要跟你 account.html 的 id 對齊） -------
+const form = document.getElementById("profileForm");
+const fullNameInput = document.getElementById("fullName");
+const phoneInput = document.getElementById("phone");
+const emailInput = document.getElementById("email");
+const lineIdInput = document.getElementById("lineId");
+const idNumberInput = document.getElementById("idNumber");
+const citySelect = document.getElementById("city");
+const jobInput = document.getElementById("job");
+const addressInput = document.getElementById("address");
+const expYearsInput = document.getElementById("experienceYears");
+const unitCountInput = document.getElementById("unitCount");
+const preferenceInput = document.getElementById("preference");
+const noteInput = document.getElementById("note");
+const btnBack = document.getElementById("btnBack");
+const statusText = document.getElementById("statusText");
 
-// ---------- 1. 先確認登入狀態 ----------
+// ------- 2. 監聽登入狀態：沒登入就丟回 index.html -------
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    console.log('[account] 未登入，導回登入頁');
+    console.log("[account] 未登入，導回登入頁");
     window.location.href = "index.html";
     return;
   }
 
-  console.log(`[account] 目前使用者：${user.uid}`);
+  console.log("[account] 目前使用者 uid：", user.uid);
 
-  // 有登入就載入資料
+  // 有登入就：
+  // 1) 從 Firestore 拉資料
   await loadProfileFromFirestore(user);
-  loadProfileFromLocalFallback(user);
+  // 2) 補上 localStorage 的資料（如果有的話）
+  loadProfileFromLocal(user);
+  // 3) 接上表單送出事件
   setupFormSubmit(user);
+  // 4) 「返回個人簡介」按鈕
+  setupBackButton();
 });
 
-// ---------- 2. 從 Firestore 載入 profiles/{uid} ----------
+// ------- 3. 從 Firestore 載入 profiles/{uid} -------
 async function loadProfileFromFirestore(user) {
   try {
     const ref = doc(db, "profiles", user.uid);
     const snap = await getDoc(ref);
+
     if (!snap.exists()) {
       console.log("[account] Firestore 尚未建立 profile，略過");
       return;
@@ -53,68 +66,82 @@ async function loadProfileFromFirestore(user) {
 
     const data = snap.data();
     console.log("[account] 從 Firestore 載入資料：", data);
+    fillForm(data);
 
-    fillFormWithData(data);
-
-    // 順便同步一份到 localStorage，讓 profile.js 也能用
-    const profileForLocal = {
+    // 同步一份簡化版到 localStorage 給 profile.html 用
+    const simpleProfile = {
       name: data.name || "",
-      phone: data.phone || "",
       city: data.city || "",
-      note: data.note || "",
+      phone: data.phone || "",
     };
-    localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(profileForLocal));
-    if (data.role) {
-      localStorage.setItem(STORAGE_KEY_ROLE, data.role);
-    }
+    localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(simpleProfile));
   } catch (err) {
     console.error("[account] 讀取 Firestore 失敗：", err);
   }
 }
 
-// ---------- 3. 若 Firestore 還沒有，就用 localStorage / auth 當後備 ----------
-function loadProfileFromLocalFallback(user) {
+// ------- 4. 如果 Firestore 還沒有，就用 localStorage / Auth 補上 -------
+function loadProfileFromLocal(user) {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_PROFILE);
     if (raw) {
       const data = JSON.parse(raw);
-      console.log("[account] 使用 localStorage 資料填入表單：", data);
-      fillFormWithData(data);
+      console.log("[account] 使用 localStorage 補資料：", data);
+
+      // 只補「目前表單是空的」的欄位
+      if (fullNameInput && !fullNameInput.value && data.name) {
+        fullNameInput.value = data.name;
+      }
+      if (citySelect && !citySelect.value && data.city) {
+        citySelect.value = data.city;
+      }
+      if (phoneInput && !phoneInput.value && data.phone) {
+        phoneInput.value = data.phone;
+      }
     } else {
-      // 完全沒有，就用 Firebase Auth 的基本資訊當預設
+      // 完全沒有資料，就用 Firebase Auth 的暱稱 / email / phone 當預設
       const defaultName =
-        user.displayName ||
-        user.phoneNumber ||
-        user.email ||
-        "";
-      if (nameInput && !nameInput.value) {
-        nameInput.value = defaultName;
+        user.displayName || user.phoneNumber || user.email || "";
+      if (fullNameInput && !fullNameInput.value && defaultName) {
+        fullNameInput.value = defaultName;
+      }
+      if (emailInput && !emailInput.value && user.email) {
+        emailInput.value = user.email;
+      }
+      if (phoneInput && !phoneInput.value && user.phoneNumber) {
+        phoneInput.value = user.phoneNumber;
       }
     }
-
-    const savedRole = localStorage.getItem(STORAGE_KEY_ROLE);
-    if (roleSelect && savedRole && !roleSelect.value) {
-      roleSelect.value = savedRole;
-    }
   } catch (err) {
-    console.warn("[account] localStorage 解析失敗：", err);
+    console.warn("[account] 解析 localStorage 失敗：", err);
   }
 }
 
-// ---------- 4. 把資料塞進表單 ----------
-function fillFormWithData(data) {
+// ------- 5. 把 Firestore 的資料塞進欄位 -------
+function fillForm(data) {
   if (!data) return;
-  if (nameInput && data.name) nameInput.value = data.name;
+
+  if (fullNameInput && data.name) fullNameInput.value = data.name;
   if (phoneInput && data.phone) phoneInput.value = data.phone;
-  if (cityInput && data.city) cityInput.value = data.city;
+  if (emailInput && data.email) emailInput.value = data.email;
+  if (lineIdInput && data.lineId) lineIdInput.value = data.lineId;
+  if (idNumberInput && data.idNumber) idNumberInput.value = data.idNumber;
+  if (citySelect && data.city) citySelect.value = data.city;
+  if (jobInput && data.job) jobInput.value = data.job;
+  if (addressInput && data.address) addressInput.value = data.address;
+  if (expYearsInput && typeof data.experienceYears !== "undefined")
+    expYearsInput.value = data.experienceYears;
+  if (unitCountInput && typeof data.unitCount !== "undefined")
+    unitCountInput.value = data.unitCount;
+  if (preferenceInput && data.preference)
+    preferenceInput.value = data.preference;
   if (noteInput && data.note) noteInput.value = data.note;
-  if (roleSelect && data.role) roleSelect.value = data.role;
 }
 
-// ---------- 5. 表單送出：寫入 Firestore + localStorage ----------
+// ------- 6. 表單送出：寫入 Firestore + localStorage -------
 function setupFormSubmit(user) {
   if (!form) {
-    console.warn("[account] 找不到 form#accountForm");
+    console.warn("[account] 找不到 form#profileForm");
     return;
   }
 
@@ -122,12 +149,21 @@ function setupFormSubmit(user) {
     e.preventDefault();
 
     const profileData = {
-      name: nameInput?.value.trim() || "",
-      phone: phoneInput?.value.trim() || "",
-      city: cityInput?.value.trim() || "",
-      note: noteInput?.value.trim() || "",
-      role: roleSelect?.value || "guest",
       uid: user.uid,
+      name: fullNameInput?.value.trim() || "",
+      phone: phoneInput?.value.trim() || "",
+      email: emailInput?.value.trim() || "",
+      lineId: lineIdInput?.value.trim() || "",
+      idNumber: idNumberInput?.value.trim() || "",
+      city: citySelect?.value || "",
+      job: jobInput?.value.trim() || "",
+      address: addressInput?.value.trim() || "",
+      experienceYears: expYearsInput?.value
+        ? Number(expYearsInput.value)
+        : null,
+      unitCount: unitCountInput?.value ? Number(unitCountInput.value) : null,
+      preference: preferenceInput?.value.trim() || "",
+      note: noteInput?.value.trim() || "",
       updatedAt: serverTimestamp(),
     };
 
@@ -135,32 +171,37 @@ function setupFormSubmit(user) {
       const ref = doc(db, "profiles", user.uid);
       await setDoc(ref, profileData, { merge: true });
 
-      // 寫回 localStorage 給 profile.js 用
-      const localProfile = {
+      // 也更新 localStorage（給 profile.html 用）
+      const simpleProfile = {
         name: profileData.name,
-        phone: profileData.phone,
         city: profileData.city,
-        note: profileData.note,
+        phone: profileData.phone,
       };
       localStorage.setItem(
         STORAGE_KEY_PROFILE,
-        JSON.stringify(localProfile)
+        JSON.stringify(simpleProfile)
       );
-      localStorage.setItem(STORAGE_KEY_ROLE, profileData.role);
 
-      if (statusBox) {
-        statusBox.textContent = "✅ 已儲存你的基本資料";
-        statusBox.style.color = "#16a34a";
+      if (statusText) {
+        statusText.textContent = "✅ 已儲存你的會員資料";
+        statusText.style.color = "#16a34a";
       }
 
-      // 儲存完可以導回個人簡介頁（看你要不要）
-      // window.location.href = "profile.html";
+      console.log("[account] 儲存成功：", profileData);
     } catch (err) {
       console.error("[account] 儲存失敗：", err);
-      if (statusBox) {
-        statusBox.textContent = "❌ 儲存失敗，請稍後再試";
-        statusBox.style.color = "#b91c1c";
+      if (statusText) {
+        statusText.textContent = "❌ 儲存失敗，請稍後再試";
+        statusText.style.color = "#b91c1c";
       }
     }
+  });
+}
+
+// ------- 7. 返回個人簡介按鈕 -------
+function setupBackButton() {
+  if (!btnBack) return;
+  btnBack.addEventListener("click", () => {
+    window.location.href = "profile.html";
   });
 }
