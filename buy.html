@@ -2,264 +2,248 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>好想置產｜房產指南</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        "PingFang TC", "Microsoft JhengHei", sans-serif;
-      background: #f5f5f5;
-      color: #222;
+      font-family: system-ui, "Noto Sans TC", sans-serif;
+      background: #f3f4f6;
+      color: #111827;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* ===== 頂部 HEADER ===== */
     header {
-      background: linear-gradient(120deg, #0b7890, #1298b0);
+      background: linear-gradient(135deg, #0b7890, #0894b0, #1298b0);
       color: #fff;
-      padding: 18px 16px 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      padding: 20px 16px 16px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, .25);
     }
 
-    header h1 {
+    .hero-title {
       font-size: 22px;
-      letter-spacing: 2px;
+      margin: 0 0 4px;
+      font-weight: 700;
+    }
+
+    .hero-sub {
       margin: 0;
+      font-size: 14px;
+      opacity: .9;
     }
 
-    header p {
-      opacity: 0.9;
-      margin-top: 4px;
-      font-size: 13px;
-    }
-
-    /* ===== 主內容 ===== */
     main {
       max-width: 960px;
-      margin: 20px auto 80px;
-      padding: 0 16px;
-    }
-
-    .section {
-      margin-bottom: 32px;
+      margin: 0 auto;
+      padding: 16px;
+      padding-bottom: 80px; /* 避開底部導覽 */
     }
 
     .section-title {
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin: 18px 0 10px;
     }
 
-    .card-list {
-      display: flex;
-      overflow-x: auto;
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 12px;
-      padding-bottom: 10px;
     }
 
-    .card {
-      flex: 0 0 260px;
+    .guide-card {
       background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(15,23,42,0.08);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .06);
+      cursor: default;
     }
 
-    .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
+    .guide-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      margin-bottom: 6px;
     }
 
-    .card-body {
-      padding: 12px;
-    }
-
-    .card-title {
+    .guide-title {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 4px;
     }
 
-    .card-desc {
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.5;
+    .guide-desc {
+      font-size: 13px;
+      color: #4b5563;
     }
 
-    /* ===== 底部導覽列 ===== */
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 4px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .price-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #b91c1c;
+    }
+
+    /* 底部導覽 */
     footer {
       position: fixed;
       left: 0;
-      right: 0;
       bottom: 0;
-      background: #ffffff;
+      width: 100%;
+      height: 60px;
+      background: #fff;
       border-top: 1px solid #e5e7eb;
-      z-index: 20;
-    }
-
-    .bottom-nav {
-      max-width: 960px;
-      margin: 0 auto;
       display: flex;
-      height: 56px;
-    }
-
-    .bottom-nav a {
-      flex: 1;
-      font-size: 11px;
-      color: #6b7280;
-      display: flex;
-      flex-direction: column;
+      justify-content: space-around;
       align-items: center;
-      justify-content: center;
-      gap: 2px;
+      box-shadow: 0 -2px 8px rgba(0,0,0,.04);
     }
-
-    .bottom-nav a.active {
+    footer a {
+      text-decoration: none;
+      font-size: 13px;
+      color: #4b5563;
+      text-align: center;
+    }
+    footer .icon {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+    footer a.active {
       color: #0b7890;
-    }
-
-    .bottom-nav .icon {
-      font-size: 17px;
-      line-height: 1;
+      font-weight: 700;
     }
   </style>
 </head>
 
 <body>
-  <!-- HEADER -->
   <header>
-    <h1>好想置產</h1>
-    <p>帶你用最輕鬆的方式學會買房、看房、估價、貸款。</p>
+    <p class="hero-title">好想置產｜房產指南</p>
+    <p class="hero-sub">替你把複雜的房市資訊整理好，用最簡單的方式陪你看懂市場。</p>
   </header>
 
-  <!-- MAIN -->
   <main>
-
-    <!-- 區塊 1：房產新手指南 -->
-    <section class="section">
-      <div class="section-title">🏡 新手必讀｜買房指南</div>
-      <div class="card-list">
-        <div class="card">
-          <img src="./products/buy01.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">買房 5 步驟完整教學</div>
-            <div class="card-desc">從看屋 → 斡旋 → 議價 → 交屋，全流程一次看懂。</div>
+    <!-- 區塊一：新手必讀 -->
+    <section>
+      <div class="section-title">新手必讀｜買房指南</div>
+      <div class="card-grid">
+        <article class="guide-card">
+          <span class="guide-tag">流程教學</span>
+          <div class="guide-title">買房 5 步驟完整教學</div>
+          <div class="guide-desc">
+            從看屋、議價、簽約、交屋到交屋後注意事項，一次幫你整理。
           </div>
-        </div>
+        </article>
 
-        <div class="card">
-          <img src="./products/buy02.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">2024 房價趨勢分析</div>
-            <div class="card-desc">全台熱區房價、未來三年預測，買房最佳時機。</div>
+        <article class="guide-card">
+          <span class="guide-tag">市場趨勢</span>
+          <div class="guide-title">2024 房價趨勢分析</div>
+          <div class="guide-desc">
+            全台熱門區域、未來三年預測，幫你掌握進場與觀望時機。
           </div>
-        </div>
+        </article>
 
-        <div class="card">
-          <img src="./products/buy03.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">貸款怎麼申請？</div>
-            <div class="card-desc">首購族、青年貸款、成數、利率一次搞懂。</div>
+        <article class="guide-card">
+          <span class="guide-tag">貸款攻略</span>
+          <div class="guide-title">房貸怎麼申請比較划算？</div>
+          <div class="guide-desc">
+            頭期款準備、年限選擇、成數、利率比較，一篇看懂房貸眉角。
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
-    <!-- 區塊 2：地區房價 -->
-    <section class="section">
-      <div class="section-title">📈 各縣市房價行情</div>
-      <div class="card-list">
-        <div class="card">
-          <img src="./products/city01.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">台北市</div>
-            <div class="card-desc">平均單價：88 萬／坪</div>
-          </div>
-        </div>
+    <!-- 區塊二：各縣市房價 -->
+    <section>
+      <div class="section-title">各縣市房價行情（試算範例）</div>
+      <div class="card-grid">
+        <article class="guide-card">
+          <div class="guide-title">台北市</div>
+          <div class="guide-desc">平均單價：約 88 萬 / 坪</div>
+        </article>
 
-        <div class="card">
-          <img src="./products/city02.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">新北市</div>
-            <div class="card-desc">平均單價：48 萬／坪</div>
-          </div>
-        </div>
+        <article class="guide-card">
+          <div class="guide-title">新北市</div>
+          <div class="guide-desc">平均單價：約 48 萬 / 坪</div>
+        </article>
 
-        <div class="card">
-          <img src="./products/city03.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">桃園市</div>
-            <div class="card-desc">平均單價：32 萬／坪</div>
-          </div>
-        </div>
+        <article class="guide-card">
+          <div class="guide-title">桃園市</div>
+          <div class="guide-desc">平均單價：約 32 萬 / 坪</div>
+        </article>
       </div>
     </section>
 
-    <!-- 區塊 3：建案推薦 -->
-    <section class="section">
-      <div class="section-title">🏗️ 新建案推薦</div>
-      <div class="card-list">
-        <div class="card">
-          <img src="./products/project01.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">東區｜精品小宅</div>
-            <div class="card-desc">步行 3 分鐘到捷運，投資首選。</div>
+    <!-- 區塊三：新建案推薦（範例資料，可之後改成 Firestore） -->
+    <section>
+      <div class="section-title">新建案推薦</div>
+      <div class="card-grid">
+        <article class="guide-card">
+          <span class="guide-tag">東區指標</span>
+          <div class="guide-title">東區 A+ 小宅</div>
+          <div class="guide-desc">
+            鄰近捷運、生活機能完整，適合首購與小家庭。
           </div>
-        </div>
+        </article>
 
-        <div class="card">
-          <img src="./products/project02.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">桃園｜高 CP 值社區</div>
-            <div class="card-desc">三房含車位，坪效佳，生活便利。</div>
+        <article class="guide-card">
+          <span class="guide-tag">高 CP 值</span>
+          <div class="guide-title">桃園｜高 CP 值社區</div>
+          <div class="guide-desc">
+            三房含車位、生活機能完善，通勤雙北也方便。
           </div>
-        </div>
+        </article>
 
-        <div class="card">
-          <img src="./products/project03.jpg" alt="" />
-          <div class="card-body">
-            <div class="card-title">高雄｜水岸景觀宅</div>
-            <div class="card-desc">景觀視野無敵，稀有釋出。</div>
+        <article class="guide-card">
+          <span class="guide-tag">海景首選</span>
+          <div class="guide-title">高雄｜水岸景觀宅</div>
+          <div class="guide-desc">
+            近港灣景觀區，散步就能看海，享受慢活節奏。
           </div>
-        </div>
+        </article>
       </div>
     </section>
-
   </main>
 
-  <!-- 底部導覽 -->
+  <!-- 底部導覽，這裡維持「居家維護」放在 post.html -->
   <footer>
-    <nav class="bottom-nav">
-      <a href="home.html">
-        <span class="icon">🔍</span>
-        <span>首頁</span>
-      </a>
-      <a href="browse.html">
-        <span class="icon">🤍</span>
-        <span>心願單</span>
-      </a>
-      <a href="orders.html">
-        <span class="icon">📅</span>
-        <span>預約帶看</span>
-      </a>
-      <a href="manage.html">
-        <span class="icon">🔑</span>
-        <span>委託代管</span>
-      </a>
-      <a href="profile.html">
-        <span class="icon">👤</span>
-        <span>個人簡介</span>
-      </a>
-    </nav>
+    <a href="home.html">
+      <span class="icon">🏠</span>
+      <span>首頁</span>
+    </a>
+    <a href="browse.html">
+      <span class="icon">❤️</span>
+      <span>心願單</span>
+    </a>
+    <a href="orders.html">
+      <span class="icon">📅</span>
+      <span>預約帶看</span>
+    </a>
+    <a href="post.html">
+      <span class="icon">🛠</span>
+      <span>居家維護</span>
+    </a>
+    <a href="profile.html">
+      <span class="icon">👤</span>
+      <span>個人簡介</span>
+    </a>
   </footer>
 
+  <!-- 共用登入＋狀態控制 -->
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./script.js"></script>
+  <!-- 置產專用 JS（目前先簡單記錄日誌，之後可以擴充 Firestore） -->
+  <script type="module" src="./buy.js"></script>
 </body>
 </html>

@@ -176,7 +176,7 @@ function renderGifts() {
 }
 
 // ---- 執行入口 ----
+// 執行
 setupMainTabs();
-forceAllBuyLinksToBuyPage();
 loadListings();
 renderGifts();
