@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>業務後台｜好想租屋</title>
+  <link rel="icon" type="image/png" href="logo.jpg" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f4f6f9;
+      color: #111827;
+    }
+
+    header {
+      background: #0f766e;
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    header .sub {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    header a {
+      color: #a7f3d0;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    header button {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    header button:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 20px auto 40px;
+      padding: 0 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 1.1fr 1.3fr;
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      margin-bottom: 16px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .card p.desc {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    label {
+      display: block;
+      margin-top: 7px;
+      margin-bottom: 2px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 13px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    button.primary {
+      margin-top: 12px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #0f766e;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button.primary:hover {
+      opacity: 0.92;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #ecfdf5;
+      color: #047857;
+      margin-right: 4px;
+    }
+
+    #agent-name {
+      font-weight: 600;
+    }
+
+    #msg {
+      font-size: 13px;
+      color: #374151;
+      margin-top: 8px;
+    }
+
+    /* 打卡紀錄列表 */
+    #attendance-list {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    #attendance-list li {
+      margin-bottom: 4px;
+    }
+
+    /* 案件列表 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+      margin-top: 8px;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      background: #f9fafb;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tag-status {
+      display: inline-flex;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .tag-status.rented {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .tag-status.published {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+    .tag-status.draft {
+      background: #e5e7eb;
+      color: #4b5563;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>業務後台｜好想租屋</h1>
+      <div class="sub" id="header-sub">載入中...</div>
+    </div>
+    <div class="right">
+      <span id="agent-name"></span>
+      <a href="account.html">回會員中心</a>
+      <button id="btn-logout">登出</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- 左側：業務資訊 + 打卡 -->
+      <div>
+        <section class="card">
+          <h2>今日打卡</h2>
+          <p class="desc">
+            在這裡記錄上班打卡時間，之後可以作為出勤參考。
+          </p>
+          <button class="primary" id="btn-checkin">上班打卡</button>
+          <div id="attendance-status" style="margin-top:8px;font-size:13px;color:#4b5563;">
+            今日尚未打卡。
+          </div>
+          <ul id="attendance-list"></ul>
+        </section>
+
+        <section class="card">
+          <h2>業務資訊</h2>
+          <div class="badge" id="badge-role">角色：業務</div>
+          <div class="badge" id="badge-city">服務區域：—</div>
+          <p id="msg"></p>
+        </section>
+      </div>
+
+      <!-- 右側：案件建立 + 列表 -->
+      <div>
+        <section class="card">
+          <h2>新增代管案件（房源）</h2>
+          <p class="desc">
+            當屋主委託你代管時，請在此建立物件。<br>
+            屋主之後會在自己的「屋主後台」看到這些房子與收入。
+          </p>
+
+          <form id="form-listing">
+            <label for="listing-title">物件名稱 / 標題</label>
+            <input id="listing-title" placeholder="例如：高雄美術館三房含車位" required />
+
+            <label for="listing-city">城市</label>
+            <select id="listing-city" required>
+              <option value="">請選擇</option>
+              <option value="高雄市">高雄市</option>
+              <option value="台南市">台南市（大臺南）</option>
+            </select>
+
+            <label for="listing-district">行政區</label>
+            <input id="listing-district" placeholder="例如：鼓山區、苓雅區…" />
+
+            <label for="listing-rent">每月租金（金額）</label>
+            <input id="listing-rent" type="number" min="0" placeholder="例如：28000" />
+
+            <label for="listing-landlord-id">屋主 UID（由公司指定）</label>
+            <input id="listing-landlord-id" placeholder="請填入對應屋主的 Firebase UID" />
+
+            <label for="listing-status">狀態</label>
+            <select id="listing-status">
+              <option value="published">刊登中</option>
+              <option value="rented">已出租</option>
+              <option value="draft">草稿 / 暫存</option>
+            </select>
+
+            <label for="listing-note">備註（選填）</label>
+            <textarea id="listing-note" placeholder="例如：代管期間、租客條件、特殊約定…"></textarea>
+
+            <button type="submit" class="primary">建立案件</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>我負責的案件列表</h2>
+          <p class="desc">顯示你作為承辦人員（agent）的物件。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>標題</th>
+                <th>城市/區域</th>
+                <th>租金</th>
+                <th>狀態</th>
+              </tr>
+            </thead>
+            <tbody id="table-listings-body">
+              <!-- JS 動態塞入 -->
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="agent.js"></script>
+</body>
+</html>

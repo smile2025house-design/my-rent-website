@@ -1,207 +1,180 @@
 // account.js
-// 會員資料編輯頁（和 profile 頁面共用同一份資料）
-
-import { auth, db } from "./firebase.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
+  getAuth,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signInAnonymously,
+  GoogleAuthProvider,
+  OAuthProvider,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
+  getFirestore,
   doc,
   getDoc,
   setDoc,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 和 profile.js 對齊的 localStorage key（之後 profile 頁可以共用）
-const STORAGE_KEY_PROFILE = "myRentProfile";
+// ✅ 和其他檔案同一組 firebaseConfig
+const firebaseConfig = {
+  apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
+  authDomain: "smilehouse-a68bc.firebaseapp.com",
+  projectId: "smilehouse-a68bc",
+  storageBucket: "smilehouse-a68bc.appspot.com",
+  messagingSenderId: "542151591313",
+  appId: "1:542151591313:web:e10b10e0b5a083fe75c630",
+  measurementId: "G-0Q5LFE84ER"
+};
 
-// ------- 1. 抓取畫面上的欄位（要跟你 account.html 的 id 對齊） -------
-const form = document.getElementById("profileForm");
-const fullNameInput = document.getElementById("fullName");
-const phoneInput = document.getElementById("phone");
-const emailInput = document.getElementById("email");
-const lineIdInput = document.getElementById("lineId");
-const idNumberInput = document.getElementById("idNumber");
-const citySelect = document.getElementById("city");
-const jobInput = document.getElementById("job");
-const addressInput = document.getElementById("address");
-const expYearsInput = document.getElementById("experienceYears");
-const unitCountInput = document.getElementById("unitCount");
-const preferenceInput = document.getElementById("preference");
-const noteInput = document.getElementById("note");
-const btnBack = document.getElementById("btnBack");
-const statusText = document.getElementById("statusText");
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-// ------- 2. 監聽登入狀態：沒登入就丟回 index.html -------
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    console.log("[account] 未登入，導回登入頁");
-    window.location.href = "index.html";
-    return;
+const $ = (id) => document.getElementById(id);
+
+const emailPanel   = $("email-panel");
+const btnEmailTgl  = $("btn-email-toggle");
+const btnEmailClose = $("btn-email-close");
+const emailEl      = $("email");
+const pwdEl        = $("password");
+
+const btnEmailLogin    = $("btn-email-login");
+const btnEmailRegister = $("btn-email-register");
+
+const btnApple   = $("btn-apple");
+const btnGoogle  = $("btn-google");
+const btnLine    = $("btn-line");
+const btnGuest   = $("btn-guest");
+
+const btnPhonePlaceholder = $("btn-phone-placeholder");
+
+// ---------- 共用：登入後要做的事 ----------
+async function afterLogin(user) {
+  if (!user) return;
+
+  const uid = user.uid;
+  const ref = doc(db, "users", uid);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    // 第一次登入：建立基本 user 資料
+    await setDoc(ref, {
+      displayName: user.displayName || "",
+      email: user.email || "",
+      createdAt: serverTimestamp(),
+      provider: (user.providerData[0] && user.providerData[0].providerId) || "unknown",
+    }, { merge: true });
+
+    // 導向填寫基本資料
+    window.location.href = "profile.html";
+  } else {
+    // 已有資料 → 直接到個人簡介首頁
+    window.location.href = "me.html"; // 依照你實際檔名調整
   }
+}
 
-  console.log("[account] 目前使用者 uid：", user.uid);
-
-  // 有登入就：
-  // 1) 從 Firestore 拉資料
-  await loadProfileFromFirestore(user);
-  // 2) 補上 localStorage 的資料（如果有的話）
-  loadProfileFromLocal(user);
-  // 3) 接上表單送出事件
-  setupFormSubmit(user);
-  // 4) 「返回個人簡介」按鈕
-  setupBackButton();
+// 若已登入，直接導去 me.html
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    afterLogin(user);
+  }
 });
 
-// ------- 3. 從 Firestore 載入 profiles/{uid} -------
-async function loadProfileFromFirestore(user) {
-  try {
-    const ref = doc(db, "profiles", user.uid);
-    const snap = await getDoc(ref);
+// ---------- 手機號碼目前只當樣式，提醒用戶 ----------
+btnPhonePlaceholder.addEventListener("click", () => {
+  alert("目前先使用 Email / Apple / Google / LINE / 訪客登入，之後我們再加上手機號碼登入。");
+});
 
-    if (!snap.exists()) {
-      console.log("[account] Firestore 尚未建立 profile，略過");
-      return;
-    }
+// ---------- Email 面板顯示 / 隱藏 ----------
+btnEmailTgl.addEventListener("click", () => {
+  emailPanel.style.display = "block";
+});
+btnEmailClose.addEventListener("click", () => {
+  emailPanel.style.display = "none";
+});
 
-    const data = snap.data();
-    console.log("[account] 從 Firestore 載入資料：", data);
-    fillForm(data);
-
-    // 同步一份簡化版到 localStorage 給 profile.html 用
-    const simpleProfile = {
-      name: data.name || "",
-      city: data.city || "",
-      phone: data.phone || "",
-    };
-    localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(simpleProfile));
-  } catch (err) {
-    console.error("[account] 讀取 Firestore 失敗：", err);
-  }
-}
-
-// ------- 4. 如果 Firestore 還沒有，就用 localStorage / Auth 補上 -------
-function loadProfileFromLocal(user) {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_PROFILE);
-    if (raw) {
-      const data = JSON.parse(raw);
-      console.log("[account] 使用 localStorage 補資料：", data);
-
-      // 只補「目前表單是空的」的欄位
-      if (fullNameInput && !fullNameInput.value && data.name) {
-        fullNameInput.value = data.name;
-      }
-      if (citySelect && !citySelect.value && data.city) {
-        citySelect.value = data.city;
-      }
-      if (phoneInput && !phoneInput.value && data.phone) {
-        phoneInput.value = data.phone;
-      }
-    } else {
-      // 完全沒有資料，就用 Firebase Auth 的暱稱 / email / phone 當預設
-      const defaultName =
-        user.displayName || user.phoneNumber || user.email || "";
-      if (fullNameInput && !fullNameInput.value && defaultName) {
-        fullNameInput.value = defaultName;
-      }
-      if (emailInput && !emailInput.value && user.email) {
-        emailInput.value = user.email;
-      }
-      if (phoneInput && !phoneInput.value && user.phoneNumber) {
-        phoneInput.value = user.phoneNumber;
-      }
-    }
-  } catch (err) {
-    console.warn("[account] 解析 localStorage 失敗：", err);
-  }
-}
-
-// ------- 5. 把 Firestore 的資料塞進欄位 -------
-function fillForm(data) {
-  if (!data) return;
-
-  if (fullNameInput && data.name) fullNameInput.value = data.name;
-  if (phoneInput && data.phone) phoneInput.value = data.phone;
-  if (emailInput && data.email) emailInput.value = data.email;
-  if (lineIdInput && data.lineId) lineIdInput.value = data.lineId;
-  if (idNumberInput && data.idNumber) idNumberInput.value = data.idNumber;
-  if (citySelect && data.city) citySelect.value = data.city;
-  if (jobInput && data.job) jobInput.value = data.job;
-  if (addressInput && data.address) addressInput.value = data.address;
-  if (expYearsInput && typeof data.experienceYears !== "undefined")
-    expYearsInput.value = data.experienceYears;
-  if (unitCountInput && typeof data.unitCount !== "undefined")
-    unitCountInput.value = data.unitCount;
-  if (preferenceInput && data.preference)
-    preferenceInput.value = data.preference;
-  if (noteInput && data.note) noteInput.value = data.note;
-}
-
-// ------- 6. 表單送出：寫入 Firestore + localStorage -------
-function setupFormSubmit(user) {
-  if (!form) {
-    console.warn("[account] 找不到 form#profileForm");
+// ---------- Email 登入 ----------
+btnEmailLogin.addEventListener("click", async () => {
+  const email = (emailEl.value || "").trim();
+  const pwd   = (pwdEl.value || "").trim();
+  if (!email || !pwd) {
+    alert("請輸入 Email 與密碼");
     return;
   }
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pwd);
+    await afterLogin(cred.user);
+  } catch (err) {
+    console.error("[email login] error", err);
+    alert("Email 登入失敗：" + (err.message || ""));
+  }
+});
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+// ---------- Email 註冊 ----------
+btnEmailRegister.addEventListener("click", async () => {
+  const email = (emailEl.value || "").trim();
+  const pwd   = (pwdEl.value || "").trim();
+  if (!email || !pwd) {
+    alert("請輸入 Email 與密碼");
+    return;
+  }
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+    await afterLogin(cred.user);
+  } catch (err) {
+    console.error("[email register] error", err);
+    alert("Email 註冊失敗：" + (err.message || ""));
+  }
+});
 
-    const profileData = {
-      uid: user.uid,
-      name: fullNameInput?.value.trim() || "",
-      phone: phoneInput?.value.trim() || "",
-      email: emailInput?.value.trim() || "",
-      lineId: lineIdInput?.value.trim() || "",
-      idNumber: idNumberInput?.value.trim() || "",
-      city: citySelect?.value || "",
-      job: jobInput?.value.trim() || "",
-      address: addressInput?.value.trim() || "",
-      experienceYears: expYearsInput?.value
-        ? Number(expYearsInput.value)
-        : null,
-      unitCount: unitCountInput?.value ? Number(unitCountInput.value) : null,
-      preference: preferenceInput?.value.trim() || "",
-      note: noteInput?.value.trim() || "",
-      updatedAt: serverTimestamp(),
-    };
+// ---------- Google 登入 ----------
+btnGoogle.addEventListener("click", async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const cred = await signInWithPopup(auth, provider);
+    await afterLogin(cred.user);
+  } catch (err) {
+    console.error("[google] error", err);
+    alert("Google 登入失敗：" + (err.message || ""));
+  }
+});
 
-    try {
-      const ref = doc(db, "profiles", user.uid);
-      await setDoc(ref, profileData, { merge: true });
+// ---------- Apple 登入（需先在 Firebase Console 開啟 Apple provider） ----------
+btnApple.addEventListener("click", async () => {
+  try {
+    const provider = new OAuthProvider("apple.com");
+    const cred = await signInWithPopup(auth, provider);
+    await afterLogin(cred.user);
+  } catch (err) {
+    console.error("[apple] error", err);
+    alert("Apple 登入失敗：" + (err.message || ""));
+  }
+});
 
-      // 也更新 localStorage（給 profile.html 用）
-      const simpleProfile = {
-        name: profileData.name,
-        city: profileData.city,
-        phone: profileData.phone,
-      };
-      localStorage.setItem(
-        STORAGE_KEY_PROFILE,
-        JSON.stringify(simpleProfile)
-      );
+// ---------- LINE 登入（使用 OIDC，自訂 providerId：oidc.line） ----------
+btnLine.addEventListener("click", async () => {
+  try {
+    const provider = new OAuthProvider("oidc.line");
+    const cred = await signInWithPopup(auth, provider);
+    await afterLogin(cred.user);
+  } catch (err) {
+    console.error("[line] error", err);
+    alert("LINE 登入失敗：" +
+      "請先在 Firebase Authentication → Sign-in method → 新增 OIDC Provider（Provider ID 設為 oidc.line）再試一次。\n錯誤訊息：" +
+      (err.message || ""));
+  }
+});
 
-      if (statusText) {
-        statusText.textContent = "✅ 已儲存你的會員資料";
-        statusText.style.color = "#16a34a";
-      }
-
-      console.log("[account] 儲存成功：", profileData);
-    } catch (err) {
-      console.error("[account] 儲存失敗：", err);
-      if (statusText) {
-        statusText.textContent = "❌ 儲存失敗，請稍後再試";
-        statusText.style.color = "#b91c1c";
-      }
-    }
-  });
-}
-
-// ------- 7. 返回個人簡介按鈕 -------
-function setupBackButton() {
-  if (!btnBack) return;
-  btnBack.addEventListener("click", () => {
-    window.location.href = "profile.html";
-  });
-}
+// ---------- 訪客登入 ----------
+btnGuest.addEventListener("click", async () => {
+  try {
+    const cred = await signInAnonymously(auth);
+    await afterLogin(cred.user);
+  } catch (err) {
+    console.error("[guest] error", err);
+    alert("訪客登入失敗：" + (err.message || ""));
+  }
+});
