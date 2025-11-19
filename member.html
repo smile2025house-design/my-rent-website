@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員後台｜好想租屋</title>
+  <link rel="icon" type="image/png" href="logo.jpg" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", system-ui;
+      background: #f4f6f9;
+      color: #111827;
+    }
+    header {
+      background: #0f766e;
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    header a {
+      color: #ccfbf1;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    main {
+      padding: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 10px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5e7eb;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    input,
+    select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      background: #0f766e;
+      color: #fff;
+    }
+    .muted {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>好想租屋｜會員後台</div>
+    <a href="home.html">← 回首頁</a>
+  </header>
+
+  <main>
+    <h1>會員資料（MVP 範本）</h1>
+
+    <section class="card">
+      <div class="card-title">基本資料</div>
+      <label>姓名</label>
+      <input type="text" placeholder="請輸入真實姓名" />
+
+      <label>聯絡電話</label>
+      <input type="tel" placeholder="09xx-xxx-

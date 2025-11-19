@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>公司後台｜好想租屋</title>
+  <link rel="icon" type="image/png" href="logo.jpg" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", system-ui;
+      background: #f4f6f9;
+      color: #111827;
+    }
+    header {
+      background: #1d4ed8;
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    header a {
+      color: #dbeafe;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    main {
+      padding: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .muted {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>好想租屋｜公司管理後台</div>
+    <a href="home.html">← 回首頁</a>
+  </header>
+
+  <main>
+    <h1>公司儀表板（MVP 範本）</h1>
+    <p class="muted">
+      之後可以在這裡整合「業務出勤」「接案量」「成交量」等數據。
+    </p>
+
+    <section class="grid">
+      <article class="card">
+        <div class="card-title">今日上班打卡狀況</div>
+        <p class="muted">
+          之後這裡會從 <code>attendance</code> 集合統計：「已打卡 / 未打卡」。
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-title">各業務接案數量</div>
+        <p class="muted">
+          之後從 <code>listings</code> 集合統計每位業務的代管案、出售案數量。
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-title">營運總覽</div>
+        <p class="muted">
+          總刊登數、總出租數、平均空置天數等，都可以放在這裡。
+        </p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

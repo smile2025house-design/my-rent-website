@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>房東後台｜好想租屋</title>
+  <link rel="icon" type="image/png" href="logo.jpg" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", system-ui;
+      background: #f4f6f9;
+      color: #111827;
+    }
+    header {
+      background: #047857;
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    header a {
+      color: #d1fae5;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    main {
+      padding: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .stat {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 6px 0;
+    }
+    .muted {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>好想租屋｜房東 / 地主後台</div>
+    <a href="home.html">← 回首頁</a>
+  </header>
+
+  <main>
+    <h1>我的資產總覽（MVP 範本）</h1>
+    <p class="muted">
+      這個頁面之後會接 Firestore，統計「房東名下的房源」「每月租金收益」「曝光次數」。
+      現在先放版型，方便之後接資料。
+    </p>
+
+    <section class="grid">
+      <article class="card">
+        <div class="card-title">房源狀態總覽</div>
+        <div class="stat">3 / 5</div>
+        <p class="muted">
+          3 間已出租，2 間刊登中。<br />
+          （之後改成從 Firestore 即時計算）
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card-title">本月預估租金收入</div>
+        <div class="stat">$ 68,000</div>
+        <p class="muted">含已簽約租約，未含押金與一次性費用。</p>
+      </article>
+
+      <article class="card">
+        <div class="card-title">案件曝光與點擊</div>
+        <p class="muted">
+          未來會顯示：每個房源的「列表曝光次數」「點擊次數」「預約帶看數量」。<br />
+          你剛剛提到的「訪客及會員點擊曝光率」就會在這一塊呈現。
+        </p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
