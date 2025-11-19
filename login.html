@@ -3,179 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>開始使用｜好想租屋</title>
+  <title>好想租屋｜登入</title>
   <link rel="icon" type="image/png" href="logo.jpg" />
   <style>
     body {
-      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Noto Sans TC", sans-serif;
       background: #f4f6f9;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      height: 100vh;
       margin: 0;
     }
     .login-box {
       background: #fff;
-      padding: 32px 28px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       width: 360px;
-      max-width: 92vw;
       text-align: center;
     }
-    .logo-wrap {
-      width: 96px;
-      height: 96px;
-      border-radius: 24px;
-      overflow: hidden;
-      margin: 0 auto 16px;
-      background: #0b5c82;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .logo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    h1 {
-      font-size: 20px;
-      margin: 0 0 4px;
-    }
-    .subtitle {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 18px;
-      word-break: break-all;
-    }
-    .field-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    select, input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    select {
-      max-width: 100px;
+    h2 {
+      margin-bottom: 10px;
     }
     button {
       width: 100%;
-      padding: 11px;
+      padding: 10px;
       margin: 6px 0;
       border: none;
-      border-radius: 999px;
+      border-radius: 6px;
       font-size: 15px;
-      font-weight: 500;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: 0.3s;
     }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    button:hover {
+      opacity: 0.85;
     }
-    button:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    }
-    #btn-google  { background: #fff; color: #111827; border: 1px solid #d1d5db; }
-    #btn-line    { background: #06C755; color: #fff; }
-    #btn-email-toggle { background: #374151; color: #fff; }
-    #btn-guest   { background: #4b5563; color: #fff; }
-    #btn-phone   { background: #f59e0b; color: #fff; }
-
-    .or-row {
-      display: flex;
-      align-items: center;
-      margin: 12px 0;
-      color: #9ca3af;
-      font-size: 13px;
-    }
-    .or-row::before,
-    .or-row::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: #e5e7eb;
-    }
-    .or-row span {
-      padding: 0 10px;
-    }
+    #btn-google { background-color: #4285F4; color: white; }
+    #btn-line { background-color: #06C755; color: white; }
+    #btn-email-toggle { background-color: #555; color: white; }
+    #btn-guest { background-color: #aaa; color: #fff; }
+    #btn-phone { background-color: #f59e0b; color: #fff; }
 
     #email-section {
       display: none;
-      margin-top: 8px;
+      margin-top: 15px;
       text-align: left;
     }
-    #email-section label {
-      font-size: 13px;
-      color: #4b5563;
-      display: block;
-      margin-top: 8px;
-      margin-bottom: 2px;
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     #status {
-      margin-top: 12px;
-      font-size: 13px;
-      color: #374151;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #333;
       min-height: 1.4em;
-      text-align: center;
-      white-space: pre-line;
-    }
-    .tip {
-      margin-top: 12px;
-      font-size: 11px;
-      color: #9ca3af;
-      line-height: 1.4;
     }
   </style>
 </head>
 <body>
   <div class="login-box">
-    <div class="logo-wrap">
-      <img src="logo.jpg" alt="好想租屋" onerror="this.style.display='none'">
-    </div>
-    <h1>開始使用 好想租屋</h1>
-    <div class="subtitle">https://my-rent-website-2025.vercel.app</div>
+    <img src="logo.jpg" alt="logo" width="80" style="margin-bottom:10px;">
+    <h2>開始使用 好想租屋</h2>
 
-    <div class="field-row">
-      <select id="phone-region">
-        <option value="+886">+886</option>
-      </select>
-      <input id="phone-input" type="tel" placeholder="手機號碼（目前僅顯示用）">
-    </div>
-
-    <button id="btn-continue-phone">繼續</button>
-
-    <div class="or-row"><span>或</span></div>
-
-    <button id="btn-google">使用 Google 繼續</button>
-    <button id="btn-line">使用 LINE 繼續</button>
-    <button id="btn-email-toggle">使用電子郵件繼續</button>
+    <button id="btn-google">使用 Google 登入</button>
+    <button id="btn-line">使用 LINE 登入</button>
+    <button id="btn-email-toggle">使用電子郵件登入</button>
 
     <div id="email-section">
-      <label for="email-input">電子郵件</label>
       <input id="email-input" type="email" placeholder="請輸入 Email">
-      <label for="password-input">密碼（至少 6 字）</label>
-      <input id="password-input" type="password" placeholder="請輸入密碼">
+      <input id="password-input" type="password" placeholder="請輸入密碼（至少 6 字）">
       <button id="btn-email-login">登入 / 註冊</button>
     </div>
 
     <button id="btn-guest">以訪客身分繼續</button>
-
-    <div class="or-row"><span>或</span></div>
-
-    <button id="btn-phone" disabled>手機登入（即將開放）</button>
+    <button id="btn-phone">手機登入（即將開放）</button>
 
     <p id="status"></p>
-    <p class="tip">Logo 檔名為 logo.jpg（與 login.html 同層）<br>請確認檔案放置正確。</p>
   </div>
 
   <script type="module">
@@ -189,10 +97,10 @@
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
       GoogleAuthProvider,
-      OAuthProvider
+      OAuthProvider,
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    // 🔑 你的 Firebase 設定
+    // === Firebase 設定 ===
     const firebaseConfig = {
       apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
       authDomain: "smilehouse-a68bc.firebaseapp.com",
@@ -203,29 +111,19 @@
       measurementId: "G-0Q5LFE84ER"
     };
 
-    const AFTER_LOGIN_URL = "account.html";
+    // ✅ 登入後要前往的首頁
+    // 如果你的首頁檔名是 index.html，就改成 "index.html"
+    const AFTER_LOGIN_URL = "home.html";
 
-    const app  = initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
-    // ✅ 檢查是否為 LINE redirect 回來
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result && result.user) {
-          console.log("LINE 登入成功（redirect）", result.user);
-          setStatus("登入成功，正在前往個人簡介...");
-          window.location.href = AFTER_LOGIN_URL;
-        }
-      })
-      .catch((err) => {
-        if (err.code !== "auth/no-auth-event") {
-          console.error("LINE redirect error", err);
-        }
-      });
 
     const googleProvider = new GoogleAuthProvider();
     const lineProvider   = new OAuthProvider("oidc.oid.line");
 
+    const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+
+    // === DOM ===
     const statusEl       = document.getElementById("status");
     const btnGoogle      = document.getElementById("btn-google");
     const btnLine        = document.getElementById("btn-line");
@@ -236,22 +134,17 @@
     const btnEmailLogin  = document.getElementById("btn-email-login");
     const emailInput     = document.getElementById("email-input");
     const passwordInput  = document.getElementById("password-input");
-    const btnContinuePhone = document.getElementById("btn-continue-phone");
 
     function setStatus(msg) {
-      if (statusEl) statusEl.textContent = msg;
+      if (statusEl) statusEl.textContent = msg || "";
     }
 
-    async function signInWithProvider(provider, name) {
+    // === 共用：第三方登入 （桌機用 popup）===
+    async function signInWithProviderPopup(provider, name) {
       try {
         setStatus(`使用 ${name} 登入中...`);
-        // 手機 LINE 用 redirect，比較穩定
-        if (name === "LINE" && /Mobi|Android/i.test(navigator.userAgent)) {
-          await signInWithRedirect(auth, provider);
-          return;
-        }
         await signInWithPopup(auth, provider);
-        setStatus("登入成功，正在前往個人簡介...");
+        setStatus("登入成功，導向中...");
         window.location.href = AFTER_LOGIN_URL;
       } catch (err) {
         console.error(`${name} LOGIN ERROR`, err);
@@ -259,23 +152,54 @@
       }
     }
 
+    // === 處理 LINE redirect 回來的結果（手機） ===
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result && result.user) {
+          console.log("LINE redirect 登入成功", result.user);
+          setStatus("登入成功，導向中...");
+          window.location.href = AFTER_LOGIN_URL;
+        }
+      })
+      .catch((err) => {
+        if (err.code !== "auth/no-auth-event") {
+          console.error("LINE redirect error", err);
+        }
+      });
+
+    // === Google 登入 ===
     if (btnGoogle) {
-      btnGoogle.addEventListener("click", () =>
-        signInWithProvider(googleProvider, "Google")
-      );
+      btnGoogle.addEventListener("click", () => {
+        signInWithProviderPopup(googleProvider, "Google");
+      });
     }
 
+    // === LINE 登入 ===
     if (btnLine) {
-      btnLine.addEventListener("click", () =>
-        signInWithProvider(lineProvider, "LINE")
-      );
+      btnLine.addEventListener("click", async () => {
+        try {
+          setStatus("正在開啟 LINE 登入...");
+          if (isMobile) {
+            // 手機用 redirect
+            await signInWithRedirect(auth, lineProvider);
+          } else {
+            // 桌機可以直接 popup
+            await signInWithProviderPopup(lineProvider, "LINE");
+          }
+        } catch (err) {
+          console.error("LINE LOGIN ERROR", err);
+          setStatus("LINE 登入失敗：" + (err.message || ""));
+        }
+      });
     }
 
+    // === 訪客登入 ===
     if (btnGuest) {
       btnGuest.addEventListener("click", async () => {
         try {
           setStatus("以訪客身分登入中...");
           await signInAnonymously(auth);
+          setStatus("登入成功，導向中...");
           window.location.href = AFTER_LOGIN_URL;
         } catch (err) {
           console.error("[GUEST ERROR]", err);
@@ -284,22 +208,26 @@
       });
     }
 
+    // === 手機登入（目前先提示） ===
     if (btnPhone) {
       btnPhone.addEventListener("click", () => {
-        setStatus("目前先使用上方 Apple / Google / LINE / Email 登入，手機登入會在之後開放。");
+        setStatus("目前僅開放 Google / LINE / Email 登入，手機登入即將推出。");
       });
     }
 
+    // === 顯示 / 隱藏 Email 區塊 ===
     if (btnEmailToggle && emailSection) {
+      emailSection.style.display = "none";
       btnEmailToggle.addEventListener("click", () => {
         const visible = emailSection.style.display !== "none";
         emailSection.style.display = visible ? "none" : "block";
       });
     }
 
+    // === Email 登入 / 自動註冊 ===
     if (btnEmailLogin && emailInput && passwordInput) {
       btnEmailLogin.addEventListener("click", async () => {
-        const email    = emailInput.value.trim();
+        const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
 
         if (!email || !password) {
@@ -312,32 +240,26 @@
         }
 
         try {
-          setStatus("Email 登入中，請稍候...");
+          setStatus("Email 登入中...");
           await signInWithEmailAndPassword(auth, email, password);
-          setStatus("登入成功，正在前往個人簡介...");
+          setStatus("登入成功！");
           window.location.href = AFTER_LOGIN_URL;
         } catch (err) {
           if (err.code === "auth/user-not-found") {
             try {
-              setStatus("找不到帳號，為你建立新帳號中...");
+              setStatus("找不到帳號，自動註冊中...");
               await createUserWithEmailAndPassword(auth, email, password);
-              setStatus("註冊完成，正在前往個人簡介...");
+              setStatus("註冊完成！");
               window.location.href = AFTER_LOGIN_URL;
             } catch (err2) {
               console.error("EMAIL SIGNUP ERROR", err2);
-              setStatus("註冊失敗：" + (err2.message || ""));
+              setStatus("註冊失敗：" + err2.message);
             }
           } else {
             console.error("EMAIL LOGIN ERROR", err);
-            setStatus("Email 登入失敗：" + (err.message || ""));
+            setStatus("登入失敗：" + err.message);
           }
         }
-      });
-    }
-
-    if (btnContinuePhone) {
-      btnContinuePhone.addEventListener("click", () => {
-        setStatus("LINE 登入之後會接上手機登入流程，現在請先用 Google / LINE 測試登入流程。");
       });
     }
   </script>
