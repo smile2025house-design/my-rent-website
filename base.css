@@ -1,0 +1,489 @@
+/* base.css */
+/* 全站字體與背景 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", system-ui, sans-serif;
+  background: #f4f6f9;
+  color: #111827;
+}
+
+/* 頁面容器：預留底部導覽高度 */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  padding-bottom: 72px; /* 給底部 nav 空間 */
+}
+
+/* 頁首（Logo + 搜尋） */
+.header {
+  padding: 16px 20px 8px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.header-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.header-user {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* 搜尋框 */
+.search-bar {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 13px;
+}
+
+/* 區塊標題 */
+.section {
+  padding: 16px 20px 8px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.section-link {
+  font-size: 12px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+/* 橫向卡片捲動 */
+.scroll-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-row::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-row::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.7);
+  border-radius: 999px;
+}
+
+/* 房源卡片樣式 */
+.listing-card {
+  min-width: 230px;
+  max-width: 260px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+}
+
+.listing-img-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 70%;
+  overflow: hidden;
+}
+
+.listing-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(220, 38, 38, 0.9);
+}
+
+.badge--hot {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+}
+
+.badge--new {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.badge--sale {
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+}
+
+/* 卡片內容文字 */
+.card-content {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.card-location {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.card-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.card-price {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.card-price span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.card-meta {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* 精選合作好物區塊（禮盒等） */
+.goods-card {
+  min-width: 220px;
+  max-width: 260px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.goods-img-wrap {
+  width: 100%;
+  padding-top: 60%;
+  position: relative;
+  overflow: hidden;
+}
+
+.goods-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 底部導覽列 */
+.bottom-nav {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+  z-index: 20;
+}
+
+.bottom-nav nav {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-item {
+  flex: 1;
+  padding: 8px 0 6px;
+  text-align: center;
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item .icon {
+  font-size: 18px;
+}
+
+.nav-item.active {
+  color: #0f766e;
+}
+
+.nav-item.active .icon {
+  transform: translateY(-1px);
+}
+
+/* 內頁標題區（簡化版） */
+.inner-header {
+  padding: 16px 20px 12px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.inner-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.inner-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* 共用內容容器 */
+.container {
+  padding: 12px 20px 24px;
+}
+
+/* 簡單卡片 */
+.panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  margin-bottom: 12px;
+}
+
+/* 共用按鈕 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: #0f766e;
+  border: 1px solid #0f766e;
+}
+
+/* 簡單表單 */
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: none;
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* 登入身份卡片 */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.role-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: inherit;
+}
+
+.role-card:hover {
+  border-color: #0f766e;
+}
+
+.role-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.role-desc {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* 登入頁簡單置中 */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-box {
+  width: 360px;
+  max-width: 92vw;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.15);
+  padding: 28px 24px 20px;
+  text-align: center;
+}
+
+.auth-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+  background: #0f766e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 32px;
+}
+
+.auth-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.auth-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.auth-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.auth-status {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #6b7280;
+}

@@ -2,232 +2,85 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <title>好租租屋｜登入身份</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>登入身份選擇｜好想租屋</title>
-  <link rel="icon" type="image/png" href="logo.jpg" />
-  <style>
-    :root {
-      --primary: #10b4c7;
-      --bg: #f4f6f9;
-    }
-    body {
-      margin: 0;
-      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: #1f2933;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      background: #0369a1;
-      color: #fff;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 14px;
-    }
-    header .title {
-      font-weight: 600;
-    }
-    header a {
-      color: #e0f2fe;
-      text-decoration: none;
-      font-size: 13px;
-    }
-    main {
-      flex: 1;
-      padding: 18px 14px 24px;
-      max-width: 960px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    h1 {
-      font-size: 20px;
-      margin: 0 0 8px;
-    }
-    p.subtitle {
-      margin: 0 0 18px;
-      font-size: 14px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
-    }
-    .role-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 14px 12px;
-      box-shadow: 0 6px 16px rgba(15,23,42,0.06);
-      border: 1px solid #e5e7eb;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease,
-        border-color 0.15s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .role-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.14);
-      border-color: #38bdf8;
-    }
-    .role-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .role-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #e0f2fe;
-      font-size: 20px;
-    }
-    .role-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-    .role-tag {
-      display: inline-block;
-      font-size: 11px;
-      background: #dbeafe;
-      color: #1d4ed8;
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-left: 4px;
-    }
-    .role-desc {
-      font-size: 13px;
-      color: #4b5563;
-      line-height: 1.5;
-    }
-    footer {
-      padding: 8px 14px 10px;
-      border-top: 1px solid #e5e7eb;
-      background: #ffffff;
-      font-size: 12px;
-      color: #6b7280;
-      text-align: center;
-    }
-    footer strong {
-      color: #111827;
-    }
-  </style>
+  <link rel="stylesheet" href="base.css" />
 </head>
 <body>
-  <header>
-    <div class="title">好想租屋｜登入身份選擇</div>
-    <a href="home.html">← 回首頁</a>
-  </header>
+  <div class="page">
+    <header class="inner-header">
+      <div class="inner-title">選擇登入身份</div>
+      <div class="inner-subtitle">
+        先選擇你的角色，再進入登入流程。登入後會自動導向專屬後台。
+      </div>
+    </header>
 
-  <main>
-    <h1>選擇你的登入身份</h1>
-    <p class="subtitle">
-      完成登入（LINE / Google / Email）後，可以依身份進入不同後台。<br />
-      目前先讓流程跑順，之後再細分權限。
-    </p>
-
-    <section class="grid">
-      <!-- 1. VIP / 房東 / 地主 -->
-      <article class="role-card" id="role-owner">
-        <div class="role-header">
-          <div class="role-icon">🏡</div>
-          <div>
-            <div class="role-title">
-              VIP 屋主 / 地主
-              <span class="role-tag">房東後台</span>
-            </div>
+    <main class="container">
+      <div class="role-grid">
+        <!-- 1. VIP / 屋主 / 地主 -->
+        <button class="role-card" onclick="goToRole('owner')">
+          <div class="role-title">VIP / 屋主 / 地主</div>
+          <div class="role-desc">
+            查看委託物件出租中 / 刊登中狀態，與每月租金收益。
           </div>
-        </div>
-        <p class="role-desc">
-          ● 查看名下房源：「已出租 / 刊登中」。<br />
-          ● 每月租金收益。<br />
-          ● 每件委託案件的訪客 + 會員點擊曝光率（之後會接報表）。
-        </p>
-      </article>
+        </button>
 
-      <!-- 2. 公司登入 -->
-      <article class="role-card" id="role-company">
-        <div class="role-header">
-          <div class="role-icon">🏢</div>
-          <div>
-            <div class="role-title">
-              公司管理者
-              <span class="role-tag">公司後台</span>
-            </div>
+        <!-- 2. 公司登入 -->
+        <button class="role-card" onclick="goToRole('company')">
+          <div class="role-title">公司管理帳號</div>
+          <div class="role-desc">
+            檢視所有業務打卡紀錄、接案數量與整體營運數據。
           </div>
-        </div>
-        <p class="role-desc">
-          ● 檢視所有業務打卡紀錄。<br />
-          ● 各業務接案數量、刊登數、成交數。<br />
-          ● 未來可加入 KPI 與獎金試算。
-        </p>
-      </article>
+        </button>
 
-      <!-- 3. 業務登入 -->
-      <article class="role-card" id="role-agent">
-        <div class="role-header">
-          <div class="role-icon">🧑‍💼</div>
-          <div>
-            <div class="role-title">
-              業務人員
-              <span class="role-tag">業務後台</span>
-            </div>
+        <!-- 3. 業務登入 -->
+        <button class="role-card" onclick="goToRole('agent')">
+          <div class="role-title">業務人員登入</div>
+          <div class="role-desc">
+            上下班打卡、管理自己承辦之代管案件與刊登廣告。
           </div>
-        </div>
-        <p class="role-desc">
-          ● 上下班打卡。<br />
-          ● 上架代管 / 出售案件。<br />
-          ● 檢視自己案件的曝光數與預約帶看狀況（之後接資料）。
-        </p>
-      </article>
+        </button>
 
-      <!-- 4. 會員登入 -->
-      <article class="role-card" id="role-member">
-        <div class="role-header">
-          <div class="role-icon">🙋‍♀️</div>
-          <div>
-            <div class="role-title">
-              會員 / 租客
-              <span class="role-tag">會員後台</span>
-            </div>
+        <!-- 4. 會員登入（承租房客） -->
+        <button class="role-card" onclick="goToRole('member')">
+          <div class="role-title">承租會員登入</div>
+          <div class="role-desc">
+            上傳良民證、管理租約與居家維護申請，未上傳者僅能訪客瀏覽。
           </div>
-        </div>
-        <p class="role-desc">
-          ● 上傳基本資料與必要文件。<br />
-          ● 管理預約帶看與心願單。<br />
-          ● 之後可看到自己的瀏覽紀錄。
-        </p>
-      </article>
-    </section>
-  </main>
+        </button>
+      </div>
 
-  <footer>
-    目前 4 種身份先共用同一登入帳號，<strong>流程跑順後</strong>，再加上真正的權限管控。
-  </footer>
+      <div style="margin-top:16px; font-size:12px; color:#6b7280;">
+        小提醒：登入前可以先自由瀏覽首頁與房源，若要預約帶看 / 線上簽約 / 每月刷卡扣款，需完成會員登入與資料審核。
+      </div>
+    </main>
 
-  <script>
-    document.getElementById("role-owner")?.addEventListener("click", () => {
-      window.location.href = "owner.html";
-    });
-    document.getElementById("role-company")?.addEventListener("click", () => {
-      window.location.href = "company.html";
-    });
-    document.getElementById("role-agent")?.addEventListener("click", () => {
-      window.location.href = "agent.html";
-    });
-    document.getElementById("role-member")?.addEventListener("click", () => {
-      window.location.href = "member.html";
-    });
-  </script>
+    <footer class="bottom-nav">
+      <nav>
+        <a href="home.html" class="nav-item">
+          <span class="icon">🏠</span>
+          <span class="label">首頁</span>
+        </a>
+        <a href="browse.html" class="nav-item">
+          <span class="icon">❤️</span>
+          <span class="label">心願單</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+          <span class="icon">📅</span>
+          <span class="label">預約帶看</span>
+        </a>
+        <a href="post.html" class="nav-item">
+          <span class="icon">🛠️</span>
+          <span class="label">居家維護</span>
+        </a>
+        <a href="roles.html" class="nav-item active">
+          <span class="icon">👤</span>
+          <span class="label">登入身份</span>
+        </a>
+      </nav>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

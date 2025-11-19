@@ -2,723 +2,329 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>好想租屋｜首頁</title>
+  <title>好租租屋｜首頁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="logo.jpg" />
-
-  <!-- 字型 -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    :root {
-      --primary: #0f766e;      /* 主色：綠藍 */
-      --primary-soft: #e0f2f1; /* 主色淡底 */
-      --accent: #f97316;       /* 強調色：橘色 */
-      --bg: #f5f5f5;
-      --text-main: #111827;
-      --text-sub: #6b7280;
-      --card-radius: 18px;
-      --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.12);
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text-main);
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      border-radius: 12px;
-      display: block;
-    }
-
-    /* 整體框架：上方內容 + 下方導覽固定 */
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 64px; /* 預留底部導覽高度 */
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: linear-gradient(180deg, #ffffff, #f9fafb);
-      padding: 10px 16px 12px;
-      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
-    }
-
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-area img {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .logo-text-main {
-      font-weight: 700;
-      font-size: 17px;
-    }
-
-    .logo-text-sub {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
-    .notify-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2);
-    }
-
-    .search-bar {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      font-size: 14px;
-      color: var(--text-sub);
-    }
-
-    .search-input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .search-icon {
-      font-size: 16px;
-    }
-
-    main {
-      flex: 1;
-      padding: 12px 16px 16px;
-      overflow-x: hidden;
-    }
-
-    /* 上排三大入口 */
-    .entry-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .entry-card {
-      border-radius: 16px;
-      padding: 10px 8px;
-      text-align: left;
-      background: white;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .entry-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: 0.06;
-      background: radial-gradient(circle at top left, #0f766e, transparent 55%);
-    }
-
-    .entry-tag {
-      font-size: 11px;
-      color: var(--text-sub);
-      margin-bottom: 4px;
-      position: relative;
-    }
-
-    .entry-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      position: relative;
-    }
-
-    .entry-sub {
-      font-size: 11px;
-      color: var(--text-sub);
-      position: relative;
-    }
-
-    .entry-icon {
-      position: absolute;
-      right: 8px;
-      bottom: 8px;
-      font-size: 20px;
-      opacity: 0.7;
-    }
-
-    .entry-card--rent {
-      background: linear-gradient(135deg, #ecfdf3, #f0f9ff);
-    }
-
-    .entry-card--buy {
-      background: linear-gradient(135deg, #fef9c3, #fef3c7);
-    }
-
-    .entry-card--manage {
-      background: linear-gradient(135deg, #eef2ff, #e0f2fe);
-    }
-
-    /* Section 通用樣式 */
-    .section {
-      margin-bottom: 22px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .section-subtitle {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
-    .section-link {
-      font-size: 12px;
-      color: var(--text-sub);
-      text-decoration: underline;
-    }
-
-    /* 橫向滑動卡片列 */
-    .scroll-row {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding: 4px 2px 4px 0;
-      scroll-snap-type: x mandatory;
-    }
-
-    .scroll-row::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .scroll-row::-webkit-scrollbar-thumb {
-      background: #e5e7eb;
-      border-radius: 999px;
-    }
-
-    .listing-card {
-      min-width: 230px;
-      max-width: 230px;
-      background: #ffffff;
-      border-radius: var(--card-radius);
-      box-shadow: var(--shadow-soft);
-      scroll-snap-align: start;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .listing-img-wrap {
-      position: relative;
-      overflow: hidden;
-      height: 150px;
-    }
-
-    .listing-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .badge {
-      position: absolute;
-      left: 10px;
-      top: 10px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 500;
-      background: rgba(15, 118, 110, 0.94);
-      color: #fff;
-    }
-
-    .badge--hot {
-      background: rgba(239, 68, 68, 0.96);
-    }
-
-    .badge--new {
-      background: rgba(59, 130, 246, 0.96);
-    }
-
-    .badge--sale {
-      background: rgba(249, 115, 22, 0.96);
-    }
-
-    .card-content {
-      padding: 10px 12px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .card-location {
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-top: 6px;
-    }
-
-    .card-price {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .card-price span {
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--text-sub);
-      margin-left: 2px;
-    }
-
-    .card-meta {
-      font-size: 11px;
-      color: var(--text-sub);
-      text-align: right;
-    }
-
-    .card-meta strong {
-      color: #16a34a;
-    }
-
-    /* 底部導覽列 */
-    footer {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 30;
-      background: #ffffff;
-      border-top: 1px solid #e5e7eb;
-    }
-
-    .bottom-nav {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .bottom-nav a {
-      padding: 6px 4px 4px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-sub);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .bottom-nav a .icon {
-      font-size: 18px;
-    }
-
-    .bottom-nav a.active {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .bottom-nav a.active .icon {
-      transform: translateY(-1px);
-    }
-
-    @media (min-width: 900px) {
-      .page {
-        max-width: 900px;
-        margin: 0 auto;
-        border-left: 1px solid #e5e7eb;
-        border-right: 1px solid #e5e7eb;
-        background: #ffffff;
-      }
-      body {
-        background: radial-gradient(circle at top, #e0f2fe, #f5f5f5 55%);
-      }
-      main {
-        background: linear-gradient(180deg, #ffffff, #f9fafb);
-      }
-    }
-  </style>
+  <link rel="icon" type="image/png" href="img/logo.jpg" />
+  <link rel="stylesheet" href="base.css" />
 </head>
 <body>
   <div class="page">
-    <!-- 頂部區塊：LOGO + 搜尋 -->
-    <header>
-      <div class="top-bar">
-        <div class="logo-area">
-          <img src="logo.jpg" alt="好想租屋 Logo" />
-          <div>
-            <div class="logo-text-main">好想租屋</div>
-            <div class="logo-text-sub">找到一個家，不只是找到一個地址</div>
+
+    <!-- 頁首：Logo + 搜尋 -->
+    <header class="header">
+      <div class="header-top">
+        <div class="header-brand">
+          <div class="header-brand-logo">
+            租
+          </div>
+          <div class="header-brand-text">
+            <div class="header-title">好租租屋</div>
+            <div class="header-subtitle">找到一個家，不只是找到一個地址</div>
           </div>
         </div>
-        <div class="notify-dot" title="有新通知"></div>
+        <div class="header-user">
+          高雄⋅台南｜專業包租代管
+        </div>
       </div>
 
       <div class="search-bar">
-        <span class="search-icon">🔍</span>
+        🔍
         <input
-          class="search-input"
           type="search"
-          placeholder="想住哪一區？例：高雄美術館、大台南永康..."
+          placeholder="搜尋地區、捷運站、大樓名稱..."
         />
-        <span style="font-size: 11px; color: var(--text-sub)">篩選</span>
+      </div>
+
+      <!-- 上排三大功能 -->
+      <div style="margin-top:10px; display:flex; gap:8px; justify-content:space-between;">
+        <button class="btn btn-outline" style="flex:1;" onclick="location.href='browse.html'">
+          好想租屋
+        </button>
+        <button class="btn btn-outline" style="flex:1;" onclick="location.href='buy.html'">
+          好想置產
+        </button>
+        <button class="btn btn-primary" style="flex:1;" onclick="location.href='post.html'">
+          委託代管
+        </button>
       </div>
     </header>
 
     <main>
-      <!-- 上排三大入口：好想租屋／好想置產／委託代管 -->
-      <section class="section">
-        <div class="entry-grid">
-          <!-- 租屋入口 -->
-          <a href="rent.html" class="entry-card entry-card--rent">
-            <div class="entry-tag">租屋入口</div>
-            <div class="entry-title">好想租屋</div>
-            <div class="entry-sub">精選物件、預約帶看、線上成交</div>
-            <div class="entry-icon">🏠</div>
-          </a>
-
-          <!-- 置產入口 -->
-          <a href="buy.html" class="entry-card entry-card--buy">
-            <div class="entry-tag">買賣入口</div>
-            <div class="entry-title">好想置產</div>
-            <div class="entry-sub">HOT 新建案、搶手釋出中</div>
-            <div class="entry-icon">🏢</div>
-          </a>
-
-          <!-- 委託代管入口 -->
-          <a href="manage.html" class="entry-card entry-card--manage">
-            <div class="entry-tag">房東入口</div>
-            <div class="entry-title">委託代管</div>
-            <div class="entry-sub">安心收租，收益透明可查</div>
-            <div class="entry-icon">🤝</div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 本月 NEW 上架 -->
+      <!-- 區塊一：本月 NEW 上架 -->
       <section class="section">
         <div class="section-header">
           <div>
             <div class="section-title">本月 NEW 上架</div>
-            <div class="section-subtitle">最新釋出房源，手刀預約帶看</div>
+            <div class="section-subtitle">新釋出房源，優先搶先看</div>
           </div>
           <a href="new-listings.html" class="section-link">查看全部</a>
         </div>
 
         <div class="scroll-row">
+          <!-- 卡片 1 -->
           <a href="listing-new-01.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/new1.jpg" alt="高雄美術館景觀兩房" class="listing-img" />
-              <span class="badge badge--new">新上架</span>
+              <img src="img/new1.jpg" alt="高樓景觀兩房" class="listing-img" />
+              <span class="badge badge--new">本月 NEW</span>
             </div>
             <div class="card-content">
-              <div class="card-title">高雄美術館｜景觀兩房</div>
-              <div class="card-location">鼓山區 · 走路 5 分鐘到輕軌站</div>
+              <div class="card-title">高樓景觀兩房｜輕軌旁</div>
+              <div class="card-location">高雄・亞洲新灣區</div>
               <div class="card-footer">
-                <div class="card-price">$18,000<span>/ 月</span></div>
-                <div class="card-meta">已被 <strong>23</strong> 人收藏</div>
+                <div class="card-price">$18,000 <span>/ 月</span></div>
+                <div class="card-meta">曝光 1,238 次</div>
               </div>
             </div>
           </a>
 
+          <!-- 卡片 2 -->
           <a href="listing-new-02.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/new2.jpg" alt="新崛江機能三房" class="listing-img" />
-              <span class="badge badge--new">新上架</span>
+              <img src="img/new2.jpg" alt="新成屋景觀兩房" class="listing-img" />
+              <span class="badge badge--new">新釋出房源</span>
             </div>
             <div class="card-content">
-              <div class="card-title">新崛江生活圈三房</div>
-              <div class="card-location">新興區 · 備有室內機車位</div>
+              <div class="card-title">捷運口質感兩房</div>
+              <div class="card-location">高雄・三多商圈</div>
               <div class="card-footer">
-                <div class="card-price">$21,500<span>/ 月</span></div>
-                <div class="card-meta">本週看屋 <strong>7</strong> 組</div>
+                <div class="card-price">$21,500 <span>/ 月</span></div>
+                <div class="card-meta">預約 23 組</div>
               </div>
             </div>
           </a>
 
+          <!-- 卡片 3 -->
           <a href="listing-new-03.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/new3.jpg" alt="台南成大商圈套房" class="listing-img" />
-              <span class="badge badge--new">新上架</span>
+              <img src="img/new3.jpg" alt="設計師小宅" class="listing-img" />
+              <span class="badge badge--new">精選新案</span>
             </div>
             <div class="card-content">
-              <div class="card-title">成大商圈高樓景觀套房</div>
-              <div class="card-location">東區 · 附傢俱、可短租</div>
+              <div class="card-title">設計師小宅｜含傢俱家電</div>
+              <div class="card-location">台南・東區文化中心</div>
               <div class="card-footer">
-                <div class="card-price">$11,800<span>/ 月</span></div>
-                <div class="card-meta">瀏覽 <strong>102</strong> 次</div>
+                <div class="card-price">$16,800 <span>/ 月</span></div>
+                <div class="card-meta">曝光 986 次</div>
               </div>
             </div>
           </a>
         </div>
       </section>
 
-      <!-- 熱門精選房源 -->
+      <!-- 區塊二：熱門精選房源 -->
       <section class="section">
         <div class="section-header">
           <div>
             <div class="section-title">熱門精選房源</div>
-            <div class="section-subtitle">訪客 & 會員點擊最高排名</div>
+            <div class="section-subtitle">訪客 & 會員點擊數最高房源</div>
           </div>
-          <a href="top-listings.html" class="section-link">更多精選</a>
+          <a href="hot-listings.html" class="section-link">查看更多房源</a>
         </div>
 
         <div class="scroll-row">
           <a href="listing-hot-01.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/hot1.jpg" alt="愛河灣河景兩房" class="listing-img" />
-              <span class="badge badge--hot">超熱門</span>
+              <img src="img/hot1.jpg" alt="捷運宅" class="listing-img" />
+              <span class="badge badge--hot">熱門中</span>
             </div>
             <div class="card-content">
-              <div class="card-title">愛河灣河景兩房</div>
-              <div class="card-location">鹽埕區 · 河畔散步 3 分鐘</div>
+              <div class="card-title">商圈捷運宅｜附平面車位</div>
+              <div class="card-location">高雄・巨蛋商圈</div>
               <div class="card-footer">
-                <div class="card-price">$19,800<span>/ 月</span></div>
-                <div class="card-meta">曝光 <strong>1,238</strong> 次</div>
+                <div class="card-price">$19,800 <span>/ 月</span></div>
+                <div class="card-meta">曝光 3,012 次</div>
               </div>
             </div>
           </a>
 
           <a href="listing-hot-02.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/hot2.jpg" alt="高鐵左營商務宅" class="listing-img" />
-              <span class="badge badge--hot">超熱門</span>
+              <img src="img/hot2.jpg" alt="商務住宅" class="listing-img" />
+              <span class="badge badge--hot">商務住宅</span>
             </div>
             <div class="card-content">
-              <div class="card-title">高鐵左營商務宅</div>
-              <div class="card-location">左營區 · 一分鐘上高鐵</div>
+              <div class="card-title">高樓層景觀三房｜雙衛浴</div>
+              <div class="card-location">高雄・農十六特區</div>
               <div class="card-footer">
-                <div class="card-price">$23,000<span>/ 月</span></div>
-                <div class="card-meta">預約帶看 <strong>15</strong> 組</div>
+                <div class="card-price">$23,000 <span>/ 月</span></div>
+                <div class="card-meta">預約帶看 18 組</div>
               </div>
             </div>
           </a>
 
           <a href="listing-hot-03.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/hot3.jpg" alt="台南安平海景宅" class="listing-img" />
-              <span class="badge badge--hot">超熱門</span>
+              <img src="img/hot3.jpg" alt="河景視野" class="listing-img" />
+              <span class="badge badge--hot">河景首選</span>
             </div>
             <div class="card-content">
-              <div class="card-title">台南安平海景宅</div>
-              <div class="card-location">安平區 · 海景第一排</div>
+              <div class="card-title">河景高樓層兩房</div>
+              <div class="card-location">台南・安平區</div>
               <div class="card-footer">
-                <div class="card-price">$28,800<span>/ 月</span></div>
-                <div class="card-meta">收藏 <strong>87</strong> 次</div>
+                <div class="card-price">$17,500 <span>/ 月</span></div>
+                <div class="card-meta">曝光 2,456 次</div>
               </div>
             </div>
           </a>
         </div>
       </section>
 
-      <!-- HOT 地產買賣 -->
+      <!-- 區塊三：HOT 地產買賣 -->
       <section class="section">
         <div class="section-header">
           <div>
             <div class="section-title">HOT 地產買賣</div>
-            <div class="section-subtitle">高雄 & 大台南話題物件</div>
+            <div class="section-subtitle">投資型 & 自住型精選物件</div>
           </div>
-          <a href="sale-list.html" class="section-link">更多出售</a>
-        </div>
-
-        <div class="scroll-row">
-          <a href="sale-01.html" class="listing-card">
-            <div class="listing-img-wrap">
-              <img src="img/sale1.jpg" alt="高雄楠梓首購兩房" class="listing-img" />
-              <span class="badge badge--sale">出售中</span>
-            </div>
-            <div class="card-content">
-              <div class="card-title">楠梓交流道｜首購兩房</div>
-              <div class="card-location">楠梓區 · 管理好、社區新</div>
-              <div class="card-footer">
-                <div class="card-price">$6,980,000<span> 起</span></div>
-                <div class="card-meta">本週諮詢 <strong>9</strong> 組</div>
-              </div>
-            </div>
-          </a>
-
-          <a href="sale-02.html" class="listing-card">
-            <div class="listing-img-wrap">
-              <img src="img/sale2.jpg" alt="台南東區學區三房" class="listing-img" />
-              <span class="badge badge--sale">出售中</span>
-            </div>
-            <div class="card-content">
-              <div class="card-title">台南東區｜學區三房</div>
-              <div class="card-location">東區 · 離國小走路 3 分鐘</div>
-              <div class="card-footer">
-                <div class="card-price">$9,500,000<span> 起</span></div>
-                <div class="card-meta">瀏覽 <strong>856</strong> 次</div>
-              </div>
-            </div>
-          </a>
-
-          <a href="sale-03.html" class="listing-card">
-            <div class="listing-img-wrap">
-              <img src="img/sale3.jpg" alt="高雄美術館景觀三房" class="listing-img" />
-              <span class="badge badge--sale">預售屋</span>
-            </div>
-            <div class="card-content">
-              <div class="card-title">美術館特區景觀三房</div>
-              <div class="card-location">鼓山區 · 預售，新案釋出</div>
-              <div class="card-footer">
-                <div class="card-price">$13,800,000<span> 起</span></div>
-                <div class="card-meta">來電 <strong>12</strong> 組</div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </section>
-
-      <!-- 新建案推薦 -->
-      <section class="section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">新建案推薦</div>
-            <div class="section-subtitle">由業務實地勘查後推薦</div>
-          </div>
-          <a href="projects.html" class="section-link">全部建案</a>
+          <a href="buy.html" class="section-link">查看更多物件</a>
         </div>
 
         <div class="scroll-row">
           <a href="project-01.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/project1.jpg" alt="港都之星" class="listing-img" />
-              <span class="badge">高雄 · 新建案</span>
+              <img src="img/project1.jpg" alt="新建案" class="listing-img" />
+              <span class="badge badge--sale">預售新案</span>
             </div>
             <div class="card-content">
-              <div class="card-title">港都之星｜水岸景觀宅</div>
-              <div class="card-location">亞灣特區 · 2–3 房產品</div>
+              <div class="card-title">灣區景觀三房</div>
+              <div class="card-location">高雄・亞灣特區</div>
               <div class="card-footer">
-                <div class="card-price">$880<span> 萬起</span></div>
-                <div class="card-meta">賞屋禮 · 預約制</div>
+                <div class="card-price">$10,500,000 <span>起</span></div>
+                <div class="card-meta">投資報酬試算</div>
               </div>
             </div>
           </a>
 
           <a href="project-02.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/project2.jpg" alt="台南光之丘" class="listing-img" />
-              <span class="badge">台南 · 新建案</span>
+              <img src="img/project2.jpg" alt="透天" class="listing-img" />
+              <span class="badge badge--sale">熱銷中</span>
             </div>
             <div class="card-content">
-              <div class="card-title">光之丘｜公園第一排</div>
-              <div class="card-location">永康區 · 2–4 房</div>
+              <div class="card-title">透天厝庭院三車位</div>
+              <div class="card-location">台南・永康區</div>
               <div class="card-footer">
-                <div class="card-price">$960<span> 萬起</span></div>
-                <div class="card-meta">來電洽詢</div>
+                <div class="card-price">$15,800,000 <span>起</span></div>
+                <div class="card-meta">成交實價比價</div>
               </div>
             </div>
           </a>
 
           <a href="project-03.html" class="listing-card">
             <div class="listing-img-wrap">
-              <img src="img/project3.jpg" alt="海景公園城" class="listing-img" />
-              <span class="badge">高雄 · 新建案</span>
+              <img src="img/project3.jpg" alt="投資套房" class="listing-img" />
+              <span class="badge badge--sale">高投報</span>
             </div>
             <div class="card-content">
-              <div class="card-title">海景公園城｜度假感宅</div>
-              <div class="card-location">前鎮區 · 緊鄰公園綠地</div>
+              <div class="card-title">收租套房包租專案</div>
+              <div class="card-location">高雄・多區可選</div>
               <div class="card-footer">
-                <div class="card-price">$1,080<span> 萬起</span></div>
-                <div class="card-meta">線上簡介可索取</div>
+                <div class="card-price">年投報 <span>約 3.5–4.5%</span></div>
+                <div class="card-meta">含包租代管</div>
               </div>
             </div>
           </a>
         </div>
       </section>
+
+      <!-- 區塊四：新建案推薦 -->
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">新建案推薦</div>
+            <div class="section-subtitle">與建商合作的嚴選新案</div>
+          </div>
+          <a href="projects.html" class="section-link">看更多建案</a>
+        </div>
+
+        <div class="scroll-row">
+          <a href="project-04.html" class="listing-card">
+            <div class="listing-img-wrap">
+              <img src="img/project2.jpg" alt="輕軌宅建案" class="listing-img" />
+              <span class="badge badge--sale">輕軌宅</span>
+            </div>
+            <div class="card-content">
+              <div class="card-title">輕軌首排景觀宅</div>
+              <div class="card-location">高雄・鼓山區</div>
+              <div class="card-footer">
+                <div class="card-price">$13,800,000 <span>起</span></div>
+                <div class="card-meta">兩房／三房可選</div>
+              </div>
+            </div>
+          </a>
+
+          <a href="project-05.html" class="listing-card">
+            <div class="listing-img-wrap">
+              <img src="img/project3.jpg" alt="商辦建案" class="listing-img" />
+              <span class="badge badge--sale">企業首選</span>
+            </div>
+            <div class="card-content">
+              <div class="card-title">複合式商辦大樓</div>
+              <div class="card-location">高雄・鳳山區</div>
+              <div class="card-footer">
+                <div class="card-price">$20,500,000 <span>起</span></div>
+                <div class="card-meta">稅務規劃諮詢</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 精選合作好物：例如烏魚子禮盒 -->
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">精選合作好物</div>
+            <div class="section-subtitle">與在地好品牌合作，住得好也吃得好</div>
+          </div>
+          <a href="goods.html" class="section-link">更多合作商品</a>
+        </div>
+
+        <div class="scroll-row">
+          <div class="goods-card">
+            <div class="goods-img-wrap">
+              <img src="img/gift1.jpg" alt="烏魚子禮盒" class="goods-img" />
+            </div>
+            <div class="card-content">
+              <div class="card-title">烏魚子禮盒｜入住禮限量合作</div>
+              <div class="card-location">烏魚號 Karasumi</div>
+              <div class="card-footer">
+                <div class="card-price">$1,880 <span>/ 組</span></div>
+                <div class="card-meta">入住指定專案加購優惠</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <!-- 底部導覽列 -->
+    <footer class="bottom-nav">
+      <nav>
+        <a href="home.html" class="nav-item active">
+          <span class="icon">🏠</span>
+          <span class="label">首頁</span>
+        </a>
+        <a href="browse.html" class="nav-item">
+          <span class="icon">❤️</span>
+          <span class="label">心願單</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+          <span class="icon">📅</span>
+          <span class="label">預約帶看</span>
+        </a>
+        <a href="post.html" class="nav-item">
+          <span class="icon">🛠️</span>
+          <span class="label">居家維護</span>
+        </a>
+        <a href="roles.html" class="nav-item">
+          <span class="icon">👤</span>
+          <span class="label">登入身份</span>
+        </a>
+      </nav>
+    </footer>
   </div>
 
-  <!-- 底部導覽列：首頁 / 心願單 / 預約帶看 / 居家維護 / 登入身份 -->
-  <footer>
-    <nav class="bottom-nav">
-      <a href="home.html" class="active">
-        <span class="icon">🏠</span>
-        <span class="label">首頁</span>
-      </a>
-      <a href="browse.html">
-        <span class="icon">🤍</span>
-        <span class="label">心願單</span>
-      </a>
-      <a href="orders.html">
-        <span class="icon">📅</span>
-        <span class="label">預約帶看</span>
-      </a>
-      <a href="post.html">
-        <span class="icon">🛠</span>
-        <span class="label">居家維護</span>
-      </a>
-      <a href="roles.html">
-        <span class="icon">👤</span>
-        <span class="label">登入身份</span>
-      </a>
-    </nav>
-  </footer>
-
-  <!-- 如果你原本有 firebase.js / home.js 就保留這兩行 -->
-  <script type="module" src="./firebase.js"></script>
-  <script type="module" src="./home.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

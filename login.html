@@ -2,253 +2,207 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <title>好租租屋｜登入</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>好想租屋｜登入</title>
-  <link rel="icon" type="image/png" href="logo.jpg" />
-  <style>
-    :root {
-      --primary: #10b4c7; /* 蒂芬妮藍 */
-      --primary-dark: #0f8798;
-      --bg: #f4f6f9;
-    }
-    body {
-      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .login-box {
-      background: #fff;
-      padding: 32px 28px;
-      border-radius: 16px;
-      box-shadow: 0 6px 24px rgba(15,23,42,0.12);
-      width: 360px;
-      text-align: center;
-    }
-    h2 {
-      margin-bottom: 8px;
-      font-size: 20px;
-    }
-    p.subtitle {
-      margin: 0 0 18px;
-      font-size: 13px;
-      color: #6b7280;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border: none;
-      border-radius: 999px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-    #btn-google { background-color: #4285F4; color: white; }
-    #btn-line { background-color: #06C755; color: white; }
-    #btn-email-toggle { background-color: #4b5563; color: white; }
-    #btn-guest { background-color: #9ca3af; color: #fff; }
-    #btn-phone { background-color: #f59e0b; color: #fff; }
-
-    #email-section {
-      display: none;
-      margin-top: 14px;
-      text-align: left;
-    }
-    input {
-      width: 100%;
-      padding: 9px 10px;
-      margin: 5px 0;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    #status {
-      margin-top: 14px;
-      font-size: 13px;
-      color: #374151;
-      min-height: 1.4em;
-    }
-    .logo {
-      margin-bottom: 8px;
-    }
-  </style>
+  <link rel="stylesheet" href="base.css" />
 </head>
-<body>
-  <div class="login-box">
-    <img src="logo.jpg" alt="logo" width="64" class="logo">
-    <h2>開始使用 好想租屋</h2>
-    <p class="subtitle">請選擇登入方式，登入後可瀏覽更多功能。</p>
-
-    <button id="btn-google">使用 Google 登入</button>
-    <button id="btn-line">使用 LINE 登入</button>
-    <button id="btn-email-toggle">使用電子郵件登入</button>
-
-    <div id="email-section">
-      <input id="email-input" type="email" placeholder="請輸入 Email">
-      <input id="password-input" type="password" placeholder="請輸入密碼（至少 6 字）">
-      <button id="btn-email-login">登入 / 註冊</button>
+<body class="auth-page">
+  <div class="auth-box">
+    <div class="auth-logo">
+      租
+    </div>
+    <div class="auth-title">開始使用 好租租屋</div>
+    <div class="auth-subtitle">
+      請先登入後再進入後台。若只想逛逛，也可直接回首頁。
     </div>
 
-    <button id="btn-guest">以訪客身分繼續</button>
-    <button id="btn-phone">手機登入（即將開放）</button>
+    <button id="btn-google" class="btn btn-primary auth-btn">
+      使用 Google 登入
+    </button>
+    <button id="btn-line" class="btn btn-outline auth-btn">
+      使用 LINE 登入
+    </button>
 
-    <p id="status"></p>
+    <button id="btn-email-toggle" class="btn auth-btn">
+      使用電子郵件登入
+    </button>
+
+    <div id="email-section" style="display:none; margin-top:8px; text-align:left;">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input id="email-input" type="email" class="form-input" placeholder="請輸入 Email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">密碼（至少 6 字）</label>
+        <input id="password-input" type="password" class="form-input" placeholder="請輸入密碼" />
+      </div>
+      <button id="btn-email-login" class="btn btn-primary auth-btn">
+        Email 登入 / 註冊
+      </button>
+    </div>
+
+    <button id="btn-guest" class="btn auth-btn" style="margin-top:10px;">
+      以訪客身分繼續瀏覽
+    </button>
+
+    <div class="auth-status" id="status"></div>
+
+    <div style="margin-top:10px; font-size:12px;">
+      ← 回到 <a href="home.html">首頁</a> 繼續瀏覽
+    </div>
   </div>
 
   <script type="module">
     import {
-      GoogleAuthProvider,
-      OAuthProvider,
+      auth,
+      googleProvider,
+      lineProvider,
       signInWithPopup,
       signInWithRedirect,
       getRedirectResult,
       signInAnonymously,
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    } from "./firebase.js";
 
-    import { auth } from "./firebase-init.js";
+    const AFTER_LOGIN_DEFAULT = "home.html";
 
-    const AFTER_LOGIN_URL = "home.html"; // ✅ 登入後先回首頁
+    const params = new URLSearchParams(window.location.search);
+    const targetRole = params.get("role") || "member";
 
-    const statusEl       = document.getElementById("status");
-    const btnGoogle      = document.getElementById("btn-google");
-    const btnLine        = document.getElementById("btn-line");
-    const btnGuest       = document.getElementById("btn-guest");
-    const btnPhone       = document.getElementById("btn-phone");
-    const btnEmailToggle = document.getElementById("btn-email-toggle");
-    const emailSection   = document.getElementById("email-section");
-    const btnEmailLogin  = document.getElementById("btn-email-login");
-    const emailInput     = document.getElementById("email-input");
-    const passwordInput  = document.getElementById("password-input");
-
-    const googleProvider = new GoogleAuthProvider();
-    const lineProvider   = new OAuthProvider("oidc.oid.line");
-    const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
-
-    function setStatus(msg) {
-      if (statusEl) statusEl.textContent = msg || "";
-    }
-
-    async function signInWithProviderPopup(provider, name) {
-      try {
-        setStatus(`使用 ${name} 登入中...`);
-        await signInWithPopup(auth, provider);
-        setStatus("登入成功，導向中...");
-        window.location.href = AFTER_LOGIN_URL;
-      } catch (err) {
-        console.error(`${name} LOGIN ERROR`, err);
-        setStatus(`${name} 登入失敗：${err.message || "未知錯誤"}`);
+    function getAfterLoginUrl() {
+      switch (targetRole) {
+        case "owner": return "owner.html";
+        case "company": return "company.html";
+        case "agent": return "agent.html";
+        case "member":
+        default:
+          return "profile.html";
       }
     }
 
-    // LINE redirect 回來處理（手機）
+    const statusEl = document.getElementById("status");
+    const btnGoogle = document.getElementById("btn-google");
+    const btnLine = document.getElementById("btn-line");
+    const btnGuest = document.getElementById("btn-guest");
+    const btnEmailToggle = document.getElementById("btn-email-toggle");
+    const emailSection = document.getElementById("email-section");
+    const btnEmailLogin = document.getElementById("btn-email-login");
+    const emailInput = document.getElementById("email-input");
+    const passwordInput = document.getElementById("password-input");
+
+    function setStatus(msg) {
+      if (statusEl) statusEl.textContent = msg;
+    }
+
+    // 處理 LINE redirect 結果（手機版）
     getRedirectResult(auth)
-      .then((result) => {
+      .then(result => {
         if (result && result.user) {
-          setStatus("登入成功，導向中...");
-          window.location.href = AFTER_LOGIN_URL;
+          setStatus("LINE 登入成功，導向中...");
+          window.location.href = getAfterLoginUrl();
         }
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.code !== "auth/no-auth-event") {
           console.error("LINE redirect error", err);
         }
       });
 
-    // Google
-    btnGoogle?.addEventListener("click", () => {
-      signInWithProviderPopup(googleProvider, "Google");
-    });
-
-    // LINE
-    btnLine?.addEventListener("click", async () => {
+    async function signInWithProviderPopup(providerName) {
       try {
-        setStatus("正在開啟 LINE 登入…");
-        if (isMobile) {
-          await signInWithRedirect(auth, lineProvider);
-        } else {
-          await signInWithProviderPopup(lineProvider, "LINE");
+        if (providerName === "Google") {
+          setStatus("使用 Google 登入中...");
+          const { signInWithPopup } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+          await signInWithPopup(auth, googleProvider);
         }
       } catch (err) {
-        console.error("LINE LOGIN ERROR", err);
-        setStatus("LINE 登入失敗：" + (err.message || ""));
+        console.error(providerName + " LOGIN ERROR", err);
+        setStatus(providerName + " 登入失敗：" + (err.message || ""));
+        return;
       }
-    });
+      setStatus("登入成功，導向中...");
+      window.location.href = getAfterLoginUrl();
+    }
 
-    // 訪客
-    btnGuest?.addEventListener("click", async () => {
-      try {
-        setStatus("以訪客身分登入中...");
-        await signInAnonymously(auth);
-        setStatus("登入成功，導向中...");
-        window.location.href = AFTER_LOGIN_URL;
-      } catch (err) {
-        console.error("[GUEST ERROR]", err);
-        setStatus("訪客登入失敗：" + err.message);
-      }
-    });
+    // Google 登入
+    if (btnGoogle) {
+      btnGoogle.addEventListener("click", () => signInWithProviderPopup("Google"));
+    }
 
-    // 手機登入（目前只提示）
-    btnPhone?.addEventListener("click", () => {
-      setStatus("目前僅開放 Google / LINE / Email 登入，手機登入即將推出。");
-    });
+    // LINE 登入（使用 redirect，較適合手機環境）
+    if (btnLine) {
+      btnLine.addEventListener("click", async () => {
+        try {
+          setStatus("正在前往 LINE 登入...");
+          await signInWithRedirect(auth, lineProvider);
+        } catch (err) {
+          console.error("LINE LOGIN ERROR", err);
+          setStatus("LINE 登入失敗：" + (err.message || ""));
+        }
+      });
+    }
 
-    // Email 區塊開關
+    // 訪客登入
+    if (btnGuest) {
+      btnGuest.addEventListener("click", async () => {
+        try {
+          setStatus("以訪客身分登入中...");
+          await signInAnonymously(auth);
+          window.location.href = AFTER_LOGIN_DEFAULT;
+        } catch (err) {
+          console.error("[GUEST ERROR]", err);
+          setStatus("訪客登入失敗：" + (err.message || ""));
+        }
+      });
+    }
+
+    // Email 區塊顯示 / 隱藏
     if (btnEmailToggle && emailSection) {
-      emailSection.style.display = "none";
       btnEmailToggle.addEventListener("click", () => {
         const visible = emailSection.style.display !== "none";
         emailSection.style.display = visible ? "none" : "block";
       });
     }
 
-    // Email 登入 / 自動註冊
-    btnEmailLogin?.addEventListener("click", async () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
+    // Email 登入 / 註冊
+    if (btnEmailLogin && emailInput && passwordInput) {
+      btnEmailLogin.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
 
-      if (!email || !password) {
-        setStatus("請輸入 Email 與密碼。");
-        return;
-      }
-      if (password.length < 6) {
-        setStatus("密碼至少 6 個字。");
-        return;
-      }
-
-      try {
-        setStatus("Email 登入中...");
-        await signInWithEmailAndPassword(auth, email, password);
-        setStatus("登入成功！");
-        window.location.href = AFTER_LOGIN_URL;
-      } catch (err) {
-        if (err.code === "auth/user-not-found") {
-          try {
-            setStatus("找不到帳號，自動註冊中...");
-            await createUserWithEmailAndPassword(auth, email, password);
-            setStatus("註冊完成！");
-            window.location.href = AFTER_LOGIN_URL;
-          } catch (err2) {
-            console.error("EMAIL SIGNUP ERROR", err2);
-            setStatus("註冊失敗：" + err2.message);
-          }
-        } else {
-          console.error("EMAIL LOGIN ERROR", err);
-          setStatus("登入失敗：" + err.message);
+        if (!email || !password) {
+          setStatus("請輸入 Email 與密碼。");
+          return;
         }
-      }
-    });
+        if (password.length < 6) {
+          setStatus("密碼至少 6 個字。");
+          return;
+        }
+
+        try {
+          setStatus("Email 登入中...");
+          await signInWithEmailAndPassword(auth, email, password);
+          setStatus("登入成功！");
+          window.location.href = getAfterLoginUrl();
+        } catch (err) {
+          if (err.code === "auth/user-not-found") {
+            try {
+              setStatus("找不到帳號，自動註冊中...");
+              await createUserWithEmailAndPassword(auth, email, password);
+              setStatus("註冊完成！");
+              window.location.href = getAfterLoginUrl();
+            } catch (err2) {
+              console.error("EMAIL SIGNUP ERROR", err2);
+              setStatus("註冊失敗：" + (err2.message || ""));
+            }
+          } else {
+            console.error("EMAIL LOGIN ERROR", err);
+            setStatus("登入失敗：" + (err.message || ""));
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
