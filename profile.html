@@ -3,478 +3,282 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>個人簡介｜好想租屋</title>
-
+  <title>好想租屋｜個人資料</title>
+  <link rel="icon" type="image/png" href="logo.jpg" />
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
-      background: #f3f4f6;
+      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f4f6f9;
       color: #111827;
     }
 
-    /* 頂部藍色列（模仿 Airbnb App Bar） */
     header {
-      background: #0f766e;
-      color: #ffffff;
-      padding: 10px 16px;
-      box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .top-bar {
-      max-width: 960px;
-      margin: 0 auto;
+      background: #047857;
+      color: #fff;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .top-bar-title {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
+    header h1 {
+      margin: 0;
+      font-size: 18px;
     }
 
-    .top-bar-actions button {
-      border: none;
-      background: transparent;
-      color: #ffffff;
-      font-size: 18px;
-      cursor: pointer;
+    header a {
+      color: #bbf7d0;
+      font-size: 13px;
+      text-decoration: none;
+      margin-left: 12px;
     }
 
     main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 16px 16px 80px;
+      max-width: 720px;
+      margin: 24px auto 40px;
+      padding: 0 16px;
     }
 
-    /* 頭像卡片區 */
-    .profile-card {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-      margin-bottom: 16px;
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      margin-bottom: 20px;
     }
 
-    .avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 999px;
-      background: #22c55e;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .profile-info h2 {
-      margin: 0 0 4px;
+    .card h2 {
+      margin: 0 0 12px;
       font-size: 18px;
     }
 
-    .profile-info p {
-      margin: 0;
-      font-size: 13px;
-      color: #6b7280;
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      color: #4b5563;
     }
 
-    /* ⬇⬇ 新增：右側「編輯基本資料」按鈕區 ⬇⬇ */
-    .profile-actions {
-      margin-left: auto;
+    input, select, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      box-sizing: border-box;
     }
 
-    .edit-btn {
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 10px 20px;
       border-radius: 999px;
       border: none;
-      padding: 8px 14px;
-      font-size: 13px;
+      background: #047857;
+      color: #fff;
+      font-size: 15px;
       cursor: pointer;
-      background: #e5e7eb;
-      color: #374151;
-      font-weight: 500;
-      white-space: nowrap;
     }
 
-    .edit-btn:hover {
-      background: #d1d5db;
-    }
-    /* ⬆⬆ 新增結束 ⬆⬆ */
-
-    /* 身份 chips 區 */
-    .role-row {
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-inline: 2px;
+    button:hover {
+      opacity: 0.9;
     }
 
-    .role-title {
+    #msg {
+      margin-top: 10px;
       font-size: 13px;
-      color: #6b7280;
-      margin-right: 4px;
-    }
-
-    .role-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: #ecfdf3;
-      font-size: 12px;
-      color: #166534;
-      font-weight: 600;
-    }
-
-    .chips-row-wrapper {
-      overflow-x: auto;
-      padding-bottom: 2px;
-      margin-bottom: 14px;
-    }
-
-    .chips-row {
-      display: inline-flex;
-      gap: 8px;
-      padding: 4px 2px;
-    }
-
-    .chip {
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      padding: 6px 12px;
-      font-size: 12px;
-      background: #ffffff;
       color: #374151;
-      cursor: pointer;
-      white-space: nowrap;
     }
 
-    .chip.active {
-      background: #111827;
-      color: #f9fafb;
-      border-color: #111827;
-    }
-
-    .role-desc {
+    .role-hint {
       font-size: 12px;
       color: #6b7280;
-      margin-bottom: 16px;
-      padding-inline: 2px;
-    }
-
-    /* 服務卡片區塊 */
-    .section-gap {
-      margin-top: 18px;
-    }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section-title span.icon {
-      font-size: 16px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-    }
-
-    .service-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 12px 12px 14px;
-      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-      cursor: default;
-    }
-
-    .service-tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      margin-bottom: 6px;
-    }
-
-    .service-card h3 {
-      margin: 0 0 4px;
-      font-size: 14px;
-    }
-
-    .service-card p {
-      margin: 0;
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    /* 底部導覽（跟其他頁一致） */
-    footer {
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 56px;
-      border-top: 1px solid #e5e7eb;
-      background: #ffffff;
-    }
-
-    footer .tabs {
-      max-width: 960px;
-      margin: 0 auto;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      font-size: 13px;
-    }
-
-    footer .tabs a {
-      text-decoration: none;
-      color: #9ca3af;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      font-size: 11px;
-    }
-
-    footer .tabs a .icon {
-      font-size: 17px;
-      line-height: 1;
-    }
-
-    footer .tabs a.active {
-      color: #0f766e;
-      font-weight: 600;
-    }
-
-    @media (min-width: 1024px) {
-      header,
-      main {
-        padding-inline: 32px;
-      }
+      margin-top: 4px;
     }
   </style>
 </head>
-
 <body>
-  <!-- 頂部列 -->
   <header>
-    <div class="top-bar">
-      <div class="top-bar-title">個人簡介</div>
-      <div class="top-bar-actions">
-        <button aria-label="通知">🔔</button>
-      </div>
+    <h1>好想租屋｜個人資料</h1>
+    <div>
+      <a href="account.html">回會員中心</a>
+      <a href="login.html">登入頁</a>
     </div>
   </header>
 
   <main>
-    <!-- 頭像卡片 + 編輯按鈕 -->
-    <section class="section-gap">
-      <div class="profile-card">
-        <div class="avatar" id="avatarIcon">租</div>
+    <section class="card">
+      <h2>基本資料</h2>
 
-        <div class="profile-info">
-          <h2 id="userName">好想租屋會員</h2>
-          <p id="userRoleLabel">目前的身份：尚未設定</p>
-        </div>
+      <label for="displayName">姓名 / 顯示名稱</label>
+      <input id="displayName" placeholder="請輸入姓名">
 
-        <div class="profile-actions">
-          <button class="edit-btn" type="button"
-                  onclick="window.location.href='account.html'">
-            編輯基本資料
-          </button>
-        </div>
-      </div>
-    </section>
+      <label for="email">Email（登入用，不可修改）</label>
+      <input id="email" disabled>
 
-    <!-- 身份 chips 列 -->
-    <section>
-      <div class="role-row">
-        <div>
-          <span class="role-title">切換你現在的身份</span>
-          <span class="role-badge" id="roleSpan">尚未設定</span>
-        </div>
-      </div>
+      <label for="phone">手機號碼</label>
+      <input id="phone" placeholder="請輸入手機號碼">
 
-      <div class="chips-row-wrapper">
-        <div class="chips-row" id="roleChips">
-          <button class="chip" data-role="guest">房客／旅客</button>
-          <button class="chip" data-role="landlord">房東</button>
-          <button class="chip" data-role="master">包租公／包租婆</button>
-          <button class="chip" data-role="agent">代管業者</button>
-          <button class="chip" data-role="investor">置產投資人</button>
-          <button class="chip" data-role="other">其他身份</button>
-        </div>
+      <label for="city">服務城市</label>
+      <select id="city">
+        <option value="">請選擇</option>
+        <option value="高雄市">高雄市</option>
+        <option value="台南市">台南市（大臺南）</option>
+        <option value="其他">其他（暫不服務）</option>
+      </select>
+
+      <label for="role">目前身分</label>
+      <select id="role">
+        <option value="tenant">一般租客 / 房客</option>
+        <option value="landlord">屋主（名下有物件）</option>
+        <option value="agent">業務 / 代管專員</option>
+        <option value="admin">公司管理者</option>
+      </select>
+      <div class="role-hint">
+        ※ 之後可以在後台由公司調整身分，一般租客不用改。
       </div>
 
-      <p class="role-desc" id="roleDesc">
-        選擇一個最符合你現在使用情境的角色，系統會依照身份優先顯示適合的工具與提醒。
-      </p>
-    </section>
+      <label for="notes">備註 / 特別需求（選填）</label>
+      <textarea id="notes" placeholder="例如：希望近捷運、有電梯、可養寵物…"></textarea>
 
-    <!-- 出租管理 -->
-    <section class="section-gap">
-      <div class="section-title">
-        <span class="icon">🔑</span>
-        <span>出租管理</span>
-      </div>
-
-      <div class="card-grid" id="section-rent">
-        <article class="service-card">
-          <div class="service-tag">物件管理</div>
-          <h3>管理你的出租物件</h3>
-          <p>查看目前委託管理、待出租或自主管理中的房源，之後可串接 Firestore 房源清單。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">租金收入</div>
-          <h3>每月租金與收款紀錄</h3>
-          <p>統計每月入帳租金、已收／未收款狀態，未來可整合帳務報表。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">代管委託</div>
-          <h3>查看委託代管進度</h3>
-          <p>追蹤代管合約、付款紀錄與對帳情形，之後可加入線上簽約與通知。</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- 房客服務 -->
-    <section class="section-gap">
-      <div class="section-title">
-        <span class="icon">🛠</span>
-        <span>房客服務</span>
-      </div>
-
-      <div class="card-grid" id="section-service">
-        <article class="service-card">
-          <div class="service-tag">合約紀錄</div>
-          <h3>租約與歷史紀錄</h3>
-          <p>集中管理歷年租約與附件，未來可從 Firestore 或檔案庫載入資料。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">報修與維護</div>
-          <h3>維修申請與處理進度</h3>
-          <p>紀錄房客報修內容、維護流程與處理狀態，幫助你掌握每一次維修。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">租金與費用</div>
-          <h3>租金與各項費用付款</h3>
-          <p>未來可整合第三方金流與繳費紀錄，方便查詢與對帳。</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- 置產服務 -->
-    <section class="section-gap">
-      <div class="section-title">
-        <span class="icon">🏠</span>
-        <span>置產服務</span>
-      </div>
-
-      <div class="card-grid" id="section-invest">
-        <article class="service-card">
-          <div class="service-tag">房產指南</div>
-          <h3>好想置產房產指南</h3>
-          <p>閱讀房市趨勢、試算案例與購屋流程，點擊可前往「好想置產」頁面（buy.html）。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">屋況諮詢</div>
-          <h3>專業屋況諮詢與健檢</h3>
-          <p>預約屋況檢查、估價與出租前整理建議，之後可串接預約系統。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">代找投資物件</div>
-          <h3>量身挑選投資物件</h3>
-          <p>輸入你的預算與投報目標，未來可由顧問團隊媒合適合的標的。</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- 帳號與其他 -->
-    <section class="section-gap">
-      <div class="section-title">
-        <span class="icon">⚙️</span>
-        <span>帳號與其他</span>
-      </div>
-
-      <div class="card-grid" id="section-other">
-        <article class="service-card">
-          <div class="service-tag">帳號設定</div>
-          <h3>登入方式與安全設定</h3>
-          <p>管理電話、Email、第三方登入方式與通知偏好。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">客服與協助</div>
-          <h3>聯繫客服與常見問題</h3>
-          <p>查看平台使用說明、客服聯繫方式與服務流程。</p>
-        </article>
-
-        <article class="service-card">
-          <div class="service-tag">法律資訊</div>
-          <h3>租賃與代管相關法規</h3>
-          <p>瞭解租賃住宅、包租代管與房東義務，未來可連結到法規資料庫。</p>
-        </article>
-    </div>
+      <button id="save-profile">儲存資料</button>
+      <p id="msg">載入中…</p>
     </section>
   </main>
 
-  <!-- 底部導覽 -->
-  <footer>
-    <div class="tabs">
-      <a href="home.html">
-        <span class="icon">🏠</span>
-        <span>首頁</span>
-      </a>
-      <a href="browse.html">
-        <span class="icon">🤍</span>
-        <span>心願單</span>
-      </a>
-      <a href="orders.html">
-        <span class="icon">📅</span>
-        <span>預約帶看</span>
-      </a>
-      <a href="manage.html">
-        <span class="icon">🛠</span>
-        <span>居家維護</span>
-      </a>
-      <a href="profile.html" class="active">
-        <span class="icon">👤</span>
-        <span>個人簡介</span>
-      </a>
-    </div>
-  </footer>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <!-- Firebase / 登入狀態 / 身份 chips 控制 -->
-  <script type="module" src="./firebase.js"></script>
-  <script type="module" src="./profile.js"></script>
+    // ✅ 跟 login.html 一樣的 Firebase 設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
+      authDomain: "smilehouse-a68bc.firebaseapp.com",
+      projectId: "smilehouse-a68bc",
+      storageBucket: "smilehouse-a68bc.firebasestorage.app",
+      messagingSenderId: "542151591313",
+      appId: "1:542151591313:web:e10b10e0b5a083fe75c630",
+      measurementId: "G-0Q5LFE84ER"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const displayNameEl = document.getElementById("displayName");
+    const emailEl = document.getElementById("email");
+    const phoneEl = document.getElementById("phone");
+    const cityEl = document.getElementById("city");
+    const roleEl = document.getElementById("role");
+    const notesEl = document.getElementById("notes");
+    const msgEl = document.getElementById("msg");
+    const saveBtn = document.getElementById("save-profile");
+
+    function setMsg(text) {
+      if (msgEl) msgEl.textContent = text;
+    }
+
+    // 監聽登入狀態，讀取 users/{uid} 資料
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        // 未登入直接回登入頁
+        window.location.href = "login.html";
+        return;
+      }
+
+      setMsg("載入資料中…");
+
+      try {
+        const ref = doc(db, "users", user.uid);
+        const snap = await getDoc(ref);
+
+        const data = snap.exists() ? snap.data() : {};
+
+        const displayName = data.displayName || user.displayName || "";
+        const email = data.email || user.email || "";
+        const phone = data.phone || "";
+        const city = data.city || "";
+        const role = data.role || "tenant";
+        const notes = data.notes || "";
+
+        displayNameEl.value = displayName;
+        emailEl.value = email;
+        phoneEl.value = phone;
+        cityEl.value = city;
+        roleEl.value = role;
+        notesEl.value = notes;
+
+        setMsg("資料已載入，請確認或修改後儲存。");
+      } catch (err) {
+        console.error("[PROFILE LOAD ERROR]", err);
+        setMsg("載入資料發生錯誤：" + (err.message || ""));
+      }
+    });
+
+    // 儲存資料
+    if (saveBtn) {
+      saveBtn.addEventListener("click", async () => {
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        const displayName = displayNameEl.value.trim();
+        const phone = phoneEl.value.trim();
+        const city = cityEl.value;
+        const role = roleEl.value;
+        const notes = notesEl.value.trim();
+        const email = user.email || "";
+
+        if (!displayName) {
+          setMsg("請填寫姓名 / 顯示名稱。");
+          return;
+        }
+
+        setMsg("儲存中，請稍候…");
+
+        try {
+          const ref = doc(db, "users", user.uid);
+          await setDoc(ref, {
+            displayName,
+            phone,
+            city,
+            role,
+            notes,
+            email,
+            updatedAt: serverTimestamp(),
+            createdAt: serverTimestamp()
+          }, { merge: true });
+
+          // 更新 Auth 上的 displayName
+          await updateProfile(user, { displayName });
+
+          setMsg("已儲存 ✔︎");
+        } catch (err) {
+          console.error("[PROFILE SAVE ERROR]", err);
+          setMsg("儲存失敗：" + (err.message || ""));
+        }
+      });
+    }
+  </script>
 </body>
 </html>

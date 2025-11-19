@@ -3,237 +3,424 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>會員資料｜好想租屋</title>
-
+  <title>好想租屋｜會員中心</title>
+  <link rel="icon" type="image/png" href="logo.jpg" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, "Noto Sans TC", sans-serif;
-      background: #f5f5f5;
       margin: 0;
-      padding: 0;
+      font-family: "Noto Sans TC", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f4f6f9;
+      color: #111827;
     }
 
-    .page {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
+    header {
+      background: #047857;
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
+    header .title {
+      font-size: 18px;
+      font-weight: 700;
     }
 
-    .header h1 {
-      margin: 0 0 6px;
-      font-size: 20px;
+    header .subtitle {
+      font-size: 12px;
+      opacity: 0.9;
     }
 
-    .header p {
-      margin: 0;
-      font-size: 13px;
-      color: #6b7280;
+    #logout-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #logout-btn:hover {
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
     }
 
     .card {
       background: #ffffff;
-      border-radius: 18px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.06);
-      padding: 18px 16px 20px;
+      border-radius: 12px;
+      padding: 20px 20px 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      margin-bottom: 20px;
     }
 
-    .group-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin: 12px 0 6px;
-      color: #374151;
-    }
-
-    .field {
-      margin-bottom: 10px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 4px;
-      color: #4b5563;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 14px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      box-sizing: border-box;
-      font-family: inherit;
-      background: #f9fafb;
-    }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .hint {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
-    .row-2 {
+    .card-header {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
-    .row-2 .field {
-      flex: 1;
-    }
-
-    .btn-row {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-    }
-
-    button {
-      flex: 1;
+    .avatar {
+      width: 52px;
+      height: 52px;
       border-radius: 999px;
-      border: none;
-      padding: 11px 14px;
+      background: #e0f2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: #0369a1;
+      margin-right: 14px;
+    }
+
+    .user-main h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .user-main p {
+      margin: 2px 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 4px 0;
       font-size: 14px;
-      cursor: pointer;
-      font-weight: 600;
     }
 
-    .btn-primary {
-      background: #0f766e;
-      color: #fff;
+    .info-label {
+      color: #6b7280;
     }
 
-    .btn-primary:hover {
-      background: #115e59;
+    .info-value {
+      font-weight: 500;
     }
 
-    .btn-ghost {
-      background: #e5e7eb;
-      color: #374151;
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #ecfdf5;
+      color: #047857;
+      margin-right: 4px;
     }
 
     .status {
-      margin-top: 10px;
-      font-size: 12px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .status strong {
+      color: #047857;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    @media (min-width: 720px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .feature {
+      border-radius: 10px;
+      padding: 12px 12px 10px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      font-size: 13px;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
       color: #6b7280;
-      text-align: center;
-      min-height: 16px;
+      font-size: 12px;
+    }
+
+    .btn-link {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: none;
+      background: #047857;
+      color: #fff;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-link:hover {
+      opacity: 0.9;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
-
 <body>
-  <div class="page">
-    <div class="header">
-      <h1>會員資料</h1>
-      <p>填寫一次之後，下次登入就會自動帶出你的基本資料。</p>
+  <header>
+    <div>
+      <div class="title">好想租屋 會員中心</div>
+      <div class="subtitle" id="header-email">載入中...</div>
     </div>
+    <button id="logout-btn">登出</button>
+  </header>
 
-    <div class="card">
-      <form id="profileForm">
-        <!-- 區塊：基本資料 -->
-        <div class="group-title">基本資料</div>
-
-        <div class="field">
-          <label for="fullName">姓名 *</label>
-          <input id="fullName" type="text" placeholder="例如：王小明" required />
+  <main>
+    <!-- 使用者資訊卡片 -->
+    <section class="card">
+      <div class="card-header">
+        <div class="avatar" id="avatar-text">租</div>
+        <div class="user-main">
+          <h2 id="user-name">載入中...</h2>
+          <p id="user-email">—</p>
+          <p>
+            <span class="tag" id="login-method-tag">登入方式：—</span>
+            <span class="tag" id="uid-tag">UID：—</span>
+          </p>
         </div>
+      </div>
 
-        <div class="row-2">
-          <div class="field">
-            <label for="phone">手機 *</label>
-            <input id="phone" type="tel" placeholder="09xx-xxx-xxx" required />
+      <div class="info-row">
+        <div class="info-label">身份（role）</div>
+        <div class="info-value" id="role-text">—</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">登入方式</div>
+        <div class="info-value" id="login-method-text">—</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">信箱</div>
+        <div class="info-value" id="email-detail">—</div>
+      </div>
+
+      <div class="status" id="status">
+        正在讀取您的會員資料...
+      </div>
+    </section>
+
+    <!-- 功能入口 -->
+    <section class="card">
+      <h3 class="section-title">開始使用好想租屋</h3>
+      <div class="grid">
+        <!-- 一般會員 / 所有人都可見 -->
+        <div class="feature">
+          <div class="feature-title">編輯個人資料</div>
+          <div class="feature-desc">
+            填寫您的基本資料與服務城市，未來將依據身分提供不同服務。
           </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="可自動帶入通知用信箱" />
+          <a href="profile.html" class="btn-link">前往填寫</a>
+        </div>
+
+        <!-- 屋主專用入口 -->
+        <div class="feature hidden" id="box-landlord">
+          <div class="feature-title">屋主後台</div>
+          <div class="feature-desc">
+            查看名下物件總數、已出租與刊登中物件，以及每月實收租金。
           </div>
+          <a href="landlord.html" class="btn-link">查看屋主儀表板</a>
         </div>
 
-        <div class="row-2">
-          <div class="field">
-            <label for="lineId">LINE ID</label>
-            <input id="lineId" type="text" placeholder="選填，方便客服聯繫" />
+        <!-- 業務專用入口 -->
+        <div class="feature hidden" id="box-agent">
+          <div class="feature-title">業務後台（刊登 / 案件）</div>
+          <div class="feature-desc">
+            管理代管案件、為屋主新增房源、更新出租狀態與租約。
           </div>
-          <div class="field">
-            <label for="idNumber">身分證字號（或統編）</label>
-            <input id="idNumber" type="text" placeholder="僅作合約使用，不會公開" />
+          <a href="agent.html" class="btn-link">進入業務後台（預留）</a>
+        </div>
+
+        <!-- 管理員專用入口 -->
+        <div class="feature hidden" id="box-admin">
+          <div class="feature-title">管理員控制台</div>
+          <div class="feature-desc">
+            審核租客良民證、管理業務帳號、檢視高雄 / 大台南營運數據。
           </div>
+          <a href="admin.html" class="btn-link">進入管理介面（預留）</a>
         </div>
+      </div>
+    </section>
+  </main>
 
-        <!-- 區塊：居住與職業 -->
-        <div class="group-title">居住與職業</div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        <div class="row-2">
-          <div class="field">
-            <label for="city">主要服務 / 居住城市</label>
-            <select id="city">
-              <option value="">請選擇</option>
-              <option value="台北市">台北市</option>
-              <option value="新北市">新北市</option>
-              <option value="桃園市">桃園市</option>
-              <option value="台中市">台中市</option>
-              <option value="台南市">台南市</option>
-              <option value="高雄市">高雄市</option>
-              <option value="其他地區">其他地區</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="job">職業</label>
-            <input id="job" type="text" placeholder="例如：工程師、老師、自營商…" />
-          </div>
-        </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDap-cGTy0IKomhHbVQKB3Y-JLZk1pK42w",
+      authDomain: "smilehouse-a68bc.firebaseapp.com",
+      projectId: "smilehouse-a68bc",
+      storageBucket: "smilehouse-a68bc.firebasestorage.app",
+      messagingSenderId: "542151591313",
+      appId: "1:542151591313:web:e10b10e0b5a083fe75c630",
+      measurementId: "G-0Q5LFE84ER"
+    };
 
-        <div class="field">
-          <label for="address">聯絡地址</label>
-          <input id="address" type="text" placeholder="收掛號、合約、紙本文件之地址" />
-        </div>
+    const LOGIN_PAGE = "login.html";
 
-        <!-- 區塊：出租 / 投資經驗 -->
-        <div class="group-title">出租 / 投資經驗</div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        <div class="row-2">
-          <div class="field">
-            <label for="experienceYears">經驗年數</label>
-            <input id="experienceYears" type="number" min="0" placeholder="0 代表剛起步" />
-          </div>
-          <div class="field">
-            <label for="unitCount">名下物件數量</label>
-            <input id="unitCount" type="number" min="0" placeholder="目前擁有或管理幾間？" />
-          </div>
-        </div>
+    // DOM
+    const headerEmailEl = document.getElementById("header-email");
+    const avatarTextEl = document.getElementById("avatar-text");
+    const userNameEl = document.getElementById("user-name");
+    const userEmailEl = document.getElementById("user-email");
+    const loginMethodTagEl = document.getElementById("login-method-tag");
+    const uidTagEl = document.getElementById("uid-tag");
+    const loginMethodTextEl = document.getElementById("login-method-text");
+    const emailDetailEl = document.getElementById("email-detail");
+    const statusEl = document.getElementById("status");
+    const logoutBtn = document.getElementById("logout-btn");
+    const roleTextEl = document.getElementById("role-text");
 
-        <div class="field">
-          <label for="preference">主要需求 / 投資偏好</label>
-          <textarea id="preference" placeholder="例如：長租穩定收租、學生套房、小套房投資、都會區電梯華廈…"></textarea>
-        </div>
+    const boxLandlord = document.getElementById("box-landlord");
+    const boxAgent = document.getElementById("box-agent");
+    const boxAdmin = document.getElementById("box-admin");
 
-        <div class="field">
-          <label for="note">備註給好想租屋團隊</label>
-          <textarea id="note" placeholder="任何想讓我們知道的需求或限制，都可以寫在這裡。"></textarea>
-          <div class="hint">這些內容只會用於提供服務，不會公開顯示。</div>
-        </div>
+    function setStatus(msg) {
+      if (statusEl) statusEl.textContent = msg;
+    }
 
-        <!-- 按鈕 -->
-        <div class="btn-row">
-          <button type="button" class="btn-ghost" id="btnBack">返回個人簡介</button>
-          <button type="submit" class="btn-primary">儲存資料</button>
-        </div>
+    function getLoginMethod(user) {
+      if (!user) return "未登入";
+      if (user.isAnonymous) return "訪客登入";
 
-        <div class="status" id="statusText"></div>
-      </form>
-    </div>
-  </div>
+      const providerData = user.providerData && user.providerData[0];
+      const pid = providerData?.providerId || "password";
 
-  <script type="module" src="./account.js"></script>
+      switch (pid) {
+        case "google.com":
+          return "Google 登入";
+        case "oidc.oid.line":
+          return "LINE 登入";
+        case "password":
+          return "Email 登入";
+        default:
+          return pid;
+      }
+    }
+
+    const roleTextMap = {
+      tenant: "一般租客 / 房客",
+      landlord: "屋主",
+      agent: "業務 / 代管專員",
+      admin: "公司管理者"
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = LOGIN_PAGE;
+        return;
+      }
+
+      let displayName = user.displayName || "好想租屋會員";
+      let email = user.email || "尚未設定 Email";
+      const uid = user.uid;
+      const loginMethod = getLoginMethod(user);
+      let role = "tenant";
+
+      setStatus("正在讀取會員資料…");
+
+      try {
+        const ref = doc(db, "users", uid);
+        const snap = await getDoc(ref);
+
+        if (snap.exists()) {
+          const data = snap.data();
+          displayName = data.displayName || displayName;
+          email = data.email || email;
+          role = data.role || "tenant";
+        }
+      } catch (err) {
+        console.error("[account] 讀取 Firestore 失敗：", err);
+        setStatus("讀取會員資料時發生錯誤，但仍已登入。");
+      }
+
+      // 更新畫面
+      if (headerEmailEl) headerEmailEl.textContent = email;
+      if (userNameEl) userNameEl.textContent = displayName;
+      if (userEmailEl) userEmailEl.textContent = email;
+      if (loginMethodTextEl) loginMethodTextEl.textContent = loginMethod;
+      if (emailDetailEl) emailDetailEl.textContent = email;
+      if (loginMethodTagEl) loginMethodTagEl.textContent = `登入方式：${loginMethod}`;
+      if (uidTagEl) uidTagEl.textContent = `UID：${uid}`;
+
+      const roleText = roleTextMap[role] || role;
+      if (roleTextEl) roleTextEl.textContent = roleText;
+
+      if (avatarTextEl) {
+        const firstChar = displayName.trim().charAt(0) || "租";
+        avatarTextEl.textContent = firstChar;
+      }
+
+      setStatus(`您好，${displayName}（${roleText}），歡迎回來！`);
+
+      // 依 role 顯示不同功能入口
+      if (role === "landlord" || role === "admin") {
+        boxLandlord?.classList.remove("hidden");
+      }
+      if (role === "agent" || role === "admin") {
+        boxAgent?.classList.remove("hidden");
+      }
+      if (role === "admin") {
+        boxAdmin?.classList.remove("hidden");
+      }
+    });
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+          window.location.href = `${LOGIN_PAGE}?from=logout`;
+        } catch (err) {
+          console.error("登出失敗：", err);
+          alert("登出時發生錯誤，請稍後再試。");
+        }
+      });
+    }
+  </script>
 </body>
 </html>
